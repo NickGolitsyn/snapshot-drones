@@ -5,45 +5,44 @@ import { useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Dialog } from "@headlessui/react";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import React from "react";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
     { id: 0, name: "Home", href: "/" },
-    { id: 1, name: "Services V", href: "services" },
-    { id: 2, name: "Portfolio", href: "portfolio" },
-    { id: 3, name: "Reviews", href: "reviews" },
-    { id: 4, name: `FAQ's`, href: "faq" },
-    { id: 5, name: "Contact us", href: "contact" },
+    {
+      id: 1,
+      name: "Services",
+      href: "/services",
+      subItems: [
+        { id: 0, subName: "Property", subHref: "/property" },
+        { id: 1, subName: "Landscape", subHref: "/landscape" },
+        { id: 2, subName: "Photography", subHref: "/photography" },
+        { id: 3, subName: "Videography", subHref: "/videography" },
+      ],
+    },
+    { id: 2, name: "Portfolio", href: "/portfolio" },
+    { id: 3, name: "Reviews", href: "/reviews" },
+    { id: 4, name: `FAQ's`, href: "/faq" },
+    { id: 5, name: "Contact us", href: "/contact" },
   ];
   return (
     <header>
-      {/* <nav className="mx-auto flex max-w-screen-lg items-center justify-between px-5 py-6">
-        <div className="flex items-center">
-          <Image src={logo} className="h-16" alt={"logo"} />
-          <div className="flex flex-col items-center">
-            <h1 className="border-b border-black text-2xl font-bold">
-              SNAPSHOT
-            </h1>
-            <p className="text-justify text-xs tracking-widest">
-              DRONE SERVICES
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-col items-end">
-          <a className="py-2 text-[#FAB72D] underline" href="tel:+44572647478">
-            07572 647 478
-          </a>
-          <ul className="flex space-x-4">
-            {navItems.map((item) => (
-              <li key={item.id} className="border-r border-black pr-4">
-                <a href={item.href}>{item.name}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </nav> */}
       <nav
         className="flex items-center justify-between p-6 lg:px-8"
         aria-label="Global"
@@ -74,11 +73,44 @@ export default function Navbar() {
             07572 647 478
           </a>
           <ul className="flex space-x-4">
-            {navItems.map((item) => (
-              <li key={item.id} className="border-r border-black pr-4">
-                <a href={item.href}>{item.name}</a>
-              </li>
-            ))}
+            <NavigationMenu>
+              <NavigationMenuList>
+                {navItems.map((item) => (
+                  <React.Fragment key={item.id}>
+                    {item.subItems ? (
+                      <NavigationMenuItem>
+                        <NavigationMenuTrigger>
+                          {item.name}
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                          <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                            {item.subItems.map((subItem) => (
+                              <ListItem
+                                key={subItem.id}
+                                href={`/services/${subItem.subHref}`}
+                                title={subItem.subName}
+                              >
+                                {subItem.subName}
+                              </ListItem>
+                            ))}
+                          </ul>
+                        </NavigationMenuContent>
+                      </NavigationMenuItem>
+                    ) : (
+                      <NavigationMenuItem key={item.id}>
+                        <Link href={item.href} legacyBehavior passHref>
+                          <NavigationMenuLink
+                            className={navigationMenuTriggerStyle()}
+                          >
+                            {item.name}
+                          </NavigationMenuLink>
+                        </Link>
+                      </NavigationMenuItem>
+                    )}
+                  </React.Fragment>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
           </ul>
         </div>
       </nav>
@@ -123,3 +155,29 @@ export default function Navbar() {
     </header>
   );
 }
+
+const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ className, title, children, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          className={cn(
+            "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors",
+            className,
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
+            {children}
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  );
+});
+ListItem.displayName = "ListItem";

@@ -82,12 +82,15 @@ export default function Navbar() {
           </button>
         </div>
         <div className="hidden flex-col items-end md:flex">
-          <a
-            className="px-4 py-2 text-[#FAB72D] underline"
-            href="tel:+44572647478"
-          >
-            07572 647 478
-          </a>
+          <div>
+            <a
+              className="py-2 pl-2 pr-4 text-sm text-[#FAB72D] underline"
+              href="tel:+44572647478"
+            >
+              07572 647 478
+            </a>
+          </div>
+
           <ul className="flex space-x-4">
             <NavigationMenu>
               <NavigationMenuList>
@@ -163,6 +166,14 @@ export default function Navbar() {
                     {item.name}
                   </a>
                 ))}
+              </div>
+              <div className="py-6">
+                <a
+                  className="py-2 pl-2 pr-4 text-sm text-[#FAB72D] underline"
+                  href="tel:+44572647478"
+                >
+                  07572 647 478
+                </a>
               </div>
             </div>
           </div>

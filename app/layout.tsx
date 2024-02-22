@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Oxygen } from "next/font/google";
+import { Oxygen, Fjalla_One } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import localFont from "next/font/local";
@@ -9,6 +9,7 @@ const ostrich = localFont({
   display: "swap",
 });
 const oxygen = Oxygen({ subsets: ["latin"], weight: ["300", "400", "700"] });
+const fjalla = Fjalla_One({ subsets: ["latin"], weight: ["400"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={oxygen.className}>
+      <body className={fjalla.className}>
         <Navbar />
         {children}
       </body>

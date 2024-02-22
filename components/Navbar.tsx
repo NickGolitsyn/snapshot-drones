@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import logo from "@/public/snapshotLogo.svg";
+import mobileLogo from "@/public/mobileLogo.svg";
 import { useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -53,7 +54,7 @@ export default function Navbar() {
   return (
     <header>
       <nav
-        className="mx-auto flex max-w-screen-lg items-center justify-between p-6 lg:px-8"
+        className="mx-auto flex max-w-screen-2xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"
       >
         <a className="flex items-center" href="/">
@@ -142,8 +143,8 @@ export default function Navbar() {
         <div className="fixed inset-0 z-50" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a className="flex items-center" href="/">
-              <Image src={logo} className="h-16 rotate-90" alt={"logo"} />
+            <a className="h-16 w-16" href="/">
+              <Image src={mobileLogo} className="h-16" alt={"logo"} />
             </a>
             <button
               type="button"

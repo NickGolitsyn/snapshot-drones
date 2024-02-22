@@ -17,7 +17,7 @@ export default function Home() {
         <div
           className={`absolute left-0 top-1/2 -translate-y-1/2 transform pl-5 uppercase text-white ${fjalla.className}`}
         >
-          <h1 className="bg-gradient-to-b from-[#FAB72D] to-white bg-clip-text text-5xl font-bold text-transparent">
+          <h1 className="bg-gradient-to-b from-[#FAB72D] to-white bg-clip-text text-xl font-bold text-transparent md:text-5xl">
             Fresh
             <br />
             Perspectives
@@ -26,7 +26,7 @@ export default function Home() {
             <br />
             Heights
           </h1>
-          <h2>
+          <h2 className="text-xs md:text-xl">
             Property Photography
             <br />& Filming
           </h2>

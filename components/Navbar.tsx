@@ -19,6 +19,15 @@ import {
 import React from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import localFont from "next/font/local";
+import { Fjalla_One } from "next/font/google";
+
+const ostrich = localFont({
+  src: "../public/OstrichSansBlack.otf",
+  display: "swap",
+});
+
+const fjalla = Fjalla_One({ subsets: ["latin"], weight: "400" });
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -44,21 +53,25 @@ export default function Navbar() {
   return (
     <header>
       <nav
-        className="flex items-center justify-between p-6 lg:px-8"
+        className="mx-auto flex max-w-screen-lg items-center justify-between p-6 lg:px-8"
         aria-label="Global"
       >
         <a className="flex items-center" href="/">
           <Image src={logo} className="h-16" alt={"logo"} />
           <div className="flex flex-col items-center">
-            <h1 className="border-b border-black text-2xl font-bold">
+            <h1
+              className={`border-b border-black text-4xl font-bold ${fjalla.className}`}
+            >
               SNAPSHOT
             </h1>
-            <p className="text-justify text-xs tracking-widest">
+            <p
+              className={`w-full text-center text-sm tracking-[0.25em] ${fjalla.className}`}
+            >
               DRONE SERVICES
             </p>
           </div>
         </a>
-        <div className="flex lg:hidden">
+        <div className="flex md:hidden">
           <button
             type="button"
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
@@ -68,8 +81,11 @@ export default function Navbar() {
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <div className="hidden flex-col items-end lg:flex">
-          <a className="py-2 text-[#FAB72D] underline" href="tel:+44572647478">
+        <div className="hidden flex-col items-end md:flex">
+          <a
+            className="px-4 py-2 text-[#FAB72D] underline"
+            href="tel:+44572647478"
+          >
             07572 647 478
           </a>
           <ul className="flex space-x-4">

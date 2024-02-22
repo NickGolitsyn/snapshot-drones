@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
-import { Inter, Oxygen } from "next/font/google";
+import { Oxygen } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import localFont from "next/font/local";
 
+const ostrich = localFont({
+  src: "../public/OstrichSansBlack.otf",
+  display: "swap",
+});
 const oxygen = Oxygen({ subsets: ["latin"], weight: ["300", "400", "700"] });
 
 export const metadata: Metadata = {

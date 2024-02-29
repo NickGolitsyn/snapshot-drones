@@ -29,12 +29,12 @@ export default function Home() {
             <br />
             Heights
           </h1>
-          <h2 className="text-xs md:text-xl">
+          <h2 className="hidden sm:block md:text-xl">
             Property Photography
             <br />& Filming
           </h2>
         </div>
-        <button className="absolute bottom-10 left-1/2 -translate-x-1/2 rounded-full bg-neutral-300 px-8 py-3 text-lg transition-all hover:bg-white">
+        <button className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-neutral-300 px-3 py-2 text-sm transition-all hover:bg-white sm:bottom-10 sm:px-8 sm:py-3 sm:text-lg">
           Book now
         </button>
         <Image
@@ -45,11 +45,11 @@ export default function Home() {
         />
       </div>
       <div className="min-h-screen bg-neutral-300 pt-10">
-        <h1 className="text-center text-4xl">What we do</h1>
+        <h1 className="text-center text-2xl sm:text-4xl">What we do</h1>
         <div className="mx-auto mt-8 grid max-w-screen-lg grid-cols-1 gap-4 px-5 sm:grid-cols-3">
           <div className="flex flex-col justify-between rounded-md bg-neutral-400 px-6 py-5">
             <div>
-              <h2 className="text-2xl">Roof Inspection</h2>
+              <h2 className="text-xl sm:text-2xl">Roof Inspection</h2>
               <p className={`mt-2 text-sm ${lato.className}`}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
                 sit amet enim sed dolor imperdiet placerat. Cras tempor metus ac
@@ -63,7 +63,7 @@ export default function Home() {
             <div className="mt-6 flex justify-center">
               <a
                 href="#"
-                className="rounded-full bg-yellow-400 px-8 py-3 transition-all hover:bg-yellow-300"
+                className="rounded-full bg-yellow-400 px-5 py-2 transition-all hover:bg-yellow-300 sm:px-8 sm:py-3"
               >
                 View
               </a>
@@ -71,7 +71,9 @@ export default function Home() {
           </div>
           <div className="flex flex-col justify-between rounded-md bg-neutral-400 px-8 py-5">
             <div>
-              <h2 className="text-2xl">Property Photography & Filming</h2>
+              <h2 className="text-xl sm:text-2xl">
+                Property Photography & Filming
+              </h2>
               <p className={`mt-2 text-sm ${lato.className}`}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
                 sit amet enim sed dolor imperdiet placerat. Cras tempor metus ac
@@ -85,7 +87,7 @@ export default function Home() {
             <div className="mt-6 flex justify-center">
               <a
                 href="#"
-                className="rounded-full bg-yellow-400 px-8 py-3 transition-all hover:bg-yellow-300"
+                className="rounded-full bg-yellow-400 px-5 py-2 transition-all hover:bg-yellow-300 sm:px-8 sm:py-3"
               >
                 View
               </a>
@@ -93,7 +95,9 @@ export default function Home() {
           </div>
           <div className="flex flex-col justify-between rounded-md bg-neutral-400 px-8 py-5">
             <div>
-              <h2 className="text-2xl">Landscape Photography & Filming</h2>
+              <h2 className="text-xl sm:text-2xl">
+                Landscape Photography & Filming
+              </h2>
               <p className={`mt-2 text-sm ${lato.className}`}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
                 sit amet enim sed dolor imperdiet placerat. Cras tempor metus ac
@@ -107,7 +111,7 @@ export default function Home() {
             <div className="mt-6 flex justify-center">
               <a
                 href="#"
-                className="rounded-full bg-yellow-400 px-8 py-3 transition-all hover:bg-yellow-300"
+                className="rounded-full bg-yellow-400 px-5 py-2 transition-all hover:bg-yellow-300 sm:px-8 sm:py-3"
               >
                 View
               </a>

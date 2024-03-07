@@ -43,7 +43,6 @@ export function Contact() {
           <textarea
             name="message"
             required
-            rows="3"
             placeholder="Enter Message"
           ></textarea>
         </div>

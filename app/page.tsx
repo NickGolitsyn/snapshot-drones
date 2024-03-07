@@ -4,6 +4,7 @@ import wood from "@/public/wood.jpg";
 import aerial from "@/public/aerial.jpg";
 import roof from "@/public/roof.png";
 import { Fjalla_One, Lato } from "next/font/google";
+import { Contact } from "@/components/Contact";
 const lato = Lato({
   subsets: ["latin"],
   weight: ["100", "300", "400", "700", "900"],
@@ -143,7 +144,7 @@ export default function Home() {
       </section>
       <section>
         <div className="mx-auto h-32 w-11/12 max-w-screen-lg rounded-md bg-amber-300">
-          <form></form>
+          <Contact />
         </div>
       </section>
     </main>

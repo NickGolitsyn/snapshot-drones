@@ -1,9 +1,6 @@
 "use client";
 import Image from "next/image";
 import mainBg from "@/public/mainbg.jpg";
-import wood from "@/public/wood.jpg";
-import aerial from "@/public/aerial.jpg";
-import roof from "@/public/roof.png";
 import { motion } from "framer-motion";
 import { Fjalla_One, Lato } from "next/font/google";
 import { Contact } from "@/components/Contact";
@@ -101,6 +98,9 @@ export default function Home() {
       <section className="min-h-screen pt-10">
         <h1 className="text-center text-2xl sm:text-4xl">What we do</h1>
         <div className="mx-auto mt-8 grid max-w-screen-lg grid-cols-1 gap-4 px-5 sm:grid-cols-3">
+          {/* {data.cards.map((e, index) => (
+          <Card title={e.title} description={e.description} image={e.image} key={index} />
+        ))} */}
           <div className="group relative flex flex-col justify-between overflow-hidden rounded-md">
             {/* Background wrapper */}
             <div className="absolute inset-0 bg-[url('../public/roof.png')] bg-cover blur-[3px] brightness-75 transition-all duration-300 group-hover:scale-105 group-hover:blur-[2px] group-hover:brightness-100"></div>
@@ -193,7 +193,7 @@ export default function Home() {
         </div>
       </section>
       <section>
-        <div className="mx-auto h-32 w-11/12 max-w-screen-lg rounded-md bg-amber-300">
+        <div className="mx-auto w-11/12 max-w-screen-lg rounded-md bg-amber-300">
           <Contact />
         </div>
       </section>

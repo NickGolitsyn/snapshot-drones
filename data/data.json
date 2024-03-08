@@ -1,0 +1,19 @@
+{
+  "cards": [
+    {
+      "title": "Roof Inspection",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit amet enim sed dolor imperdiet placerat. Cras tempor metus ac purus fermentum feugiat. Nullam scelerisque dictum magna facilisis varius. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Quisque semper eleifend massa vel cursus. Etiam convallis augue vitae mi viverra, vitae venenatis diam consequat.",
+      "image": "roof.png"
+    },
+    {
+      "title": "Property Photography & Filming",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit amet enim sed dolor imperdiet placerat. Cras tempor metus ac purus fermentum feugiat. Nullam scelerisque dictum magna facilisis varius. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Quisque semper eleifend massa vel cursus. Etiam convallis augue vitae mi viverra, vitae venenatis diam consequat.",
+      "image": "aerial.jpg"
+    },
+    {
+      "title": "Landscape Photography & Filming",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit amet enim sed dolor imperdiet placerat. Cras tempor metus ac purus fermentum feugiat. Nullam scelerisque dictum magna facilisis varius. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Quisque semper eleifend massa vel cursus. Etiam convallis augue vitae mi viverra, vitae venenatis diam consequat.",
+      "image": "wood.jpg"
+    }
+  ]
+}

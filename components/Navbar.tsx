@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Dialog } from "@headlessui/react";
+import { motion } from "framer-motion";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -57,7 +58,13 @@ export default function Navbar() {
         className="mx-auto flex max-w-screen-2xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"
       >
-        <a className="flex items-center" href="/">
+        <motion.a
+          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, x: -25 }}
+          transition={{ delay: 0.35 }}
+          className="flex items-center"
+          href="/"
+        >
           <Image src={logo} className="h-16" alt={"logo"} />
           <div className="flex flex-col items-center">
             <h1
@@ -71,7 +78,7 @@ export default function Navbar() {
               DRONE SERVICES
             </p>
           </div>
-        </a>
+        </motion.a>
         <div className="flex md:hidden">
           <button
             type="button"
@@ -83,16 +90,26 @@ export default function Navbar() {
           </button>
         </div>
         <div className="hidden flex-col items-end md:flex">
-          <div className="absolute right-0 top-0">
+          <motion.div
+            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: 25 }}
+            transition={{ delay: 0.35 }}
+            className="absolute right-0 top-0"
+          >
             <a
               className="rounded-es-md bg-[#FAB72D] px-4 py-2 text-sm underline"
               href="tel:+44572647478"
             >
               07572 647 478
             </a>
-          </div>
+          </motion.div>
 
-          <ul className="flex">
+          <motion.ul
+            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: 25 }}
+            transition={{ delay: 0.35 }}
+            className="flex"
+          >
             <NavigationMenu>
               <NavigationMenuList>
                 {navItems.map((item) => (
@@ -131,7 +148,7 @@ export default function Navbar() {
                 ))}
               </NavigationMenuList>
             </NavigationMenu>
-          </ul>
+          </motion.ul>
         </div>
       </nav>
       <Dialog

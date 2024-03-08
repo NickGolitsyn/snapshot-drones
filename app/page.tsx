@@ -1,8 +1,10 @@
+"use client";
 import Image from "next/image";
 import mainBg from "@/public/mainbg.jpg";
 import wood from "@/public/wood.jpg";
 import aerial from "@/public/aerial.jpg";
 import roof from "@/public/roof.png";
+import { motion } from "framer-motion";
 import { Fjalla_One, Lato } from "next/font/google";
 import { Contact } from "@/components/Contact";
 const lato = Lato({
@@ -24,19 +26,67 @@ export default function Home() {
         <div
           className={`absolute left-0 top-1/2 -translate-y-1/2 transform pl-5 uppercase text-white ${fjalla.className}`}
         >
-          <h1 className="bg-gradient-to-b from-[#FAB72D] to-white bg-clip-text text-xl font-bold text-transparent md:text-5xl">
-            Fresh
+          <motion.h1
+            className="text-xl font-bold md:text-5xl"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <motion.span
+              initial={{ x: -100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              Fresh
+            </motion.span>
             <br />
-            Perspectives
+            <motion.span
+              initial={{ x: -100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              Perspectives
+            </motion.span>
             <br />
-            From New
+            <motion.span
+              initial={{ x: -100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+            >
+              From New
+            </motion.span>
             <br />
-            Heights
-          </h1>
-          <h2 className="hidden sm:block md:text-xl">
-            Property Photography
-            <br />& Filming
-          </h2>
+            <motion.span
+              initial={{ x: -100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 1.0 }}
+            >
+              Heights
+            </motion.span>
+          </motion.h1>
+
+          <motion.h2
+            className="hidden sm:block md:text-xl"
+            initial={{ x: -100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1.2 }}
+          >
+            <motion.span
+              initial={{ x: -100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 1.4 }}
+            >
+              Property Photography
+            </motion.span>
+            <br />
+            <motion.span
+              initial={{ x: -100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 1.6 }}
+            >
+              & Filming
+            </motion.span>
+          </motion.h2>
         </div>
         <button className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-neutral-300 px-3 py-2 text-sm transition-all hover:bg-white sm:bottom-10 sm:px-8 sm:py-3 sm:text-lg">
           Book now

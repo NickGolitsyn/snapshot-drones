@@ -192,9 +192,15 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section>
-        <div className="mx-auto w-11/12 max-w-screen-lg rounded-md bg-amber-300">
+      <section className="bg-[url('../public/river.jpeg')] bg-cover py-10">
+        <div className="ml-20 w-96 max-w-screen-xl rounded-md bg-amber-300 px-6 py-4 xl:mx-auto">
           <Contact />
+          {/* <Image
+            aria-hidden="true"
+            className="w-full"
+            src={mainBg}
+            alt="backgroundimage"
+          /> */}
         </div>
       </section>
     </main>

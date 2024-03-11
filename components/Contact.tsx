@@ -48,9 +48,7 @@ const formSchema = z.object({
     .max(7, {
       message: "Postcode must not contain more than 7 characters.",
     }),
-  date: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
+  date: z.date(),
   message: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
@@ -65,7 +63,7 @@ export function Contact() {
       email: "",
       phone: "",
       postcode: "",
-      date: "",
+      date: new Date(),
       message: "",
     },
   });
@@ -103,11 +101,8 @@ export function Contact() {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="Name" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -121,9 +116,6 @@ export function Contact() {
               <FormControl>
                 <Input type="email" placeholder="Email" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -135,11 +127,8 @@ export function Contact() {
             <FormItem>
               <FormLabel>Phone number</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="Phone number" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -151,11 +140,8 @@ export function Contact() {
             <FormItem>
               <FormLabel>Postcode</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="Postcode" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -166,6 +152,7 @@ export function Contact() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Date</FormLabel>
+              <br />
               <FormControl>
                 {/* <Input placeholder="shadcn"  /> */}
                 <Popover {...field}>
@@ -210,9 +197,6 @@ export function Contact() {
                   </PopoverContent>
                 </Popover>
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -224,11 +208,8 @@ export function Contact() {
             <FormItem>
               <FormLabel>Message</FormLabel>
               <FormControl>
-                <Textarea placeholder="message" {...field} />
+                <Textarea placeholder="Message" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

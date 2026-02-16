@@ -101,7 +101,7 @@ export function Contact() {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Name" {...field} />
+                <Input className="bg-neutral-200" placeholder="Name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -114,7 +114,7 @@ export function Contact() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="Email" {...field} />
+                <Input className="bg-neutral-200" type="email" placeholder="Email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -127,7 +127,7 @@ export function Contact() {
             <FormItem>
               <FormLabel>Phone number</FormLabel>
               <FormControl>
-                <Input placeholder="Phone number" {...field} />
+                <Input className="bg-neutral-200" placeholder="Phone number" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -138,9 +138,9 @@ export function Contact() {
           name="postcode"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Postcode</FormLabel>
+              <FormLabel>Postcode of Flight location</FormLabel>
               <FormControl>
-                <Input placeholder="Postcode" {...field} />
+                <Input className="bg-neutral-200" placeholder="Postcode of Flight Location" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -160,7 +160,7 @@ export function Contact() {
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "w-[240px] justify-start text-left font-normal",
+                        "w-full justify-start text-left font-normal bg-neutral-200 border-neutral-300",
                         !date && "text-muted-foreground",
                       )}
                     >
@@ -170,28 +170,29 @@ export function Contact() {
                   </PopoverTrigger>
                   <PopoverContent
                     align="start"
-                    className="flex w-auto flex-col space-y-2 p-2"
+                    className="flex w-auto flex-col space-y-2 p-2 bg-neutral-200 border-neutral-300"
                   >
                     <Select
                       onValueChange={(value) =>
                         setDate(addDays(new Date(), parseInt(value)))
                       }
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-neutral-200 border-neutral-300">
                         <SelectValue placeholder="Select" />
                       </SelectTrigger>
-                      <SelectContent position="popper">
+                      <SelectContent position="popper" className="bg-neutral-200 border-neutral-300">
                         <SelectItem value="0">Today</SelectItem>
                         <SelectItem value="1">Tomorrow</SelectItem>
                         <SelectItem value="3">In 3 days</SelectItem>
                         <SelectItem value="7">In a week</SelectItem>
                       </SelectContent>
                     </Select>
-                    <div className="rounded-md border">
+                    <div className="rounded-md border border-neutral-300 bg-neutral-200 p-2">
                       <Calendar
                         mode="single"
                         selected={date}
                         onSelect={setDate}
+                        className="bg-neutral-200"
                       />
                     </div>
                   </PopoverContent>
@@ -208,7 +209,7 @@ export function Contact() {
             <FormItem>
               <FormLabel>Message</FormLabel>
               <FormControl>
-                <Textarea placeholder="Message" {...field} />
+                <Textarea className="bg-neutral-200" placeholder="Message" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

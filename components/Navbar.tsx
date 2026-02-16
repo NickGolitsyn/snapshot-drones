@@ -48,9 +48,7 @@ export default function Navbar() {
       ],
     },
     { id: 2, name: "Portfolio", href: "/portfolio" },
-    { id: 3, name: "Reviews", href: "/reviews" },
-    { id: 4, name: `FAQ's`, href: "/faq" },
-    { id: 5, name: "Contact us", href: "/contact" },
+    { id: 3, name: "Contact us", href: "/contact" },
   ];
   return (
     <header>

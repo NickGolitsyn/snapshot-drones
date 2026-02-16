@@ -133,12 +133,12 @@ export default function Navbar() {
                       </NavigationMenuItem>
                     ) : (
                       <NavigationMenuItem key={item.id}>
-                        <NavigationMenuLink
+                          <NavigationMenuLink
                           asChild
-                          className={navigationMenuTriggerStyle()}
-                        >
+                            className={navigationMenuTriggerStyle()}
+                          >
                           <Link href={item.href}>{item.name}</Link>
-                        </NavigationMenuLink>
+                          </NavigationMenuLink>
                       </NavigationMenuItem>
                     )}
                   </React.Fragment>
@@ -184,7 +184,7 @@ export default function Navbar() {
               </div>
               <div className="py-6">
                 <a
-                  className="py-2 pl-2 pr-4 text-sm text-[#FAB72D] underline"
+                  className="py-2 pl-2 pr-4 text-base text-[#FAB72D] underline"
                   href="tel:+44572647478"
                 >
                   07572 647 478

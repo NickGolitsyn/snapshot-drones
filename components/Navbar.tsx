@@ -133,13 +133,12 @@ export default function Navbar() {
                       </NavigationMenuItem>
                     ) : (
                       <NavigationMenuItem key={item.id}>
-                        <Link href={item.href} legacyBehavior passHref>
-                          <NavigationMenuLink
-                            className={navigationMenuTriggerStyle()}
-                          >
-                            {item.name}
-                          </NavigationMenuLink>
-                        </Link>
+                        <NavigationMenuLink
+                          asChild
+                          className={navigationMenuTriggerStyle()}
+                        >
+                          <Link href={item.href}>{item.name}</Link>
+                        </NavigationMenuLink>
                       </NavigationMenuItem>
                     )}
                   </React.Fragment>

@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import logo from "@/public/snapshotLogo.svg";
-import mobileLogo from "@/public/mobileLogo.svg";
+import logo from "@/public/logo-2026.svg";
+import mobileLogo from "@/public/mobile-logo-2026.svg";
 import { useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/outline";

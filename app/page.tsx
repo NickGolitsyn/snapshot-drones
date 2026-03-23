@@ -43,117 +43,233 @@ const WHAT_WE_DO_CARDS = [
   },
 ];
 
+const HERO_SLIDES = [
+  {
+    id: 1,
+    image:
+      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XEIYtQoCesMqY1F3gS2wk8vOtIjzUGKpVcmx0",
+    imageAlt:
+      "Aerial view of modern residential property at sunset for real estate marketing",
+    headingLines: ["Fresh", "Perspectives", "From New", "Heights"],
+    subheading: "Property Photography & Filming",
+    cta: "Book now",
+  },
+  {
+    id: 2,
+    image:
+      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XyKbgkKh9NpmRfzCWSDBhxtOr57dgJI6nl9yX",
+    imageAlt:
+      "",
+    headingLines: ["Landscape", "Stories", "From The", "Sky"],
+    subheading: "Wedding Photography & Filming",
+    cta: "Book now",
+  },
+  {
+    id: 3,
+    image:
+      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XGrykikv1SxC6n0KHvowldeBTOmaUR85jVW2y",
+    imageAlt:
+      "",
+    headingLines: ["Showcase", "Every", "Angle", "Clearly"],
+    subheading: "Landscape Photography & Filming",
+    cta: "Book now",
+  },
+  {
+    id: 4,
+    image:
+      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xl1OlBMfzrONqv5RkFao1BIp7mts3HDyCgnLb",
+    imageAlt:
+      "",
+    headingLines: ["Roof", "Inspections", "From New", "Heights"],
+    subheading: "Roof Inspections",
+    cta: "Book now",
+  },
+  {
+    id: 5,
+    image:
+      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X8QD3KCwH5o0cWAaK4qNsCvJ6bTRgV18Mwd2f",
+    imageAlt:
+      "",
+    headingLines: ["Agriculture", "Photography", "From New", "Heights"],
+    subheading: "Agriculture Photography & Filming",
+    cta: "Book now",
+  },
+];
+
 export default function Home() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
+  const [servicesEmblaRef, servicesEmblaApi] = useEmblaCarousel({
     align: "start",
     containScroll: "trimSnaps",
     loop: false,
   });
+  const [heroEmblaRef, heroEmblaApi] = useEmblaCarousel({
+    align: "start",
+    loop: true,
+  });
+
+  const [selectedHeroIndex, setSelectedHeroIndex] = useState(0);
+  const [headerHeight, setHeaderHeight] = useState(96);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
 
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+  const scrollPrev = useCallback(
+    () => servicesEmblaApi?.scrollPrev(),
+    [servicesEmblaApi],
+  );
+  const scrollNext = useCallback(
+    () => servicesEmblaApi?.scrollNext(),
+    [servicesEmblaApi],
+  );
 
   const updateScrollButtons = useCallback(() => {
-    if (!emblaApi) return;
-    setCanScrollPrev(emblaApi.canScrollPrev());
-    setCanScrollNext(emblaApi.canScrollNext());
-  }, [emblaApi]);
+    if (!servicesEmblaApi) return;
+    setCanScrollPrev(servicesEmblaApi.canScrollPrev());
+    setCanScrollNext(servicesEmblaApi.canScrollNext());
+  }, [servicesEmblaApi]);
+
+  const heroScrollTo = useCallback(
+    (index: number) => heroEmblaApi?.scrollTo(index),
+    [heroEmblaApi],
+  );
+
+  const updateHeroState = useCallback(() => {
+    if (!heroEmblaApi) return;
+    setSelectedHeroIndex(heroEmblaApi.selectedScrollSnap());
+  }, [heroEmblaApi]);
 
   useEffect(() => {
-    if (!emblaApi) return;
+    if (!servicesEmblaApi) return;
     updateScrollButtons();
-    emblaApi.on("select", updateScrollButtons);
-    emblaApi.on("reInit", updateScrollButtons);
-  }, [emblaApi, updateScrollButtons]);
+    servicesEmblaApi.on("select", updateScrollButtons);
+    servicesEmblaApi.on("reInit", updateScrollButtons);
+  }, [servicesEmblaApi, updateScrollButtons]);
+
+  useEffect(() => {
+    if (!heroEmblaApi) return;
+    updateHeroState();
+    heroEmblaApi.on("select", updateHeroState);
+    heroEmblaApi.on("reInit", updateHeroState);
+  }, [heroEmblaApi, updateHeroState]);
+
+  useEffect(() => {
+    const header = document.getElementById("site-header");
+    if (!header) return;
+
+    const measureHeader = () => {
+      setHeaderHeight(header.getBoundingClientRect().height);
+    };
+
+    measureHeader();
+    const resizeObserver = new ResizeObserver(measureHeader);
+    resizeObserver.observe(header);
+    window.addEventListener("resize", measureHeader);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", measureHeader);
+    };
+  }, []);
+
   return (
     <main className="space-y-10">
-      <section className="relative">
-        <img
-          aria-hidden="true"
-          className="w-full"
-          src="https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XEIYtQoCesMqY1F3gS2wk8vOtIjzUGKpVcmx0"
-          alt="Homepage Background"
-        />
-        <div className="absolute inset-0 flex items-center">
-          <div className="relative h-full w-full max-w-screen-2xl px-6 lg:px-8 mx-auto">
-            <div
-              className={`absolute left-6 top-1/2 -translate-y-1/2 uppercase text-white lg:left-8 ${fjalla.className}`}
-            >
-              <motion.h1
-                className="text-xl font-bold md:text-5xl"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+      <section
+        className="relative overflow-hidden"
+        aria-label="Featured services slider"
+        style={{ height: `calc(100dvh - ${headerHeight}px)` }}
+      >
+        <div className="h-full overflow-hidden" ref={heroEmblaRef}>
+          <div className="flex h-full">
+            {HERO_SLIDES.map((slide, index) => {
+              const HeadingTag = index === 0 ? "h1" : "h2";
+              return (
+              <article
+                key={slide.id}
+                className="relative h-full min-w-0 flex-[0_0_100%]"
+                aria-roledescription="slide"
+                aria-label={`${slide.id} of ${HERO_SLIDES.length}`}
               >
-                <motion.span
-                  initial={{ x: -100, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                >
-                  Fresh
-                </motion.span>
-                <br />
-                <motion.span
-                  initial={{ x: -100, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
-                >
-                  Perspectives
-                </motion.span>
-                <br />
-                <motion.span
-                  initial={{ x: -100, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.8 }}
-                >
-                  From New
-                </motion.span>
-                <br />
-                <motion.span
-                  initial={{ x: -100, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 1.0 }}
-                >
-                  Heights
-                </motion.span>
-              </motion.h1>
+                <img
+                  className="h-full w-full object-cover"
+                  src={slide.image}
+                  alt={slide.imageAlt}
+                  loading={slide.id === 1 ? "eager" : "lazy"}
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-black/0" />
+                <div className="absolute inset-0 flex items-center">
+                  <div className="relative h-full w-full max-w-screen-2xl px-6 lg:px-8 mx-auto">
+                    <div
+                      className={`absolute left-6 top-1/2 -translate-y-1/2 uppercase text-white lg:left-8 ${fjalla.className}`}
+                    >
+                      <motion.div
+                        className="text-2xl font-bold md:text-5xl"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.45 }}
+                      >
+                        {slide.headingLines.map((line, lineIndex) => (
+                          <motion.span
+                            key={line}
+                            initial={{ x: -60, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ duration: 0.35, delay: 0.2 + lineIndex * 0.15 }}
+                            className="block"
+                          >
+                            {line}
+                          </motion.span>
+                        ))}
+                      </motion.div>
+                      <HeadingTag className="sr-only">
+                        {slide.headingLines.join(" ")}
+                      </HeadingTag>
 
-              <motion.h2
-                className="hidden sm:block md:text-xl"
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 1.2 }}
-              >
-                <motion.span
-                  initial={{ x: -100, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 1.4 }}
-                >
-                  Property Photography
-                </motion.span>
-                <br />
-                <motion.span
-                  initial={{ x: -100, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 1.6 }}
-                >
-                  & Filming
-                </motion.span>
-              </motion.h2>
+                      <motion.p
+                        className="mt-2 hidden sm:block md:text-xl"
+                        initial={{ x: -60, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ duration: 0.35, delay: 0.9 }}
+                      >
+                        {slide.subheading}
+                      </motion.p>
+                    </div>
+                    <a
+                      href="#contact-form"
+                      className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-brand-yellow px-5 py-3 text-base font-semibold text-neutral-900 shadow-lg transition-all hover:bg-[#e6a600] hover:shadow-xl sm:bottom-10 sm:px-10 sm:py-4 sm:text-xl"
+                    >
+                      {slide.cta}
+                    </a>
+                  </div>
+                </div>
+              </article>
+              );
+            })}
+          </div>
+        </div>
+        <div className="absolute inset-x-0 bottom-4 z-10 sm:bottom-6">
+          <div className="mx-auto flex w-full max-w-screen-2xl justify-end px-6 lg:px-8">
+            <div className="flex items-center gap-2">
+              {HERO_SLIDES.map((slide, index) => (
+                <button
+                  key={slide.id}
+                  type="button"
+                  onClick={() => heroScrollTo(index)}
+                  className={`h-2.5 rounded-full transition-all ${
+                    selectedHeroIndex === index
+                      ? "w-8 bg-brand-yellow"
+                      : "w-2.5 bg-white/80 hover:bg-white"
+                  }`}
+                  aria-label={`Go to hero slide ${index + 1}`}
+                  aria-current={selectedHeroIndex === index}
+                />
+              ))}
             </div>
-            <button className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-brand-yellow px-5 py-3 text-base font-semibold text-neutral-900 shadow-lg transition-all hover:bg-[#e6a600] hover:shadow-xl sm:bottom-10 sm:px-10 sm:py-4 sm:text-xl">
-              Book now
-            </button>
           </div>
         </div>
       </section>
       <section className="pt-10 px-6 lg:px-8">
         <div className="mx-auto max-w-screen-2xl">
-          <h1 className="text-center text-2xl sm:text-4xl">What we do</h1>
+          <h2 className="text-center text-2xl sm:text-4xl">What we do</h2>
           <div className="relative mt-8">
-            <div className="overflow-hidden" ref={emblaRef}>
+            <div className="overflow-hidden" ref={servicesEmblaRef}>
               <div className="flex touch-pan-y gap-6">
                 {WHAT_WE_DO_CARDS.map((card) => (
                   <div
@@ -180,7 +296,7 @@ export default function Home() {
                         </div>
                         <div className="mt-6 flex justify-center">
                           <a
-                            href="#"
+                            href="#contact-form"
                             className="rounded-full bg-brand-yellow px-5 py-2 font-medium text-neutral-900 transition-all hover:bg-[#e6a600] sm:px-8 sm:py-3"
                           >
                             View
@@ -213,16 +329,19 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="relative min-h-0 overflow-hidden py-10 md:min-h-[50vh]">
+      <section
+        id="contact-form"
+        className="relative min-h-0 overflow-hidden py-10 md:min-h-[50vh]"
+      >
         <img
           src="https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XEsmCtresMqY1F3gS2wk8vOtIjzUGKpVcmx0i"
           alt="contact form background"
           aria-hidden
-          className="absolute inset-0 hidden h-full w-full object-cover object-right md:block"
+          className="absolute inset-0 hidden h-full w-full object-cover object-[50%_35%] lg:block"
         />
         <div className="relative z-10 mx-auto max-w-screen-2xl px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
-            <div className="rounded-md bg-white px-6 py-4">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+            <div className="rounded-md bg-white px-6 py-4 lg:col-span-1">
               <h2 className="mb-4 font-medium text-neutral-700">
                 Fill out this form to select a service
               </h2>

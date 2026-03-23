@@ -5,6 +5,7 @@ import mobileLogo from "@/public/mobile-logo-2026.svg";
 import { useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { PhoneIcon } from "@heroicons/react/24/solid";
 import { Dialog } from "@headlessui/react";
 import { motion } from "framer-motion";
 import {
@@ -23,6 +24,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import localFont from "next/font/local";
 import { Fjalla_One } from "next/font/google";
+import { useEffect } from "react";
 
 const ostrich = localFont({
   src: "../public/OstrichSansBlack.otf",
@@ -33,6 +35,17 @@ const fjalla = Fjalla_One({ subsets: ["latin"], weight: "400" });
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setIsScrolled(window.scrollY > 12);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const navItems = [
     { id: 0, name: "Home", href: "/" },
@@ -48,30 +61,55 @@ export default function Navbar() {
       ],
     },
     { id: 2, name: "Portfolio", href: "/portfolio" },
-    { id: 3, name: "Contact us", href: "/contact" },
+    { id: 3, name: "Contact us", href: "/#contact-form" },
   ];
   return (
-    <header>
+    <header
+      id="site-header"
+      className={cn(
+        "sticky top-0 z-50 transition-all duration-300",
+        isScrolled ? "bg-white/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-white/85" : "bg-white",
+      )}
+    >
       <nav
-        className="mx-auto flex max-w-screen-2xl items-center justify-between p-6 lg:px-8"
+        className={cn(
+          "mx-auto flex max-w-screen-2xl items-center justify-between px-6 transition-all duration-300 lg:px-8",
+          isScrolled ? "py-3" : "py-6",
+        )}
         aria-label="Global"
       >
         <motion.a
           animate={{ opacity: 1, x: 0 }}
           initial={{ opacity: 0, x: -25 }}
           transition={{ delay: 0.35 }}
-          className="flex items-center"
+          className="flex items-center gap-2 sm:gap-3"
           href="/"
         >
-          <Image src={logo} className="h-16" alt={"logo"} />
+          <Image
+            src={logo}
+            className={cn(
+              "h-16 w-16 shrink-0 origin-center object-contain transition-all duration-500",
+              isScrolled
+                ? "h-12 w-12 translate-x-0 rotate-90"
+                : "-translate-x-2 sm:-translate-x-1 rotate-0",
+            )}
+            alt={"logo"}
+          />
           <div className="flex flex-col items-center">
             <h1
-              className={`border-b border-black text-4xl font-bold ${fjalla.className}`}
+              className={cn(
+                `text-4xl font-bold ${fjalla.className}`,
+                isScrolled ? "border-b-0" : "border-b border-black",
+              )}
             >
               SNAPSHOT
             </h1>
             <p
-              className={`w-full text-center text-sm tracking-[0.25em] ${fjalla.className}`}
+              className={cn(
+                `w-full overflow-hidden text-center text-sm tracking-[0.25em] transition-all duration-300 ${fjalla.className}`,
+                isScrolled ? "max-h-0 opacity-0" : "max-h-10 opacity-100",
+              )}
+              aria-hidden={isScrolled}
             >
               DRONE SERVICES
             </p>
@@ -87,34 +125,28 @@ export default function Navbar() {
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <div className="hidden flex-col items-end md:flex">
-          <motion.div
-            animate={{ opacity: 1, x: 0 }}
-            initial={{ opacity: 0, x: 25 }}
-            transition={{ delay: 0.35 }}
-            className="absolute right-0 top-0"
-          >
-            <a
-              className="rounded-es-md bg-[#FAB72D] px-4 py-2 text-sm underline"
-              href="tel:+44572647478"
-            >
-              07572 647 478
-            </a>
-          </motion.div>
-
+        <div className="hidden md:flex">
           <motion.ul
             animate={{ opacity: 1, x: 0 }}
             initial={{ opacity: 0, x: 25 }}
             transition={{ delay: 0.35 }}
-            className="flex"
+            className="flex items-center gap-3"
           >
+            <a
+              className="inline-flex items-center gap-2 rounded-full bg-[#FAB72D] px-3 py-2 text-sm font-medium text-neutral-900 hover:bg-[#e6a600]"
+              href="tel:+44572647478"
+              aria-label="Call 07572 647 478"
+            >
+              <PhoneIcon className="h-4 w-4 shrink-0" aria-hidden="true" />
+              <span className="hidden lg:inline">07572 647 478</span>
+            </a>
             <NavigationMenu>
               <NavigationMenuList>
                 {navItems.map((item) => (
                   <React.Fragment key={item.id}>
                     {item.subItems ? (
                       <NavigationMenuItem>
-                        <NavigationMenuTrigger>
+                        <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent data-[active]:bg-transparent data-[state=open]:bg-transparent">
                           {item.name}
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
@@ -135,7 +167,10 @@ export default function Navbar() {
                       <NavigationMenuItem key={item.id}>
                           <NavigationMenuLink
                           asChild
-                            className={navigationMenuTriggerStyle()}
+                            className={cn(
+                              navigationMenuTriggerStyle(),
+                              "bg-transparent hover:bg-transparent focus:bg-transparent data-[active]:bg-transparent",
+                            )}
                           >
                           <Link href={item.href}>{item.name}</Link>
                           </NavigationMenuLink>
@@ -157,7 +192,7 @@ export default function Navbar() {
         <div className="fixed inset-0 z-50" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-neutral-900/10">
           <div className="flex items-center justify-between">
-            <a className="h-16 w-16" href="/">
+            <a className="h-16 w-16 outline-none" href="/">
               <Image src={mobileLogo} className="h-16" alt={"logo"} />
             </a>
             <button

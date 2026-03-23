@@ -32,13 +32,25 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "@radix-ui/react-icons";
+import { toast } from "sonner";
+import {
+  Cloud,
+  CloudFog,
+  CloudLightning,
+  CloudRain,
+  CloudSnow,
+  CloudSun,
+  Sun,
+} from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
   email: z.string().email(),
-  phone: z.string(),
+  phone: z.string().trim().min(1, {
+    message: "Phone number is required.",
+  }),
   postcode: z
     .string()
     .trim()
@@ -49,13 +61,16 @@ const formSchema = z.object({
       message: "Postcode must not contain more than 7 characters.",
     }),
   date: z.date(),
-  message: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
+  message: z.string().optional(),
 });
 
 export function Contact() {
-  const [date, setDate] = React.useState<Date>();
+  const [date, setDate] = React.useState<Date>(new Date());
+  const [isDatePopoverOpen, setIsDatePopoverOpen] = React.useState(false);
+  const [weatherByDay, setWeatherByDay] = React.useState<Record<string, number>>(
+    {},
+  );
+  const hasRequestedWeatherRef = React.useRef(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -81,15 +96,164 @@ export function Contact() {
       }),
     });
 
+    if (!response.ok) {
+      throw new Error("Failed to submit the form. Please try again.");
+    }
+
     const result = await response.json();
-    if (result.success) {
-      console.log(result);
+
+    if (!result.success) {
+      throw new Error(result.message ?? "Something went wrong while submitting.");
+    }
+
+    return result;
+  }
+
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    try {
+      await handleSubmit(data);
+      toast.success("Form submitted successfully.");
+      form.reset({
+        name: "",
+        email: "",
+        phone: "",
+        postcode: "",
+        date: new Date(),
+        message: "",
+      });
+      setDate(new Date());
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Unable to submit the form. Please try again.";
+      toast.error(message);
     }
   }
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    handleSubmit(data);
-  }
+  const getWeatherCodeForDate = React.useCallback(
+    (day: Date) => weatherByDay[format(day, "yyyy-MM-dd")],
+    [weatherByDay],
+  );
+
+  const getWeatherIcon = React.useCallback((weatherCode?: number) => {
+    if (weatherCode === undefined) {
+      return null;
+    }
+
+    if (weatherCode === 0) {
+      return <Sun className="h-3.5 w-3.5 text-amber-500" aria-hidden />;
+    }
+
+    if (weatherCode === 1 || weatherCode === 2) {
+      return <CloudSun className="h-3.5 w-3.5 text-sky-500" aria-hidden />;
+    }
+
+    if (weatherCode === 3 || weatherCode === 45 || weatherCode === 48) {
+      return <Cloud className="h-3.5 w-3.5 text-slate-500" aria-hidden />;
+    }
+
+    if (
+      weatherCode === 51 ||
+      weatherCode === 53 ||
+      weatherCode === 55 ||
+      weatherCode === 56 ||
+      weatherCode === 57 ||
+      weatherCode === 61 ||
+      weatherCode === 63 ||
+      weatherCode === 65 ||
+      weatherCode === 66 ||
+      weatherCode === 67 ||
+      weatherCode === 80 ||
+      weatherCode === 81 ||
+      weatherCode === 82
+    ) {
+      return <CloudRain className="h-3.5 w-3.5 text-blue-600" aria-hidden />;
+    }
+
+    if (
+      weatherCode === 71 ||
+      weatherCode === 73 ||
+      weatherCode === 75 ||
+      weatherCode === 77 ||
+      weatherCode === 85 ||
+      weatherCode === 86
+    ) {
+      return <CloudSnow className="h-3.5 w-3.5 text-cyan-600" aria-hidden />;
+    }
+
+    if (weatherCode === 95 || weatherCode === 96 || weatherCode === 99) {
+      return (
+        <CloudLightning className="h-3.5 w-3.5 text-violet-600" aria-hidden />
+      );
+    }
+
+    return <CloudFog className="h-3.5 w-3.5 text-slate-500" aria-hidden />;
+  }, []);
+
+  const loadWeatherForecast = React.useCallback(async () => {
+    if (!navigator.geolocation || hasRequestedWeatherRef.current) {
+      return;
+    }
+
+    hasRequestedWeatherRef.current = true;
+
+    const getPosition = () =>
+      new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: false,
+          timeout: 8000,
+          maximumAge: 1000 * 60 * 15,
+        });
+      });
+
+    try {
+      const position = await getPosition();
+      const { latitude, longitude } = position.coords;
+
+      const response = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code&forecast_days=10&timezone=auto`,
+      );
+
+      if (!response.ok) {
+        return;
+      }
+
+      const data: {
+        daily?: { time?: string[]; weather_code?: number[] };
+      } = await response.json();
+
+      const times = data.daily?.time;
+      const weatherCodes = data.daily?.weather_code;
+
+      if (!times || !weatherCodes) {
+        return;
+      }
+
+      const nextWeatherByDay = times.reduce<Record<string, number>>(
+        (acc, day, index) => {
+          const code = weatherCodes[index];
+          if (code !== undefined) {
+            acc[day] = code;
+          }
+          return acc;
+        },
+        {},
+      );
+
+      setWeatherByDay(nextWeatherByDay);
+    } catch {
+      // Ignore permission/network failures and preserve default calendar UX.
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (!isDatePopoverOpen) {
+      return;
+    }
+
+    void loadWeatherForecast();
+  }, [isDatePopoverOpen, loadWeatherForecast]);
 
   return (
     <Form {...form}>
@@ -99,9 +263,11 @@ export function Contact() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>
+                Name <span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
-                <Input className="bg-neutral-200" placeholder="Name" {...field} />
+                <Input className="bg-neutral-200" placeholder="Name" required {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -112,9 +278,11 @@ export function Contact() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>
+                Email <span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
-                <Input className="bg-neutral-200" type="email" placeholder="Email" {...field} />
+                <Input className="bg-neutral-200" type="email" placeholder="Email" required {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -125,9 +293,11 @@ export function Contact() {
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone number</FormLabel>
+              <FormLabel>
+                Phone number <span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
-                <Input className="bg-neutral-200" placeholder="Phone number" {...field} />
+                <Input className="bg-neutral-200" placeholder="Phone number" required {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -138,9 +308,11 @@ export function Contact() {
           name="postcode"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Postcode of Flight location</FormLabel>
+              <FormLabel>
+                Postcode of Flight location <span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
-                <Input className="bg-neutral-200" placeholder="Postcode of Flight Location" {...field} />
+                <Input className="bg-neutral-200" placeholder="Postcode of Flight Location" required {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -151,11 +323,17 @@ export function Contact() {
           name="date"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Date</FormLabel>
+              <FormLabel>
+                Date <span className="text-red-500">*</span>
+              </FormLabel>
               <br />
               <FormControl>
                 {/* <Input placeholder="shadcn"  /> */}
-                <Popover {...field}>
+                <Popover
+                  open={isDatePopoverOpen}
+                  onOpenChange={setIsDatePopoverOpen}
+                  {...field}
+                >
                   <PopoverTrigger asChild>
                     <Button
                       variant={"outline"}
@@ -173,9 +351,11 @@ export function Contact() {
                     className="flex w-auto flex-col space-y-2 p-2 bg-neutral-200 border-neutral-300"
                   >
                     <Select
-                      onValueChange={(value) =>
-                        setDate(addDays(new Date(), parseInt(value)))
-                      }
+                      onValueChange={(value) => {
+                        const nextDate = addDays(new Date(), parseInt(value, 10));
+                        setDate(nextDate);
+                        field.onChange(nextDate);
+                      }}
                     >
                       <SelectTrigger className="bg-neutral-200 border-neutral-300">
                         <SelectValue placeholder="Select" />
@@ -191,7 +371,37 @@ export function Contact() {
                       <Calendar
                         mode="single"
                         selected={date}
-                        onSelect={setDate}
+                        onSelect={(nextDate) => {
+                          if (!nextDate) {
+                            return;
+                          }
+
+                          setDate(nextDate);
+                          field.onChange(nextDate);
+                        }}
+                        classNames={{
+                          day: cn(
+                            "h-12 w-10 p-0 font-normal aria-selected:opacity-100",
+                            Object.keys(weatherByDay).length === 0 && "h-8 w-8",
+                          ),
+                        }}
+                        components={{
+                          DayContent: ({ date: day }) => {
+                            const weatherCode = getWeatherCodeForDate(day);
+                            const icon = getWeatherIcon(weatherCode);
+
+                            if (!icon) {
+                              return <span>{format(day, "d")}</span>;
+                            }
+
+                            return (
+                              <div className="flex h-full w-full flex-col items-center justify-center leading-none">
+                                <span>{format(day, "d")}</span>
+                                <span className="mt-0.5">{icon}</span>
+                              </div>
+                            );
+                          },
+                        }}
                         className="bg-neutral-200"
                       />
                     </div>
@@ -209,13 +419,15 @@ export function Contact() {
             <FormItem>
               <FormLabel>Message</FormLabel>
               <FormControl>
-                <Textarea className="bg-neutral-200" placeholder="Message" {...field} />
+                <Textarea className="bg-neutral-200" placeholder="Message (optional)" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={form.formState.isSubmitting}>
+          {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+        </Button>
       </form>
     </Form>
   );

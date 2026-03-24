@@ -60,7 +60,7 @@ const HERO_SLIDES = [
       "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XyKbgkKh9NpmRfzCWSDBhxtOr57dgJI6nl9yX",
     imageAlt:
       "",
-    headingLines: ["Landscape", "Stories", "From The", "Sky"],
+    headingLines: ["Fresh", "Perspectives", "From New", "Heights"],
     subheading: "Wedding Photography & Filming",
     cta: "Book now",
   },
@@ -70,7 +70,7 @@ const HERO_SLIDES = [
       "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XGrykikv1SxC6n0KHvowldeBTOmaUR85jVW2y",
     imageAlt:
       "",
-    headingLines: ["Showcase", "Every", "Angle", "Clearly"],
+    headingLines: ["Fresh", "Perspectives", "From New", "Heights"],
     subheading: "Landscape Photography & Filming",
     cta: "Book now",
   },
@@ -80,7 +80,7 @@ const HERO_SLIDES = [
       "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xl1OlBMfzrONqv5RkFao1BIp7mts3HDyCgnLb",
     imageAlt:
       "",
-    headingLines: ["Roof", "Inspections", "From New", "Heights"],
+    headingLines: ["Fresh", "Perspectives", "From New", "Heights"],
     subheading: "Roof Inspections",
     cta: "Book now",
   },
@@ -90,10 +90,42 @@ const HERO_SLIDES = [
       "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X8QD3KCwH5o0cWAaK4qNsCvJ6bTRgV18Mwd2f",
     imageAlt:
       "",
-    headingLines: ["Agriculture", "Photography", "From New", "Heights"],
+    headingLines: ["Fresh", "Perspectives", "From New", "Heights"],
     subheading: "Agriculture Photography & Filming",
     cta: "Book now",
   },
+];
+
+const GALLERY_IMAGE_URLS = [
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XDuyutf0HaCpFwyg9ebP5fHZNtnjAS07u1EXq",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X6LnPU7uOQZG35mdcsol2LbWMvXF9Ywxg7TiD",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X7cwqY8d45TYoXeDJwaZhACMubWFjlH7QSIP6",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XCSI73KFsHR264FDxeGurvbUt8mAYQ59jST73",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XvVXSF0cUYMkPDVK62ILo3JSz5Niw48qZpHlm",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XBOzQYwKEzfr4YmDgokcHqXTlhSi3vs79OWPj",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XKCofdb2YVS1GTrFB4X5yOufNUL9idteCMI3D",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X8V0oXZwH5o0cWAaK4qNsCvJ6bTRgV18Mwd2f",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XlUnyR0fzrONqv5RkFao1BIp7mts3HDyCgnLb",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X92fQXLMBrEyw1kIDXq6FphWnPM4cadzeuH5Y",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xfc47qNheSwOhGQuz14I7bPLY3MBvXkjDTids",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XsCBR9neufW5q7rn8dZkb0pUYvIzLGi16DBE2",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XgdqpN2Tf7BinYkxHlKMZ1I92EhtRpcwXv0bF",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X0xchemq82w5PQrUxR63dKNv1Z4YTXpOkMWVG",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XE8ALz1esMqY1F3gS2wk8vOtIjzUGKpVcmx0i",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XpRSAqJLc8x5rWHMPok4bLYTsQ0hnXu9AgKNz",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X2sjbhd79TNOdqrWegw8zcByA6QuItb3LmDnJ",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XTZtDZyNhyQZwNPn7orS5FsXIWKAgaUkmjzqG",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X9b59XxBrEyw1kIDXq6FphWnPM4cadzeuH5Y8",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xqx4c2CDSs6GOkgwn3Y9ecIBtRpPFjfCUHAZh",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XB7gen2KEzfr4YmDgokcHqXTlhSi3vs79OWPj",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XfH7tFdheSwOhGQuz14I7bPLY3MBvXkjDTids",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XGpKP4qv1SxC6n0KHvowldeBTOmaUR85jVW2y",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XKkM6Tq2YVS1GTrFB4X5yOufNUL9idteCMI3D",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X2t54Br79TNOdqrWegw8zcByA6QuItb3LmDnJ",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X6kxPVWuOQZG35mdcsol2LbWMvXF9Ywxg7TiD",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XO1uE542J7On0HRbwlFNUyrueXYhCfAd8L3m5",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XY6eEaRABJwWk3mjzDGfhyiZVbKl8FrApa7Me",
+  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XhsxTokavI1dUBF9tNxZRg8Dl7A6K3zarbuiP",
 ];
 
 export default function Home() {
@@ -173,9 +205,9 @@ export default function Home() {
   return (
     <main className="space-y-10">
       <section
-        className="relative overflow-hidden"
+        className="relative h-[calc(70dvh-var(--header-height))] min-h-[360px] overflow-hidden sm:h-[calc(78dvh-var(--header-height))] md:min-h-[420px] lg:h-[calc(100dvh-var(--header-height))] lg:min-h-0"
         aria-label="Featured services slider"
-        style={{ height: `calc(100dvh - ${headerHeight}px)` }}
+        style={{ "--header-height": `${headerHeight}px` } as React.CSSProperties}
       >
         <div className="h-full overflow-hidden" ref={heroEmblaRef}>
           <div className="flex h-full">
@@ -233,7 +265,7 @@ export default function Home() {
                     </div>
                     <a
                       href="#contact-form"
-                      className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-brand-yellow px-5 py-3 text-base font-semibold text-neutral-900 shadow-lg transition-all hover:bg-[#e6a600] hover:shadow-xl sm:bottom-10 sm:px-10 sm:py-4 sm:text-xl"
+                      className="absolute bottom-4 left-6 rounded-full bg-brand-yellow px-5 py-3 text-base font-semibold text-neutral-900 shadow-lg transition-all hover:bg-[#e6a600] hover:shadow-xl sm:bottom-6 sm:left-1/2 sm:-translate-x-1/2 sm:px-10 sm:py-4 sm:text-xl"
                     >
                       {slide.cta}
                     </a>
@@ -356,31 +388,15 @@ export default function Home() {
             Gallery
           </h2>
           <div className="columns-2 gap-4 sm:gap-6 md:columns-3 lg:columns-4">
-            {[
-              "masonry-1.jpg",
-              "masonry-2.jpg",
-              "masonry-3.jpg",
-              "masonry-4.jpg",
-              "masonry-5.jpg",
-              "masonry-6.jpg",
-              "masonry-7.jpg",
-              "masonry-8.jpg",
-              "masonry-9.jpg",
-              "masonry-10.jpg",
-              "masonry-11.jpg",
-              "masonry-12.jpg",
-              "masonry-13.jpg",
-              "masonry-14.jpg",
-              "masonry-15.jpg",
-            ].map((name) => (
+            {GALLERY_IMAGE_URLS.map((imageUrl) => (
               <div
-                key={name}
+                key={imageUrl}
                 className="mb-4 break-inside-avoid sm:mb-6"
               >
                 <img
-                  src={`/masonry/${name}`}
+                  src={imageUrl}
                   alt=""
-                  className="w-full rounded-md object-cover"
+                  className="block h-auto w-full rounded-md"
                 />
               </div>
             ))}

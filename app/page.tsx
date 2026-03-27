@@ -15,31 +15,80 @@ const fjalla = Fjalla_One({ subsets: ["latin"], weight: "400" });
 const WHAT_WE_DO_CARDS = [
   {
     id: 1,
+    tag: "Real Estate",
     title: "Property Photography & Filming",
     description:
       "Showcase your property at its best with professional stills and video. We capture interiors and exteriors in sharp detail with natural and staged lighting, wide angles, and smooth footage so listings stand out and viewings feel like a real visit.",
+    highlights: [
+      "Aerial and ground-level coverage",
+      "Listing-ready photo and video packages",
+      "Natural and staged lighting workflows",
+    ],
     image: "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XBlIpHsKEzfr4YmDgokcHqXTlhSi3vs79OWPj",
   },
   {
     id: 2,
+    tag: "Outdoor Spaces",
     title: "Landscape Photography & Filming",
     description:
       "From gardens and parks to estates and rural views, we deliver striking landscape photography and film. Ideal for developers, agents, and private owners who want to highlight location, greenery, and outdoor space.",
+    highlights: [
+      "Wide establishing aerial sequences",
+      "Natural terrain and feature emphasis",
+      "Edited content for marketing channels",
+    ],
     image: "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XwqiGgayYDld3xm4B7MXbjtN05vWV69KRQaog",
   },
   {
     id: 3,
+    tag: "Inspection",
     title: "Roof Inspection",
     description:
       "High-resolution drone and ground-level roof surveys to spot damage, wear, and maintenance issues. Perfect for surveys, insurance, and pre-sale checks—we deliver clear imagery and reports you can rely on.",
+    highlights: [
+      "Close-up evidence of defects and wear",
+      "Safer than ladder-based inspection",
+      "Clear visual reports for decision making",
+    ],
     image: "/roof.png",
   },
   {
     id: 4,
+    tag: "Events",
     title: "Weddings & Events",
     description:
       "Capture stunning aerial footage of weddings, events, and special occasions. Our skilled drone operators deliver professional, cinematic shots that capture the essence of your day—from ceremony to reception.",
+    highlights: [
+      "Cinematic flythrough moments",
+      "Safe flight planning around guests",
+      "Highlights edits ready for sharing",
+    ],
     image: "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xdh44eoElQJPk0LUwbcEsvTMurNaDolpZmGxI",
+  },
+];
+
+const EQUIPMENT_CARDS = [
+  {
+    id: 1,
+    name: "Normal Drone",
+    blurb:
+      "Our standard stabilized drone platform is built for smooth, high-resolution capture and dependable repeatable flight paths.",
+    howWeUseIt: [
+      "Property and landscape overviews with smooth cinematic motion",
+      "Roof and structure inspections with controlled proximity shots",
+      "Progress documentation for construction and development sites",
+    ],
+  },
+  {
+    id: 2,
+    name: "FPV Drone",
+    blurb:
+      "Our FPV setup delivers immersive movement and dynamic one-take sequences that create a high-energy cinematic feel.",
+    howWeUseIt: [
+      "Fast, flowing flythroughs for venues and architectural spaces",
+      "Action-focused event coverage with agile, low-level motion",
+      "Creative social-first videos with bold transitions and momentum",
+    ],
   },
 ];
 
@@ -299,43 +348,66 @@ export default function Home() {
       </section>
       <section className="pt-10 px-6 lg:px-8">
         <div className="mx-auto max-w-screen-2xl">
-          <h2 className="text-center text-2xl sm:text-4xl">What we do</h2>
+          <div className="text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
+              Services
+            </p>
+            <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
+              What we do
+            </h2>
+            <p className={`mx-auto mt-4 max-w-2xl text-neutral-600 ${lato.className}`}>
+              End-to-end aerial production designed to help your brand, listing,
+              or event stand out with clear visual storytelling.
+            </p>
+          </div>
           <div className="relative mt-8">
             <div className="overflow-hidden" ref={servicesEmblaRef}>
               <div className="flex touch-pan-y gap-6">
                 {WHAT_WE_DO_CARDS.map((card) => (
                   <div
                     key={card.id}
-                    className="min-w-0 flex-[0_0_100%] md:flex-[0_0_calc((100%-3rem)/3)]"
+                    className="min-w-0 flex-[0_0_100%] md:flex-[0_0_calc((100%-3rem)/2)] xl:flex-[0_0_calc((100%-3rem)/3)]"
                   >
-                    <div className="group relative flex min-h-[420px] flex-col overflow-hidden rounded-md sm:min-h-0 sm:aspect-[9/16]">
-                      <img
-                        src={card.image}
-                        alt=""
-                        aria-hidden
-                        className="absolute inset-0 h-full w-full object-cover brightness-75 blur-[3px] transition-all duration-300 group-hover:scale-105 group-hover:blur-[2px] group-hover:brightness-100"
-                      />
-                      <div className="relative flex flex-1 flex-col justify-between rounded-md p-6">
-                        <div>
-                          <h2 className="text-xl text-white sm:text-2xl">
-                            {card.title}
-                          </h2>
-                          <p
-                            className={`mt-2 text-sm text-white ${lato.className}`}
-                          >
-                            {card.description}
-                          </p>
+                    <article className="group h-full overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                      <div className="relative aspect-[16/10] overflow-hidden">
+                        <img
+                          src={card.image}
+                          alt={`${card.title} example`}
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-black/10" />
+                        <span className="absolute left-4 top-4 rounded-full border border-white/30 bg-black/45 px-3 py-1 text-xs font-medium uppercase tracking-[0.12em] text-white backdrop-blur-sm">
+                          {card.tag}
+                        </span>
+                        <h3 className="absolute bottom-4 left-4 right-4 text-xl font-semibold text-white sm:text-2xl">
+                          {card.title}
+                        </h3>
+                      </div>
+                      <div className="flex h-full flex-col p-6">
+                        <p className={`text-sm leading-6 text-neutral-600 ${lato.className}`}>
+                          {card.description}
+                        </p>
+                        <div className="mt-4 space-y-2">
+                          {card.highlights.map((highlight) => (
+                            <p
+                              key={highlight}
+                              className={`text-sm text-neutral-700 ${lato.className}`}
+                            >
+                              <span className="mr-2 inline-block h-2 w-2 rounded-full bg-brand-yellow align-middle" />
+                              {highlight}
+                            </p>
+                          ))}
                         </div>
-                        <div className="mt-6 flex justify-center">
+                        <div className="mt-6">
                           <a
                             href="#contact-form"
-                            className="rounded-full bg-brand-yellow px-5 py-2 font-medium text-neutral-900 transition-all hover:bg-[#e6a600] sm:px-8 sm:py-3"
+                            className="inline-flex items-center rounded-full bg-neutral-900 px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-neutral-700"
                           >
-                            View
+                            Book this service
                           </a>
                         </div>
                       </div>
-                    </div>
+                    </article>
                   </div>
                 ))}
               </div>
@@ -344,7 +416,7 @@ export default function Home() {
               type="button"
               onClick={scrollPrev}
               disabled={!canScrollPrev}
-              className="absolute left-0 top-1/2 z-10 -translate-y-1/2 -translate-x-2 rounded-full bg-white/90 p-2 text-neutral-900 shadow-md transition hover:bg-white disabled:pointer-events-none disabled:opacity-40 md:-translate-x-4"
+              className="absolute left-0 top-1/2 z-10 -translate-y-1/2 -translate-x-2 rounded-full bg-neutral-900 p-2 text-white shadow-lg transition hover:bg-neutral-700 disabled:pointer-events-none disabled:opacity-40 md:-translate-x-4"
               aria-label="Previous cards"
             >
               <ChevronLeftIcon className="h-6 w-6" />
@@ -353,11 +425,56 @@ export default function Home() {
               type="button"
               onClick={scrollNext}
               disabled={!canScrollNext}
-              className="absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-2 rounded-full bg-white/90 p-2 text-neutral-900 shadow-md transition hover:bg-white disabled:pointer-events-none disabled:opacity-40 md:translate-x-4"
+              className="absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-2 rounded-full bg-neutral-900 p-2 text-white shadow-lg transition hover:bg-neutral-700 disabled:pointer-events-none disabled:opacity-40 md:translate-x-4"
               aria-label="Next cards"
             >
               <ChevronRightIcon className="h-6 w-6" />
             </button>
+          </div>
+        </div>
+      </section>
+      <section className="px-6 pb-2 pt-8 lg:px-8">
+        <div className="mx-auto max-w-screen-2xl rounded-3xl bg-neutral-950 px-6 py-10 text-white shadow-2xl sm:px-10">
+          <div className="grid gap-8 lg:grid-cols-[1fr_1.6fr] lg:gap-10">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-yellow">
+                Equipment
+              </p>
+              <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
+                The gear behind each shot
+              </h2>
+              <p className={`mt-4 max-w-xl text-sm leading-6 text-neutral-300 ${lato.className}`}>
+                We choose equipment based on the story, location, and safety
+                requirements of each job. These two platforms cover most of our
+                production and inspection workflows.
+              </p>
+            </div>
+            <div className="grid gap-6 md:grid-cols-2">
+              {EQUIPMENT_CARDS.map((equipment) => (
+                <article
+                  key={equipment.id}
+                  className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm"
+                >
+                  <h3 className="text-2xl font-semibold">{equipment.name}</h3>
+                  <p className={`mt-3 text-sm leading-6 text-neutral-300 ${lato.className}`}>
+                    {equipment.blurb}
+                  </p>
+                  <div className="mt-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-yellow">
+                      How we use it
+                    </p>
+                    <ul className={`mt-3 space-y-2 text-sm text-neutral-200 ${lato.className}`}>
+                      {equipment.howWeUseIt.map((usage) => (
+                        <li key={usage} className="flex items-start gap-3">
+                          <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-yellow" />
+                          <span>{usage}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>

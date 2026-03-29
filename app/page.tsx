@@ -4,7 +4,6 @@ import { Fjalla_One, Lato } from "next/font/google";
 import { Contact } from "@/components/Contact";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -12,10 +11,10 @@ const lato = Lato({
 });
 const fjalla = Fjalla_One({ subsets: ["latin"], weight: "400" });
 
-const WHAT_WE_DO_CARDS = [
+const WHAT_WE_DO_FEATURES = [
   {
     id: 1,
-    tag: "Real Estate",
+    eyebrow: "Real Estate",
     title: "Property Photography & Filming",
     description:
       "Showcase your property at its best with professional stills and video. We capture interiors and exteriors in sharp detail with natural and staged lighting, wide angles, and smooth footage so listings stand out and viewings feel like a real visit.",
@@ -25,10 +24,11 @@ const WHAT_WE_DO_CARDS = [
       "Natural and staged lighting workflows",
     ],
     image: "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XBlIpHsKEzfr4YmDgokcHqXTlhSi3vs79OWPj",
+    imageAlt: "Drone view of a modern property at golden hour",
   },
   {
     id: 2,
-    tag: "Outdoor Spaces",
+    eyebrow: "Outdoor Spaces",
     title: "Landscape Photography & Filming",
     description:
       "From gardens and parks to estates and rural views, we deliver striking landscape photography and film. Ideal for developers, agents, and private owners who want to highlight location, greenery, and outdoor space.",
@@ -38,10 +38,11 @@ const WHAT_WE_DO_CARDS = [
       "Edited content for marketing channels",
     ],
     image: "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XwqiGgayYDld3xm4B7MXbjtN05vWV69KRQaog",
+    imageAlt: "Aerial landscape showcasing rural terrain and greenery",
   },
   {
     id: 3,
-    tag: "Inspection",
+    eyebrow: "Inspection",
     title: "Roof Inspection",
     description:
       "High-resolution drone and ground-level roof surveys to spot damage, wear, and maintenance issues. Perfect for surveys, insurance, and pre-sale checks—we deliver clear imagery and reports you can rely on.",
@@ -51,10 +52,11 @@ const WHAT_WE_DO_CARDS = [
       "Clear visual reports for decision making",
     ],
     image: "/roof.png",
+    imageAlt: "Drone inspection view of rooftop details",
   },
   {
     id: 4,
-    tag: "Events",
+    eyebrow: "Events",
     title: "Weddings & Events",
     description:
       "Capture stunning aerial footage of weddings, events, and special occasions. Our skilled drone operators deliver professional, cinematic shots that capture the essence of your day—from ceremony to reception.",
@@ -64,10 +66,11 @@ const WHAT_WE_DO_CARDS = [
       "Highlights edits ready for sharing",
     ],
     image: "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xdh44eoElQJPk0LUwbcEsvTMurNaDolpZmGxI",
+    imageAlt: "Aerial footage of a wedding and guests outdoors",
   },
 ];
 
-const EQUIPMENT_CARDS = [
+const EQUIPMENT_FEATURES = [
   {
     id: 1,
     name: "Normal Drone",
@@ -78,6 +81,9 @@ const EQUIPMENT_CARDS = [
       "Roof and structure inspections with controlled proximity shots",
       "Progress documentation for construction and development sites",
     ],
+    image:
+      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XEIYtQoCesMqY1F3gS2wk8vOtIjzUGKpVcmx0",
+    imageAlt: "Standard drone capturing smooth aerial footage",
   },
   {
     id: 2,
@@ -89,6 +95,9 @@ const EQUIPMENT_CARDS = [
       "Action-focused event coverage with agile, low-level motion",
       "Creative social-first videos with bold transitions and momentum",
     ],
+    image:
+      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XyKbgkKh9NpmRfzCWSDBhxtOr57dgJI6nl9yX",
+    imageAlt: "FPV-style dynamic drone shot over a venue",
   },
 ];
 
@@ -177,12 +186,121 @@ const GALLERY_IMAGE_URLS = [
   "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XhsxTokavI1dUBF9tNxZRg8Dl7A6K3zarbuiP",
 ];
 
+interface ServiceFeatureProps {
+  eyebrow: string;
+  title: string;
+  description: string;
+  highlights: string[];
+  image: string;
+  imageAlt: string;
+  reversed?: boolean;
+}
+
+function ServiceFeature({
+  eyebrow,
+  title,
+  description,
+  highlights,
+  image,
+  imageAlt,
+  reversed = false,
+}: ServiceFeatureProps) {
+  return (
+    <article className="grid items-center gap-8 rounded-[2rem] bg-white p-4 shadow-sm ring-1 ring-neutral-200 lg:grid-cols-2 lg:gap-12 lg:p-6">
+      <div className={`${reversed ? "lg:order-2" : ""}`}>
+        <div className="overflow-hidden rounded-2xl">
+          <img
+            src={image}
+            alt={imageAlt}
+            className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+          />
+        </div>
+      </div>
+      <div className={`${reversed ? "lg:order-1" : ""}`}>
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
+          {eyebrow}
+        </p>
+        <h3 className="mt-2 text-2xl font-semibold sm:text-3xl">{title}</h3>
+        <p className={`mt-4 text-sm leading-7 text-neutral-600 ${lato.className}`}>
+          {description}
+        </p>
+        <ul className={`mt-5 space-y-2 text-sm text-neutral-700 ${lato.className}`}>
+          {highlights.map((highlight) => (
+            <li key={highlight} className="flex items-start gap-3">
+              <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-yellow" />
+              <span>{highlight}</span>
+            </li>
+          ))}
+        </ul>
+        <a
+          href="#contact-form"
+          className="mt-6 inline-flex items-center rounded-full bg-neutral-900 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-neutral-700"
+        >
+          Book this service
+        </a>
+      </div>
+    </article>
+  );
+}
+
+interface EquipmentFeatureProps {
+  index: number;
+  name: string;
+  blurb: string;
+  howWeUseIt: string[];
+  image: string;
+  imageAlt: string;
+  reversed?: boolean;
+}
+
+function EquipmentFeature({
+  index,
+  name,
+  blurb,
+  howWeUseIt,
+  image,
+  imageAlt,
+  reversed = false,
+}: EquipmentFeatureProps) {
+  return (
+    <article className="relative overflow-hidden border-t border-white/10 first:border-t-0">
+      <div className="grid lg:grid-cols-12">
+        <div
+          className={`relative min-h-[280px] lg:col-span-5 ${reversed ? "lg:order-2" : ""}`}
+        >
+          <img
+            src={image}
+            alt={imageAlt}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/30 to-transparent" />
+          <p className="absolute left-6 top-6 text-sm font-semibold uppercase tracking-[0.2em] text-brand-yellow">
+            0{index}
+          </p>
+        </div>
+        <div className={`p-8 sm:p-10 lg:col-span-7 ${reversed ? "lg:order-1" : ""}`}>
+          <h3 className="text-2xl font-semibold sm:text-3xl">{name}</h3>
+          <p className={`mt-4 text-sm leading-7 text-neutral-300 ${lato.className}`}>
+            {blurb}
+          </p>
+          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-brand-yellow">
+            How we use it
+          </p>
+          <ul className={`mt-3 space-y-2 text-sm text-neutral-200 ${lato.className}`}>
+            {howWeUseIt.map((usage) => (
+              <li key={usage} className="flex items-start gap-3">
+                <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-yellow" />
+                <span>{usage}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export default function Home() {
-  const [servicesEmblaRef, servicesEmblaApi] = useEmblaCarousel({
-    align: "start",
-    containScroll: "trimSnaps",
-    loop: false,
-  });
   const [heroEmblaRef, heroEmblaApi] = useEmblaCarousel({
     align: "start",
     loop: true,
@@ -190,23 +308,6 @@ export default function Home() {
 
   const [selectedHeroIndex, setSelectedHeroIndex] = useState(0);
   const [headerHeight, setHeaderHeight] = useState(96);
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(false);
-
-  const scrollPrev = useCallback(
-    () => servicesEmblaApi?.scrollPrev(),
-    [servicesEmblaApi],
-  );
-  const scrollNext = useCallback(
-    () => servicesEmblaApi?.scrollNext(),
-    [servicesEmblaApi],
-  );
-
-  const updateScrollButtons = useCallback(() => {
-    if (!servicesEmblaApi) return;
-    setCanScrollPrev(servicesEmblaApi.canScrollPrev());
-    setCanScrollNext(servicesEmblaApi.canScrollNext());
-  }, [servicesEmblaApi]);
 
   const heroScrollTo = useCallback(
     (index: number) => heroEmblaApi?.scrollTo(index),
@@ -217,13 +318,6 @@ export default function Home() {
     if (!heroEmblaApi) return;
     setSelectedHeroIndex(heroEmblaApi.selectedScrollSnap());
   }, [heroEmblaApi]);
-
-  useEffect(() => {
-    if (!servicesEmblaApi) return;
-    updateScrollButtons();
-    servicesEmblaApi.on("select", updateScrollButtons);
-    servicesEmblaApi.on("reInit", updateScrollButtons);
-  }, [servicesEmblaApi, updateScrollButtons]);
 
   useEffect(() => {
     if (!heroEmblaApi) return;
@@ -360,122 +454,49 @@ export default function Home() {
               or event stand out with clear visual storytelling.
             </p>
           </div>
-          <div className="relative mt-8">
-            <div className="overflow-hidden" ref={servicesEmblaRef}>
-              <div className="flex touch-pan-y gap-6">
-                {WHAT_WE_DO_CARDS.map((card) => (
-                  <div
-                    key={card.id}
-                    className="min-w-0 flex-[0_0_100%] md:flex-[0_0_calc((100%-3rem)/2)] xl:flex-[0_0_calc((100%-3rem)/3)]"
-                  >
-                    <article className="group h-full overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-                      <div className="relative aspect-[16/10] overflow-hidden">
-                        <img
-                          src={card.image}
-                          alt={`${card.title} example`}
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-black/10" />
-                        <span className="absolute left-4 top-4 rounded-full border border-white/30 bg-black/45 px-3 py-1 text-xs font-medium uppercase tracking-[0.12em] text-white backdrop-blur-sm">
-                          {card.tag}
-                        </span>
-                        <h3 className="absolute bottom-4 left-4 right-4 text-xl font-semibold text-white sm:text-2xl">
-                          {card.title}
-                        </h3>
-                      </div>
-                      <div className="flex h-full flex-col p-6">
-                        <p className={`text-sm leading-6 text-neutral-600 ${lato.className}`}>
-                          {card.description}
-                        </p>
-                        <div className="mt-4 space-y-2">
-                          {card.highlights.map((highlight) => (
-                            <p
-                              key={highlight}
-                              className={`text-sm text-neutral-700 ${lato.className}`}
-                            >
-                              <span className="mr-2 inline-block h-2 w-2 rounded-full bg-brand-yellow align-middle" />
-                              {highlight}
-                            </p>
-                          ))}
-                        </div>
-                        <div className="mt-6">
-                          <a
-                            href="#contact-form"
-                            className="inline-flex items-center rounded-full bg-neutral-900 px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-neutral-700"
-                          >
-                            Book this service
-                          </a>
-                        </div>
-                      </div>
-                    </article>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={scrollPrev}
-              disabled={!canScrollPrev}
-              className="absolute left-0 top-1/2 z-10 -translate-y-1/2 -translate-x-2 rounded-full bg-neutral-900 p-2 text-white shadow-lg transition hover:bg-neutral-700 disabled:pointer-events-none disabled:opacity-40 md:-translate-x-4"
-              aria-label="Previous cards"
-            >
-              <ChevronLeftIcon className="h-6 w-6" />
-            </button>
-            <button
-              type="button"
-              onClick={scrollNext}
-              disabled={!canScrollNext}
-              className="absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-2 rounded-full bg-neutral-900 p-2 text-white shadow-lg transition hover:bg-neutral-700 disabled:pointer-events-none disabled:opacity-40 md:translate-x-4"
-              aria-label="Next cards"
-            >
-              <ChevronRightIcon className="h-6 w-6" />
-            </button>
+          <div className="mt-10 space-y-8">
+            {WHAT_WE_DO_FEATURES.map((feature, index) => (
+              <ServiceFeature
+                key={feature.id}
+                eyebrow={feature.eyebrow}
+                title={feature.title}
+                description={feature.description}
+                highlights={feature.highlights}
+                image={feature.image}
+                imageAlt={feature.imageAlt}
+                reversed={index % 2 === 1}
+              />
+            ))}
           </div>
         </div>
       </section>
       <section className="px-6 pb-2 pt-8 lg:px-8">
-        <div className="mx-auto max-w-screen-2xl rounded-3xl bg-neutral-950 px-6 py-10 text-white shadow-2xl sm:px-10">
-          <div className="grid gap-8 lg:grid-cols-[1fr_1.6fr] lg:gap-10">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-yellow">
-                Equipment
-              </p>
-              <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
-                The gear behind each shot
-              </h2>
-              <p className={`mt-4 max-w-xl text-sm leading-6 text-neutral-300 ${lato.className}`}>
-                We choose equipment based on the story, location, and safety
-                requirements of each job. These two platforms cover most of our
-                production and inspection workflows.
-              </p>
-            </div>
-            <div className="grid gap-6 md:grid-cols-2">
-              {EQUIPMENT_CARDS.map((equipment) => (
-                <article
-                  key={equipment.id}
-                  className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm"
-                >
-                  <h3 className="text-2xl font-semibold">{equipment.name}</h3>
-                  <p className={`mt-3 text-sm leading-6 text-neutral-300 ${lato.className}`}>
-                    {equipment.blurb}
-                  </p>
-                  <div className="mt-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-yellow">
-                      How we use it
-                    </p>
-                    <ul className={`mt-3 space-y-2 text-sm text-neutral-200 ${lato.className}`}>
-                      {equipment.howWeUseIt.map((usage) => (
-                        <li key={usage} className="flex items-start gap-3">
-                          <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-yellow" />
-                          <span>{usage}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </article>
-              ))}
-            </div>
+        <div className="mx-auto max-w-screen-2xl overflow-hidden rounded-3xl bg-neutral-950 text-white shadow-2xl">
+          <div className="px-6 pb-4 pt-10 sm:px-10">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-yellow">
+              Equipment
+            </p>
+            <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
+              The gear behind each shot
+            </h2>
+            <p className={`mt-4 max-w-2xl text-sm leading-7 text-neutral-300 ${lato.className}`}>
+              We pair the right aircraft with the right objective. Our equipment
+              section uses a more cinematic look to emphasize how each platform
+              performs in real shooting scenarios.
+            </p>
           </div>
+          {EQUIPMENT_FEATURES.map((equipment, index) => (
+            <EquipmentFeature
+              key={equipment.id}
+              index={index + 1}
+              name={equipment.name}
+              blurb={equipment.blurb}
+              howWeUseIt={equipment.howWeUseIt}
+              image={equipment.image}
+              imageAlt={equipment.imageAlt}
+              reversed={index % 2 === 1}
+            />
+          ))}
         </div>
       </section>
       <section

@@ -1,9 +1,9 @@
 "use client";
-import { motion } from "framer-motion";
+import { animate, motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Fjalla_One, Lato } from "next/font/google";
 import { Contact } from "@/components/Contact";
 import useEmblaCarousel from "embla-carousel-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -98,6 +98,76 @@ const EQUIPMENT_FEATURES = [
     image:
       "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XyKbgkKh9NpmRfzCWSDBhxtOr57dgJI6nl9yX",
     imageAlt: "FPV-style dynamic drone shot over a venue",
+  },
+];
+
+const KEY_STATS = [
+  {
+    id: 1,
+    label: "Projects delivered",
+    value: 420,
+    suffix: "+",
+    description: "From private homes and estates to commercial marketing campaigns.",
+  },
+  {
+    id: 2,
+    label: "Flight hours logged",
+    value: 1250,
+    suffix: "+",
+    description: "Experienced pilots with structured planning and safety-first operations.",
+  },
+  {
+    id: 3,
+    label: "Average delivery time",
+    value: 48,
+    suffix: "hrs",
+    description: "Fast turnaround from shoot day to polished, client-ready deliverables.",
+  },
+  {
+    id: 4,
+    label: "Client satisfaction",
+    value: 98,
+    suffix: "%",
+    description: "Consistent quality, reliable communication, and repeat business.",
+  },
+];
+
+const PRICING_PACKAGES = [
+  {
+    id: 1,
+    name: "Starter",
+    fromPrice: "£299",
+    idealFor: "Single-property listings and quick marketing shoots.",
+    features: [
+      "Up to 60 minutes on site",
+      "15 edited aerial photos",
+      "30-second social-ready highlight clip",
+      "Delivery within 72 hours",
+    ],
+  },
+  {
+    id: 2,
+    name: "Growth",
+    fromPrice: "£599",
+    idealFor: "Premium listings, venues, and brand storytelling.",
+    features: [
+      "Up to 2.5 hours on site",
+      "35 edited photos + 90-second cinematic edit",
+      "Ground + aerial capture mix",
+      "Priority delivery within 48 hours",
+    ],
+  },
+  {
+    id: 3,
+    name: "Signature FPV",
+    fromPrice: "£949",
+    idealFor: "High-impact campaigns needing dynamic FPV sequences.",
+    features: [
+      "Half-day production window",
+      "FPV flythrough sequences + standard drone coverage",
+      "Up to 2 final edits for web and social",
+      "Creative planning call + shot list",
+    ],
   },
 ];
 
@@ -300,6 +370,32 @@ function EquipmentFeature({
   );
 }
 
+interface AnimatedStatNumberProps {
+  value: number;
+  suffix?: string;
+}
+
+function AnimatedStatNumber({ value, suffix = "" }: AnimatedStatNumberProps) {
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.7 });
+  const count = useMotionValue(0);
+  const smoothCount = useSpring(count, { damping: 35, stiffness: 110 });
+  const rounded = useTransform(smoothCount, (latest) => Math.round(latest));
+
+  useEffect(() => {
+    if (!isInView) return;
+    const controls = animate(count, value, { duration: 2, ease: "easeOut" });
+    return () => controls.stop();
+  }, [count, isInView, value]);
+
+  return (
+    <motion.span ref={ref}>
+      {rounded}
+      {suffix}
+    </motion.span>
+  );
+}
+
 export default function Home() {
   const [heroEmblaRef, heroEmblaApi] = useEmblaCarousel({
     align: "start",
@@ -470,6 +566,34 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <section className="px-6 pt-6 lg:px-8">
+        <div className="mx-auto max-w-screen-2xl rounded-3xl bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 px-6 py-10 text-white sm:px-10 sm:py-12">
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-yellow">
+              Key stats
+            </p>
+            <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
+              Numbers that show how we deliver
+            </h2>
+          </div>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {KEY_STATS.map((stat) => (
+              <article
+                key={stat.id}
+                className="rounded-2xl border border-white/10 bg-white/[0.05] p-5"
+              >
+                <p className="text-4xl font-semibold text-brand-yellow sm:text-5xl">
+                  <AnimatedStatNumber value={stat.value} suffix={stat.suffix} />
+                </p>
+                <h3 className="mt-3 text-base font-semibold">{stat.label}</h3>
+                <p className={`mt-2 text-sm leading-6 text-neutral-300 ${lato.className}`}>
+                  {stat.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
       <section className="px-6 pb-2 pt-8 lg:px-8">
         <div className="mx-auto max-w-screen-2xl overflow-hidden rounded-3xl bg-neutral-950 text-white shadow-2xl">
           <div className="px-6 pb-4 pt-10 sm:px-10">
@@ -497,6 +621,79 @@ export default function Home() {
               reversed={index % 2 === 1}
             />
           ))}
+        </div>
+      </section>
+      <section className="px-6 py-8 lg:px-8">
+        <div className="mx-auto max-w-screen-2xl">
+          <div className="text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
+              Pricing
+            </p>
+            <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
+              Packages from £299
+            </h2>
+            <p className={`mx-auto mt-4 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}>
+              Every package can be tailored to your location, shot list, and
+              delivery timeline. Choose a starting point and we will shape the
+              final scope with you.
+            </p>
+          </div>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {PRICING_PACKAGES.map((pkg, index) => (
+              <article
+                key={pkg.id}
+                className={`rounded-3xl border p-6 shadow-sm ${
+                  index === 1
+                    ? "border-neutral-900 bg-neutral-900 text-white shadow-xl"
+                    : "border-neutral-200 bg-white"
+                }`}
+              >
+                <p
+                  className={`text-sm font-semibold uppercase tracking-[0.18em] ${
+                    index === 1 ? "text-brand-yellow" : "text-neutral-500"
+                  }`}
+                >
+                  {pkg.name}
+                </p>
+                <p className="mt-4 text-4xl font-semibold">
+                  From {pkg.fromPrice}
+                </p>
+                <p
+                  className={`mt-3 text-sm leading-6 ${
+                    index === 1 ? "text-neutral-200" : "text-neutral-600"
+                  } ${lato.className}`}
+                >
+                  {pkg.idealFor}
+                </p>
+                <ul
+                  className={`mt-5 space-y-2 text-sm ${
+                    index === 1 ? "text-neutral-100" : "text-neutral-700"
+                  } ${lato.className}`}
+                >
+                  {pkg.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-3">
+                      <span
+                        className={`mt-1.5 h-1.5 w-1.5 rounded-full ${
+                          index === 1 ? "bg-brand-yellow" : "bg-neutral-900"
+                        }`}
+                      />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href="#contact-form"
+                  className={`mt-7 inline-flex rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
+                    index === 1
+                      ? "bg-brand-yellow text-neutral-900 hover:bg-[#e6a600]"
+                      : "bg-neutral-900 text-white hover:bg-neutral-700"
+                  }`}
+                >
+                  Request this package
+                </a>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
       <section

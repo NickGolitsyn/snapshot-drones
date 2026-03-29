@@ -381,6 +381,7 @@ function AnimatedStatNumber({ value, suffix = "" }: AnimatedStatNumberProps) {
   const count = useMotionValue(0);
   const smoothCount = useSpring(count, { damping: 35, stiffness: 110 });
   const rounded = useTransform(smoothCount, (latest) => Math.round(latest));
+  const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
     if (!isInView) return;
@@ -388,11 +389,18 @@ function AnimatedStatNumber({ value, suffix = "" }: AnimatedStatNumberProps) {
     return () => controls.stop();
   }, [count, isInView, value]);
 
+  useEffect(() => {
+    const unsubscribe = rounded.on("change", (latest) => {
+      setDisplayValue(latest);
+    });
+    return () => unsubscribe();
+  }, [rounded]);
+
   return (
-    <motion.span ref={ref}>
-      {rounded}
+    <span ref={ref}>
+      {displayValue}
       {suffix}
-    </motion.span>
+    </span>
   );
 }
 

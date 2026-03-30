@@ -1,5 +1,5 @@
 "use client";
-import { animate, motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { animate, motion, useInView, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
 import { Fjalla_One, Lato } from "next/font/google";
 import { Contact } from "@/components/Contact";
 import useEmblaCarousel from "embla-carousel-react";
@@ -127,6 +127,7 @@ const KEY_STATS = [
     id: 4,
     label: "Insurance coverage",
     value: 3,
+    prefix: "£",
     suffix: "M",
     description: "Fully insured for up to £3 million in damage, giving you complete peace of mind.",
   },
@@ -275,11 +276,20 @@ function ServiceFeature({
   imageAlt,
   reversed = false,
 }: ServiceFeatureProps) {
+  const imageInitialX = reversed ? "22vw" : "-22vw";
+  const contentInitialX = reversed ? "-22vw" : "22vw";
+
   return (
     <article className="grid items-center lg:grid-cols-2">
-      <div className={`min-w-0 p-5 sm:p-8 lg:p-10 ${reversed ? "lg:order-2" : ""}`}>
+      <motion.div
+        className={`min-w-0 p-5 sm:p-8 lg:p-10 ${reversed ? "lg:order-2" : ""}`}
+        initial={{ opacity: 0, x: imageInitialX }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.35 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
         <div
-          className={`relative aspect-[4/3] overflow-hidden shadow-xl ${
+          className={`relative aspect-[4/3] overflow-hidden shadow-xl transition-transform duration-500 hover:scale-[1.04] ${
             reversed
               ? "rounded-3xl rounded-tr-[4.5rem] rounded-bl-[4.5rem]"
               : "rounded-3xl rounded-tl-[4.5rem] rounded-br-[4.5rem]"
@@ -288,11 +298,17 @@ function ServiceFeature({
           <img
             src={image}
             alt={imageAlt}
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-[1.04]"
+            className="absolute inset-0 h-full w-full object-cover"
           />
         </div>
-      </div>
-      <div className={`min-w-0 flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-14 lg:py-16 ${reversed ? "lg:order-1" : ""}`}>
+      </motion.div>
+      <motion.div
+        className={`min-w-0 flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-14 lg:py-16 ${reversed ? "lg:order-1" : ""}`}
+        initial={{ opacity: 0, x: contentInitialX }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.35 }}
+        transition={{ duration: 0.6, ease: "easeOut", delay: 0.08 }}
+      >
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
           {eyebrow}
         </p>
@@ -314,7 +330,7 @@ function ServiceFeature({
         >
           Book this service
         </a>
-      </div>
+      </motion.div>
     </article>
   );
 }
@@ -338,9 +354,18 @@ function EquipmentFeature({
   imageAlt,
   reversed = false,
 }: EquipmentFeatureProps) {
+  const imageInitialX = reversed ? "22vw" : "-22vw";
+  const contentInitialX = reversed ? "-22vw" : "22vw";
+
   return (
     <article className="grid items-center lg:grid-cols-2">
-      <div className={`min-w-0 p-5 sm:p-8 lg:p-10 ${reversed ? "lg:order-2" : ""}`}>
+      <motion.div
+        className={`min-w-0 p-5 sm:p-8 lg:p-10 ${reversed ? "lg:order-2" : ""}`}
+        initial={{ opacity: 0, x: imageInitialX }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.35 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
         <div
           className={`relative aspect-[4/3] overflow-hidden shadow-2xl ${
             reversed
@@ -357,8 +382,14 @@ function EquipmentFeature({
             0{index}
           </p> */}
         </div>
-      </div>
-      <div className={`min-w-0 flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-14 lg:py-16 ${reversed ? "lg:order-1" : ""}`}>
+      </motion.div>
+      <motion.div
+        className={`min-w-0 flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-14 lg:py-16 ${reversed ? "lg:order-1" : ""}`}
+        initial={{ opacity: 0, x: contentInitialX }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.35 }}
+        transition={{ duration: 0.6, ease: "easeOut", delay: 0.08 }}
+      >
         <h3 className="text-2xl font-semibold sm:text-3xl lg:text-4xl">{name}</h3>
         <p className={`mt-5 text-sm leading-7 text-neutral-300 ${lato.className}`}>
           {blurb}
@@ -374,7 +405,7 @@ function EquipmentFeature({
             </li>
           ))}
         </ul>
-      </div>
+      </motion.div>
     </article>
   );
 }
@@ -382,9 +413,10 @@ function EquipmentFeature({
 interface AnimatedStatNumberProps {
   value: number;
   suffix?: string;
+  prefix?: string;
 }
 
-function AnimatedStatNumber({ value, suffix = "" }: AnimatedStatNumberProps) {
+function AnimatedStatNumber({ value, suffix = "", prefix = "" }: AnimatedStatNumberProps) {
   const ref = useRef<HTMLSpanElement | null>(null);
   const isInView = useInView(ref, { once: true, amount: 0.7 });
   const count = useMotionValue(0);
@@ -407,6 +439,7 @@ function AnimatedStatNumber({ value, suffix = "" }: AnimatedStatNumberProps) {
 
   return (
     <span ref={ref}>
+      {prefix}
       {displayValue}
       {suffix}
     </span>
@@ -418,9 +451,15 @@ export default function Home() {
     align: "start",
     loop: true,
   });
+  const heroSectionRef = useRef<HTMLElement | null>(null);
 
   const [selectedHeroIndex, setSelectedHeroIndex] = useState(0);
   const [headerHeight, setHeaderHeight] = useState(96);
+  const { scrollYProgress: heroScrollProgress } = useScroll({
+    target: heroSectionRef,
+    offset: ["start start", "end start"],
+  });
+  const heroImageY = useTransform(heroScrollProgress, [0, 1], ["0%", "14%"]);
 
   const heroScrollTo = useCallback(
     (index: number) => heroEmblaApi?.scrollTo(index),
@@ -477,8 +516,9 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="space-y-10">
+    <main className="space-y-10 overflow-x-hidden">
       <section
+        ref={heroSectionRef}
         className="relative h-[calc(70dvh-var(--header-height))] min-h-[360px] overflow-hidden sm:h-[calc(78dvh-var(--header-height))] md:min-h-[420px] lg:h-[calc(100dvh-var(--header-height))] lg:min-h-0"
         aria-label="Featured services slider"
         style={{ "--header-height": `${headerHeight}px` } as React.CSSProperties}
@@ -490,15 +530,16 @@ export default function Home() {
               return (
               <article
                 key={slide.id}
-                className="relative h-full min-w-0 flex-[0_0_100%]"
+                className="relative h-full min-w-0 flex-[0_0_100%] overflow-hidden"
                 aria-roledescription="slide"
                 aria-label={`${slide.id} of ${HERO_SLIDES.length}`}
               >
-                <img
-                  className="h-full w-full object-cover"
+                <motion.img
+                  className="absolute inset-0 h-[114%] w-full object-cover"
                   src={slide.image}
                   alt={slide.imageAlt}
                   loading={slide.id === 1 ? "eager" : "lazy"}
+                  style={{ y: heroImageY }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-black/0" />
                 <div className="absolute inset-0 flex items-center">
@@ -588,7 +629,7 @@ export default function Home() {
                 className="rounded-2xl border border-white/10 bg-white/[0.05] p-5"
               >
                 <p className="text-4xl font-semibold text-brand-yellow sm:text-5xl">
-                  <AnimatedStatNumber value={stat.value} suffix={stat.suffix} />
+                  <AnimatedStatNumber value={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
                 </p>
                 <h3 className="mt-3 text-base font-semibold">{stat.label}</h3>
                 <p className={`mt-2 text-sm leading-6 text-neutral-300 ${lato.className}`}>
@@ -631,39 +672,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section
-        id="equipment"
-        className="pt-8 text-white bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900"
-      >
-        <div className="mx-auto text-center max-w-screen-2xl px-6 pb-10 lg:px-8">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-yellow">
-              Equipment
-            </p>
-            <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
-              The gear behind each shot
-            </h2>
-            <p className={`mt-4 mx-auto max-w-2xl text-sm leading-7 text-neutral-300 ${lato.className}`}>
-              We pair the right aircraft with the right objective—each platform
-              performs differently in real shooting scenarios.
-            </p>
-        </div>
-        <div className="mx-auto max-w-screen-2xl">
-          <div className="space-y-4">
-            {EQUIPMENT_FEATURES.map((equipment, index) => (
-              <EquipmentFeature
-                key={equipment.id}
-                index={index + 1}
-                name={equipment.name}
-                blurb={equipment.blurb}
-                howWeUseIt={equipment.howWeUseIt}
-                image={equipment.image}
-                imageAlt={equipment.imageAlt}
-                reversed={index % 2 === 1}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
       <section id="pricing" className="px-6 py-8 lg:px-8">
         <div className="mx-auto max-w-screen-2xl">
           <div className="text-center">
@@ -681,13 +689,17 @@ export default function Home() {
           </div>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {PRICING_PACKAGES.map((pkg, index) => (
-              <article
+              <motion.article
                 key={pkg.id}
                 className={`flex h-full flex-col rounded-3xl border p-6 shadow-sm ${
                   index === 1
                     ? "border-neutral-900 bg-neutral-900 text-white shadow-xl"
                     : "border-neutral-200 bg-neutral-100"
                 }`}
+                initial={{ opacity: 0, y: 36, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{ duration: 0.55, ease: "easeOut", delay: index * 0.08 }}
               >
                 <p
                   className={`text-sm font-semibold uppercase tracking-[0.18em] ${
@@ -734,7 +746,40 @@ export default function Home() {
                     Request this package
                   </a>
                 </div>
-              </article>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section
+        id="equipment"
+        className="pt-8 text-white bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900"
+      >
+        <div className="mx-auto text-center max-w-screen-2xl px-6 pb-10 lg:px-8">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-yellow">
+              Equipment
+            </p>
+            <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
+              The gear behind each shot
+            </h2>
+            <p className={`mt-4 mx-auto max-w-2xl text-sm leading-7 text-neutral-300 ${lato.className}`}>
+              We pair the right aircraft with the right objective—each platform
+              performs differently in real shooting scenarios.
+            </p>
+        </div>
+        <div className="mx-auto max-w-screen-2xl">
+          <div className="space-y-4">
+            {EQUIPMENT_FEATURES.map((equipment, index) => (
+              <EquipmentFeature
+                key={equipment.id}
+                index={index + 1}
+                name={equipment.name}
+                blurb={equipment.blurb}
+                howWeUseIt={equipment.howWeUseIt}
+                image={equipment.image}
+                imageAlt={equipment.imageAlt}
+                reversed={index % 2 === 1}
+              />
             ))}
           </div>
         </div>
@@ -749,16 +794,28 @@ export default function Home() {
           aria-hidden
           className="absolute inset-0 hidden h-full w-full object-cover object-[50%_35%] lg:block"
         />
-        <div className="relative z-10 mx-auto max-w-screen-2xl px-6 lg:px-8">
+        <motion.div
+          className="relative z-10 mx-auto max-w-screen-2xl px-6 lg:px-8"
+          initial={{ opacity: 0, y: 36 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-            <div className="rounded-md bg-white px-6 py-4 lg:col-span-1">
+            <motion.div
+              className="rounded-md bg-white px-6 py-4 lg:col-span-1"
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.45 }}
+              transition={{ duration: 0.55, ease: "easeOut", delay: 0.12 }}
+            >
               <h2 className="mb-4 font-medium text-neutral-700">
                 Fill out this form to select a service
               </h2>
               <Contact />
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </section>
       <section id="gallery" className="px-6 py-12 lg:px-8">
         <div className="mx-auto max-w-screen-2xl">

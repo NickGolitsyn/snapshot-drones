@@ -1,9 +1,9 @@
 "use client";
-import { motion } from "framer-motion";
+import { animate, motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Fjalla_One, Lato } from "next/font/google";
 import { Contact } from "@/components/Contact";
 import useEmblaCarousel from "embla-carousel-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -73,7 +73,7 @@ const WHAT_WE_DO_FEATURES = [
 const EQUIPMENT_FEATURES = [
   {
     id: 1,
-    name: "Normal Drone",
+    name: "DJI Mini 5 Pro Drone",
     blurb:
       "Our standard stabilized drone platform is built for smooth, high-resolution capture and dependable repeatable flight paths.",
     howWeUseIt: [
@@ -82,12 +82,12 @@ const EQUIPMENT_FEATURES = [
       "Progress documentation for construction and development sites",
     ],
     image:
-      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XEIYtQoCesMqY1F3gS2wk8vOtIjzUGKpVcmx0",
+      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xd6hg7ZlQJPk0LUwbcEsvTMurNaDolpZmGxI1",
     imageAlt: "Standard drone capturing smooth aerial footage",
   },
   {
     id: 2,
-    name: "FPV Drone",
+    name: "DJI Avata 2 FPV Drone",
     blurb:
       "Our FPV setup delivers immersive movement and dynamic one-take sequences that create a high-energy cinematic feel.",
     howWeUseIt: [
@@ -96,8 +96,78 @@ const EQUIPMENT_FEATURES = [
       "Creative social-first videos with bold transitions and momentum",
     ],
     image:
-      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XyKbgkKh9NpmRfzCWSDBhxtOr57dgJI6nl9yX",
+      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XnEjbzfG4N5bRsD8ZV6BFXGYaKCweyt7fjoIL",
     imageAlt: "FPV-style dynamic drone shot over a venue",
+  },
+];
+
+const KEY_STATS = [
+  {
+    id: 1,
+    label: "Years of experience",
+    value: 3,
+    suffix: "+",
+    description: "Honing our craft across residential, commercial, and creative projects.",
+  },
+  {
+    id: 2,
+    label: "Flight hours logged",
+    value: 9,
+    suffix: "+",
+    description: "Experienced pilots with structured planning and safety-first operations.",
+  },
+  {
+    id: 3,
+    label: "Average delivery time",
+    value: 48,
+    suffix: "hrs",
+    description: "Fast turnaround from shoot day to polished, client-ready deliverables.",
+  },
+  {
+    id: 4,
+    label: "Insurance coverage",
+    value: 3,
+    suffix: "M",
+    description: "Fully insured for up to £3 million in damage, giving you complete peace of mind.",
+  },
+];
+
+const PRICING_PACKAGES = [
+  {
+    id: 1,
+    name: "Starter",
+    fromPrice: "£2.99",
+    idealFor: "Single-property listings and quick marketing shoots.",
+    features: [
+      "Up to 60 minutes on site",
+      "15 edited aerial photos",
+      "30-second social-ready highlight clip",
+      "Delivery within 72 hours",
+    ],
+  },
+  {
+    id: 2,
+    name: "Growth",
+    fromPrice: "£5.99",
+    idealFor: "Premium listings, venues, and brand storytelling.",
+    features: [
+      "Up to 2.5 hours on site",
+      "35 edited photos + 90-second cinematic edit",
+      "Ground + aerial capture mix",
+      "Priority delivery within 48 hours",
+    ],
+  },
+  {
+    id: 3,
+    name: "Signature FPV",
+    fromPrice: "£9.49",
+    idealFor: "High-impact campaigns needing dynamic FPV sequences.",
+    features: [
+      "Half-day production window",
+      "FPV flythrough sequences + standard drone coverage",
+      "Up to 2 final edits for web and social",
+      "Creative planning call + shot list",
+    ],
   },
 ];
 
@@ -206,35 +276,41 @@ function ServiceFeature({
   reversed = false,
 }: ServiceFeatureProps) {
   return (
-    <article className="grid items-center gap-8 rounded-[2rem] bg-white p-4 shadow-sm ring-1 ring-neutral-200 lg:grid-cols-2 lg:gap-12 lg:p-6">
-      <div className={`${reversed ? "lg:order-2" : ""}`}>
-        <div className="overflow-hidden rounded-2xl">
+    <article className="grid items-center lg:grid-cols-2">
+      <div className={`min-w-0 p-5 sm:p-8 lg:p-10 ${reversed ? "lg:order-2" : ""}`}>
+        <div
+          className={`relative aspect-[4/3] overflow-hidden shadow-xl ${
+            reversed
+              ? "rounded-3xl rounded-tr-[4.5rem] rounded-bl-[4.5rem]"
+              : "rounded-3xl rounded-tl-[4.5rem] rounded-br-[4.5rem]"
+          }`}
+        >
           <img
             src={image}
             alt={imageAlt}
-            className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-[1.04]"
           />
         </div>
       </div>
-      <div className={`${reversed ? "lg:order-1" : ""}`}>
+      <div className={`min-w-0 flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-14 lg:py-16 ${reversed ? "lg:order-1" : ""}`}>
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
           {eyebrow}
         </p>
-        <h3 className="mt-2 text-2xl font-semibold sm:text-3xl">{title}</h3>
-        <p className={`mt-4 text-sm leading-7 text-neutral-600 ${lato.className}`}>
+        <h3 className="mt-3 text-2xl font-semibold sm:text-3xl lg:text-4xl">{title}</h3>
+        <p className={`mt-5 text-sm leading-7 text-neutral-600 ${lato.className}`}>
           {description}
         </p>
-        <ul className={`mt-5 space-y-2 text-sm text-neutral-700 ${lato.className}`}>
+        <ul className={`mt-6 space-y-2.5 text-sm text-neutral-700 ${lato.className}`}>
           {highlights.map((highlight) => (
             <li key={highlight} className="flex items-start gap-3">
-              <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-yellow" />
+              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-yellow" />
               <span>{highlight}</span>
             </li>
           ))}
         </ul>
         <a
           href="#contact-form"
-          className="mt-6 inline-flex items-center rounded-full bg-neutral-900 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-neutral-700"
+          className="mt-8 inline-flex w-fit items-center rounded-full bg-neutral-900 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-neutral-700"
         >
           Book this service
         </a>
@@ -263,40 +339,77 @@ function EquipmentFeature({
   reversed = false,
 }: EquipmentFeatureProps) {
   return (
-    <article className="relative overflow-hidden border-t border-white/10 first:border-t-0">
-      <div className="grid lg:grid-cols-12">
+    <article className="grid items-center lg:grid-cols-2">
+      <div className={`min-w-0 p-5 sm:p-8 lg:p-10 ${reversed ? "lg:order-2" : ""}`}>
         <div
-          className={`relative min-h-[280px] lg:col-span-5 ${reversed ? "lg:order-2" : ""}`}
+          className={`relative aspect-[4/3] overflow-hidden shadow-2xl ${
+            reversed
+              ? "rounded-3xl rounded-bl-[4.5rem] rounded-tr-[4.5rem]"
+              : "rounded-3xl rounded-br-[4.5rem] rounded-tl-[4.5rem]"
+          }`}
         >
           <img
             src={image}
             alt={imageAlt}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-[1.04]"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/30 to-transparent" />
-          <p className="absolute left-6 top-6 text-sm font-semibold uppercase tracking-[0.2em] text-brand-yellow">
+          {/* <p className="absolute left-5 top-5 text-sm font-semibold uppercase tracking-[0.2em] text-brand-yellow drop-shadow-lg">
             0{index}
-          </p>
-        </div>
-        <div className={`p-8 sm:p-10 lg:col-span-7 ${reversed ? "lg:order-1" : ""}`}>
-          <h3 className="text-2xl font-semibold sm:text-3xl">{name}</h3>
-          <p className={`mt-4 text-sm leading-7 text-neutral-300 ${lato.className}`}>
-            {blurb}
-          </p>
-          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-brand-yellow">
-            How we use it
-          </p>
-          <ul className={`mt-3 space-y-2 text-sm text-neutral-200 ${lato.className}`}>
-            {howWeUseIt.map((usage) => (
-              <li key={usage} className="flex items-start gap-3">
-                <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-yellow" />
-                <span>{usage}</span>
-              </li>
-            ))}
-          </ul>
+          </p> */}
         </div>
       </div>
+      <div className={`min-w-0 flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-14 lg:py-16 ${reversed ? "lg:order-1" : ""}`}>
+        <h3 className="text-2xl font-semibold sm:text-3xl lg:text-4xl">{name}</h3>
+        <p className={`mt-5 text-sm leading-7 text-neutral-300 ${lato.className}`}>
+          {blurb}
+        </p>
+        <p className="mt-7 text-xs font-semibold uppercase tracking-[0.2em] text-brand-yellow">
+          How we use it
+        </p>
+        <ul className={`mt-3 space-y-2.5 text-sm text-neutral-200 ${lato.className}`}>
+          {howWeUseIt.map((usage) => (
+            <li key={usage} className="flex items-start gap-3">
+              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-yellow" />
+              <span>{usage}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </article>
+  );
+}
+
+interface AnimatedStatNumberProps {
+  value: number;
+  suffix?: string;
+}
+
+function AnimatedStatNumber({ value, suffix = "" }: AnimatedStatNumberProps) {
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.7 });
+  const count = useMotionValue(0);
+  const smoothCount = useSpring(count, { damping: 35, stiffness: 110 });
+  const rounded = useTransform(smoothCount, (latest) => Math.round(latest));
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+    const controls = animate(count, value, { duration: 2, ease: "easeOut" });
+    return () => controls.stop();
+  }, [count, isInView, value]);
+
+  useEffect(() => {
+    const unsubscribe = rounded.on("change", (latest) => {
+      setDisplayValue(latest);
+    });
+    return () => unsubscribe();
+  }, [rounded]);
+
+  return (
+    <span ref={ref}>
+      {displayValue}
+      {suffix}
+    </span>
   );
 }
 
@@ -324,7 +437,25 @@ export default function Home() {
     updateHeroState();
     heroEmblaApi.on("select", updateHeroState);
     heroEmblaApi.on("reInit", updateHeroState);
+
+    return () => {
+      heroEmblaApi.off("select", updateHeroState);
+      heroEmblaApi.off("reInit", updateHeroState);
+    };
   }, [heroEmblaApi, updateHeroState]);
+
+  useEffect(() => {
+    if (!heroEmblaApi) return;
+
+    const AUTOPLAY_DELAY_MS = 5000;
+    const intervalId = window.setInterval(() => {
+      heroEmblaApi.scrollNext();
+    }, AUTOPLAY_DELAY_MS);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [heroEmblaApi]);
 
   useEffect(() => {
     const header = document.getElementById("site-header");
@@ -440,8 +571,36 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="pt-10 px-6 lg:px-8">
-        <div className="mx-auto max-w-screen-2xl">
+      <section className="px-6 pt-6 lg:px-8">
+        <div className="mx-auto max-w-screen-2xl rounded-3xl bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 px-6 py-10 text-white sm:px-10 sm:py-12">
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-yellow">
+              Key stats
+            </p>
+            <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
+              Numbers that show how we deliver
+            </h2>
+          </div>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {KEY_STATS.map((stat) => (
+              <article
+                key={stat.id}
+                className="rounded-2xl border border-white/10 bg-white/[0.05] p-5"
+              >
+                <p className="text-4xl font-semibold text-brand-yellow sm:text-5xl">
+                  <AnimatedStatNumber value={stat.value} suffix={stat.suffix} />
+                </p>
+                <h3 className="mt-3 text-base font-semibold">{stat.label}</h3>
+                <p className={`mt-2 text-sm leading-6 text-neutral-300 ${lato.className}`}>
+                  {stat.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section id="services" className="pt-10">
+        <div className="mx-auto max-w-screen-2xl px-6 lg:px-8">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
               Services
@@ -454,7 +613,9 @@ export default function Home() {
               or event stand out with clear visual storytelling.
             </p>
           </div>
-          <div className="mt-10 space-y-8">
+        </div>
+        <div className="mx-auto mt-10 max-w-screen-2xl">
+          <div className="space-y-4">
             {WHAT_WE_DO_FEATURES.map((feature, index) => (
               <ServiceFeature
                 key={feature.id}
@@ -470,33 +631,112 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="px-6 pb-2 pt-8 lg:px-8">
-        <div className="mx-auto max-w-screen-2xl overflow-hidden rounded-3xl bg-neutral-950 text-white shadow-2xl">
-          <div className="px-6 pb-4 pt-10 sm:px-10">
+      <section
+        id="equipment"
+        className="pt-8 text-white bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900"
+      >
+        <div className="mx-auto text-center max-w-screen-2xl px-6 pb-10 lg:px-8">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-yellow">
               Equipment
             </p>
             <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
               The gear behind each shot
             </h2>
-            <p className={`mt-4 max-w-2xl text-sm leading-7 text-neutral-300 ${lato.className}`}>
-              We pair the right aircraft with the right objective. Our equipment
-              section uses a more cinematic look to emphasize how each platform
-              performs in real shooting scenarios.
+            <p className={`mt-4 mx-auto max-w-2xl text-sm leading-7 text-neutral-300 ${lato.className}`}>
+              We pair the right aircraft with the right objective—each platform
+              performs differently in real shooting scenarios.
+            </p>
+        </div>
+        <div className="mx-auto max-w-screen-2xl">
+          <div className="space-y-4">
+            {EQUIPMENT_FEATURES.map((equipment, index) => (
+              <EquipmentFeature
+                key={equipment.id}
+                index={index + 1}
+                name={equipment.name}
+                blurb={equipment.blurb}
+                howWeUseIt={equipment.howWeUseIt}
+                image={equipment.image}
+                imageAlt={equipment.imageAlt}
+                reversed={index % 2 === 1}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+      <section id="pricing" className="px-6 py-8 lg:px-8">
+        <div className="mx-auto max-w-screen-2xl">
+          <div className="text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
+              Pricing
+            </p>
+            <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
+              Packages from £299
+            </h2>
+            <p className={`mx-auto mt-4 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}>
+              Every package can be tailored to your location, shot list, and
+              delivery timeline. Choose a starting point and we will shape the
+              final scope with you.
             </p>
           </div>
-          {EQUIPMENT_FEATURES.map((equipment, index) => (
-            <EquipmentFeature
-              key={equipment.id}
-              index={index + 1}
-              name={equipment.name}
-              blurb={equipment.blurb}
-              howWeUseIt={equipment.howWeUseIt}
-              image={equipment.image}
-              imageAlt={equipment.imageAlt}
-              reversed={index % 2 === 1}
-            />
-          ))}
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {PRICING_PACKAGES.map((pkg, index) => (
+              <article
+                key={pkg.id}
+                className={`flex h-full flex-col rounded-3xl border p-6 shadow-sm ${
+                  index === 1
+                    ? "border-neutral-900 bg-neutral-900 text-white shadow-xl"
+                    : "border-neutral-200 bg-neutral-100"
+                }`}
+              >
+                <p
+                  className={`text-sm font-semibold uppercase tracking-[0.18em] ${
+                    index === 1 ? "text-brand-yellow" : "text-neutral-500"
+                  }`}
+                >
+                  {pkg.name}
+                </p>
+                <p className="mt-4 text-4xl font-semibold">
+                  From {pkg.fromPrice}
+                </p>
+                <p
+                  className={`mt-3 text-sm leading-6 ${
+                    index === 1 ? "text-neutral-200" : "text-neutral-600"
+                  } ${lato.className}`}
+                >
+                  {pkg.idealFor}
+                </p>
+                <ul
+                  className={`mt-5 space-y-2 text-sm ${
+                    index === 1 ? "text-neutral-100" : "text-neutral-700"
+                  } ${lato.className}`}
+                >
+                  {pkg.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-3">
+                      <span
+                        className={`mt-1.5 h-1.5 w-1.5 rounded-full ${
+                          index === 1 ? "bg-brand-yellow" : "bg-neutral-900"
+                        }`}
+                      />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-auto pt-7">
+                  <a
+                    href="#contact-form"
+                    className={`inline-flex rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
+                      index === 1
+                        ? "bg-brand-yellow text-neutral-900 hover:bg-[#e6a600]"
+                        : "bg-neutral-900 text-white hover:bg-neutral-700"
+                    }`}
+                  >
+                    Request this package
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
       <section
@@ -520,7 +760,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="px-6 py-12 lg:px-8">
+      <section id="gallery" className="px-6 py-12 lg:px-8">
         <div className="mx-auto max-w-screen-2xl">
           <h2 className="mb-8 text-center text-2xl font-semibold sm:text-3xl">
             Gallery

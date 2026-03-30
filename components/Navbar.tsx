@@ -10,16 +10,11 @@ import { Dialog } from "@headlessui/react";
 import { motion } from "framer-motion";
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import React from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import localFont from "next/font/local";
@@ -49,19 +44,11 @@ export default function Navbar() {
 
   const navItems = [
     { id: 0, name: "Home", href: "/" },
-    {
-      id: 1,
-      name: "Services",
-      href: "/services",
-      subItems: [
-        { id: 0, subName: "Property", subHref: "/property" },
-        { id: 1, subName: "Landscape", subHref: "/landscape" },
-        { id: 2, subName: "Photography", subHref: "/photography" },
-        { id: 3, subName: "Videography", subHref: "/videography" },
-      ],
-    },
-    { id: 2, name: "Portfolio", href: "/portfolio" },
-    { id: 3, name: "Contact us", href: "/#contact-form" },
+    { id: 1, name: "Services", href: "/#services" },
+    { id: 2, name: "Equipment", href: "/#equipment" },
+    { id: 3, name: "Pricing", href: "/#pricing" },
+    { id: 4, name: "Contact us", href: "/#contact-form" },
+    { id: 5, name: "Portfolio", href: "/#gallery" },
   ];
   return (
     <header
@@ -98,7 +85,7 @@ export default function Navbar() {
           <div className="flex flex-col items-center">
             <h1
               className={cn(
-                `text-4xl font-bold ${fjalla.className}`,
+                `text-2xl lg:text-3xl font-bold ${fjalla.className}`,
                 isScrolled ? "border-b-0" : "border-b border-black",
               )}
             >
@@ -106,7 +93,7 @@ export default function Navbar() {
             </h1>
             <p
               className={cn(
-                `w-full overflow-hidden text-center text-sm tracking-[0.25em] transition-all duration-300 ${fjalla.className}`,
+                `w-full overflow-hidden text-center text-sm tracking-[0.03em] lg:tracking-[0.15em] transition-all duration-300 ${fjalla.className}`,
                 isScrolled ? "max-h-0 opacity-0" : "max-h-10 opacity-100",
               )}
               aria-hidden={isScrolled}
@@ -143,40 +130,17 @@ export default function Navbar() {
             <NavigationMenu>
               <NavigationMenuList>
                 {navItems.map((item) => (
-                  <React.Fragment key={item.id}>
-                    {item.subItems ? (
-                      <NavigationMenuItem>
-                        <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent data-[active]:bg-transparent data-[state=open]:bg-transparent">
-                          {item.name}
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                          <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                            {item.subItems.map((subItem) => (
-                              <ListItem
-                                key={subItem.id}
-                                href={`/services/${subItem.subHref}`}
-                                title={subItem.subName}
-                              >
-                                {subItem.subName}
-                              </ListItem>
-                            ))}
-                          </ul>
-                        </NavigationMenuContent>
-                      </NavigationMenuItem>
-                    ) : (
-                      <NavigationMenuItem key={item.id}>
-                          <NavigationMenuLink
-                          asChild
-                            className={cn(
-                              navigationMenuTriggerStyle(),
-                              "bg-transparent hover:bg-transparent focus:bg-transparent data-[active]:bg-transparent",
-                            )}
-                          >
-                          <Link href={item.href}>{item.name}</Link>
-                          </NavigationMenuLink>
-                      </NavigationMenuItem>
-                    )}
-                  </React.Fragment>
+                  <NavigationMenuItem key={item.id}>
+                    <NavigationMenuLink
+                      asChild
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        "bg-transparent hover:bg-transparent focus:bg-transparent data-[active]:bg-transparent",
+                      )}
+                    >
+                      <Link href={item.href}>{item.name}</Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
                 ))}
               </NavigationMenuList>
             </NavigationMenu>
@@ -211,6 +175,7 @@ export default function Navbar() {
                   <a
                     key={item.name}
                     href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-neutral-900 hover:bg-neutral-50"
                   >
                     {item.name}
@@ -232,29 +197,3 @@ export default function Navbar() {
     </header>
   );
 }
-
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors",
-            className,
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  );
-});
-ListItem.displayName = "ListItem";

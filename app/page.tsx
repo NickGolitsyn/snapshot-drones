@@ -1,7 +1,7 @@
 "use client";
 import { animate, motion, useInView, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
 import { Fjalla_One, Lato } from "next/font/google";
-import { Contact } from "@/components/Contact";
+import { QuoteGenerator } from "@/components/QuoteGenerator";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -13,17 +13,6 @@ const fjalla = Fjalla_One({ subsets: ["latin"], weight: "400" });
 
 const SERVICE_SLUGS = ["real-estate", "landscape", "roof-inspection", "events"] as const;
 type ServiceSlug = (typeof SERVICE_SLUGS)[number];
-
-interface PricingPackage {
-  id: number;
-  name: string;
-  fromPrice: string;
-  idealFor: string;
-  features: string[];
-  highlighted?: boolean;
-  offerPrice?: string;
-  offerLabel?: string;
-}
 
 const WHAT_WE_DO_FEATURES: {
   id: number;
@@ -160,184 +149,6 @@ const KEY_STATS = [
   },
 ];
 
-const SERVICE_PRICING: Record<ServiceSlug, { name: string; packages: PricingPackage[] }> = {
-  "real-estate": {
-    name: "Real Estate",
-    packages: [
-      {
-        id: 1,
-        name: "Essentials",
-        fromPrice: "£149",
-        idealFor: "Single-property listings and quick marketing shoots.",
-        features: [
-          "Up to 60 minutes on site",
-          "15 edited aerial photos",
-          "30-second social-ready highlight clip",
-          "Delivery within 72 hours",
-        ],
-      },
-      {
-        id: 2,
-        name: "Premium",
-        fromPrice: "£349",
-        offerPrice: "£279",
-        offerLabel: "Launch price",
-        idealFor: "Premium listings needing full interior and exterior coverage.",
-        features: [
-          "Up to 2.5 hours on site",
-          "35 edited photos + 90-second cinematic edit",
-          "Ground + aerial capture mix",
-          "Priority delivery within 48 hours",
-        ],
-        highlighted: true,
-      },
-      {
-        id: 3,
-        name: "Cinematic FPV",
-        fromPrice: "£599",
-        idealFor: "Show-stopping campaigns with immersive FPV walkthrough.",
-        features: [
-          "Half-day production window",
-          "FPV flythrough sequences + standard drone coverage",
-          "Up to 2 final edits for web and social",
-          "Creative planning call + shot list",
-        ],
-      },
-    ],
-  },
-  landscape: {
-    name: "Landscape",
-    packages: [
-      {
-        id: 1,
-        name: "Standard",
-        fromPrice: "£129",
-        offerPrice: "£99",
-        offerLabel: "Limited time",
-        idealFor: "Garden and small-site aerial stills for marketing.",
-        features: [
-          "Up to 45 minutes on site",
-          "10 edited aerial photos",
-          "Basic colour grading",
-          "Delivery within 72 hours",
-        ],
-      },
-      {
-        id: 2,
-        name: "Extended",
-        fromPrice: "£299",
-        idealFor: "Estates, parks, and developments needing full aerial coverage.",
-        features: [
-          "Up to 2 hours on site",
-          "25 edited photos + 60-second video",
-          "Wide establishing sequences",
-          "Priority delivery within 48 hours",
-        ],
-        highlighted: true,
-      },
-      {
-        id: 3,
-        name: "Cinematic",
-        fromPrice: "£549",
-        idealFor: "Premium landscape film for brand and editorial use.",
-        features: [
-          "Half-day production window",
-          "Full cinematic edit up to 3 minutes",
-          "Colour-graded master files",
-          "Creative planning call + shot list",
-        ],
-      },
-    ],
-  },
-  "roof-inspection": {
-    name: "Roof Inspection",
-    packages: [
-      {
-        id: 1,
-        name: "Basic Survey",
-        fromPrice: "£99",
-        idealFor: "Single residential roof check for damage or wear.",
-        features: [
-          "Up to 30 minutes on site",
-          "High-resolution overhead imagery",
-          "Written summary of findings",
-          "Delivery within 48 hours",
-        ],
-      },
-      {
-        id: 2,
-        name: "Full Report",
-        fromPrice: "£249",
-        offerPrice: "£199",
-        offerLabel: "20% off",
-        idealFor: "Detailed inspection for insurance, surveys, or pre-sale.",
-        features: [
-          "Up to 60 minutes on site",
-          "Close-up + overview shots of all elevations",
-          "Annotated photo report with findings",
-          "Priority delivery within 24 hours",
-        ],
-        highlighted: true,
-      },
-      {
-        id: 3,
-        name: "Commercial",
-        fromPrice: "£449",
-        idealFor: "Large or multi-unit commercial roof assessments.",
-        features: [
-          "Up to half-day on site",
-          "Thermal imaging available",
-          "Comprehensive PDF report with annotations",
-          "Consultation call with findings walkthrough",
-        ],
-      },
-    ],
-  },
-  events: {
-    name: "Weddings & Events",
-    packages: [
-      {
-        id: 1,
-        name: "Highlights",
-        fromPrice: "£199",
-        idealFor: "Short aerial coverage to capture the venue and key moments.",
-        features: [
-          "Up to 60 minutes of flight time",
-          "15 edited aerial stills",
-          "30-second highlight reel",
-          "Delivery within 72 hours",
-        ],
-      },
-      {
-        id: 2,
-        name: "Full Day",
-        fromPrice: "£399",
-        offerPrice: "£329",
-        offerLabel: "Launch price",
-        idealFor: "Ceremony to reception aerial coverage for a complete story.",
-        features: [
-          "Up to 4 hours on site",
-          "30 edited photos + 2-minute cinematic film",
-          "Ground + aerial mix",
-          "Priority delivery within 48 hours",
-        ],
-        highlighted: true,
-      },
-      {
-        id: 3,
-        name: "Cinematic FPV",
-        fromPrice: "£649",
-        idealFor: "Dynamic FPV sequences for truly cinematic wedding films.",
-        features: [
-          "Full-day production",
-          "FPV flythrough of venue + standard drone coverage",
-          "Up to 3 final edits for web, social, and keepsake",
-          "Pre-event creative planning call",
-        ],
-      },
-    ],
-  },
-};
 
 const HERO_SLIDES: {
   id: number;
@@ -442,8 +253,7 @@ interface ServiceFeatureProps {
   image: string;
   imageAlt: string;
   reversed?: boolean;
-  onBookService: (slug: ServiceSlug) => void;
-  onViewPackage: (slug: ServiceSlug) => void;
+  onGetQuote: (slug: ServiceSlug) => void;
 }
 
 function ServiceFeature({
@@ -455,8 +265,7 @@ function ServiceFeature({
   image,
   imageAlt,
   reversed = false,
-  onBookService,
-  onViewPackage,
+  onGetQuote,
 }: ServiceFeatureProps) {
   const imageInitialX = reversed ? "22vw" : "-22vw";
   const contentInitialX = reversed ? "-22vw" : "22vw";
@@ -506,22 +315,13 @@ function ServiceFeature({
             </li>
           ))}
         </ul>
-        <div className="flex gap-4">
-          <button
-            type="button"
-            onClick={() => onBookService(serviceSlug)}
-            className="mt-8 inline-flex w-fit items-center rounded-full bg-neutral-900 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-neutral-700"
-          >
-            Book this service
-          </button>
-          <button
-            type="button"
-            onClick={() => onViewPackage(serviceSlug)}
-            className="mt-8 inline-flex w-fit items-center rounded-full bg-neutral-200 px-6 py-2.5 text-sm font-semibold text-neutral-900 transition-colors hover:bg-neutral-300"
-          >
-            View packages
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => onGetQuote(serviceSlug)}
+          className="mt-8 inline-flex w-fit items-center rounded-full bg-neutral-900 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-neutral-700"
+        >
+          Get a quote
+        </button>
       </motion.div>
     </article>
   );
@@ -644,8 +444,7 @@ export default function Home() {
 
   const [selectedHeroIndex, setSelectedHeroIndex] = useState(0);
   const [headerHeight, setHeaderHeight] = useState(96);
-  const [selectedService, setSelectedService] = useState<ServiceSlug>("real-estate");
-  const [selectedPackage, setSelectedPackage] = useState("");
+  const [quoteService, setQuoteService] = useState<ServiceSlug | null>(null);
   const { scrollYProgress: heroScrollProgress } = useScroll({
     target: heroSectionRef,
     offset: ["start start", "end start"],
@@ -710,33 +509,13 @@ export default function Home() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
-  const handleBookService = useCallback(
+  const handleGetQuote = useCallback(
     (slug: ServiceSlug) => {
-      setSelectedService(slug);
-      setSelectedPackage("");
-      scrollToSection("contact-form");
+      setQuoteService(slug);
+      scrollToSection("quote");
     },
     [scrollToSection],
   );
-
-  const handleViewPackage = useCallback(
-    (slug: ServiceSlug) => {
-      setSelectedService(slug);
-      scrollToSection("pricing");
-    },
-    [scrollToSection],
-  );
-
-  const handleRequestPackage = useCallback(
-    (slug: ServiceSlug, packageName: string) => {
-      setSelectedService(slug);
-      setSelectedPackage(packageName);
-      scrollToSection("contact-form");
-    },
-    [scrollToSection],
-  );
-
-  const activePricing = SERVICE_PRICING[selectedService];
 
   return (
     <main className="overflow-x-hidden">
@@ -803,7 +582,7 @@ export default function Home() {
                     </div>
                     <button
                       type="button"
-                      onClick={() => handleBookService(slide.serviceSlug)}
+                      onClick={() => handleGetQuote(slide.serviceSlug)}
                       className="absolute bottom-4 left-6 rounded-full bg-brand-yellow px-5 py-3 text-base text-neutral-900 shadow-lg transition-all hover:bg-[#e6a600] hover:shadow-xl sm:bottom-6 sm:left-1/2 sm:-translate-x-1/2 sm:px-10 sm:py-4 sm:text-xl"
                     >
                       {slide.cta}
@@ -892,162 +671,27 @@ export default function Home() {
                 image={feature.image}
                 imageAlt={feature.imageAlt}
                 reversed={index % 2 === 1}
-                onBookService={handleBookService}
-                onViewPackage={handleViewPackage}
+                onGetQuote={handleGetQuote}
               />
             ))}
           </div>
         </div>
       </section>
-      <section id="pricing" className="px-6 py-8 lg:py-16 lg:px-8">
+      <section id="quote" className="px-6 py-8 lg:py-16 lg:px-8">
         <div className="mx-auto max-w-screen-2xl">
-          <div className="text-center">
+          <div className="mb-8 text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
               Pricing
             </p>
             <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
-              Packages tailored to your project
+              Get an instant quote
             </h2>
             <p className={`mx-auto mt-4 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}>
-              Every package can be tailored to your location, shot list, and
-              delivery timeline. Choose a service to see pricing, then request
-              the package that fits.
+              Answer a few quick questions about your project and we&apos;ll give you
+              a tailored estimate in seconds.
             </p>
           </div>
-          <div className="mx-auto mt-8 flex flex-wrap justify-center gap-2">
-            {SERVICE_SLUGS.map((slug) => (
-              <button
-                key={slug}
-                type="button"
-                onClick={() => setSelectedService(slug)}
-                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
-                  selectedService === slug
-                    ? "bg-neutral-900 text-white shadow-md"
-                    : "bg-neutral-200 text-neutral-700 hover:bg-neutral-300"
-                }`}
-              >
-                {SERVICE_PRICING[slug].name}
-              </button>
-            ))}
-          </div>
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {activePricing.packages.map((pkg) => {
-              const isHighlighted = pkg.highlighted === true;
-              const hasOffer = Boolean(pkg.offerPrice);
-              return (
-                <motion.article
-                  key={`${selectedService}-${pkg.id}`}
-                  className={`relative flex h-full flex-col rounded-3xl border p-6 shadow-sm ${
-                    isHighlighted
-                      ? "border-neutral-900 bg-neutral-900 text-white shadow-xl"
-                      : "border-neutral-200 bg-neutral-100"
-                  }`}
-                  initial={{ opacity: 0, y: 36, scale: 0.97 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                >
-                  {hasOffer && pkg.offerLabel && (
-                    <span className="absolute -top-3 right-5 inline-flex items-center rounded-full bg-red-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-md">
-                      {pkg.offerLabel}
-                    </span>
-                  )}
-                  <p
-                    className={`text-sm font-semibold uppercase tracking-[0.18em] ${
-                      isHighlighted ? "text-brand-yellow" : "text-neutral-500"
-                    }`}
-                  >
-                    {pkg.name}
-                  </p>
-                  {hasOffer ? (
-                    <div className="mt-4 flex items-baseline gap-3">
-                      <p className="text-4xl font-semibold">
-                        From {pkg.offerPrice}
-                      </p>
-                      <p className={`text-lg line-through ${isHighlighted ? "text-neutral-400" : "text-neutral-400"}`}>
-                        {pkg.fromPrice}
-                      </p>
-                    </div>
-                  ) : (
-                    <p className="mt-4 text-4xl font-semibold">
-                      From {pkg.fromPrice}
-                    </p>
-                  )}
-                  <p
-                    className={`mt-3 text-sm leading-6 ${
-                      isHighlighted ? "text-neutral-200" : "text-neutral-600"
-                    } ${lato.className}`}
-                  >
-                    {pkg.idealFor}
-                  </p>
-                  <ul
-                    className={`mt-5 space-y-2 text-sm ${
-                      isHighlighted ? "text-neutral-100" : "text-neutral-700"
-                    } ${lato.className}`}
-                  >
-                    {pkg.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-3">
-                        <span
-                          className={`mt-1.5 h-1.5 w-1.5 rounded-full ${
-                            isHighlighted ? "bg-brand-yellow" : "bg-neutral-900"
-                          }`}
-                        />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-auto pt-7">
-                    <button
-                      type="button"
-                      onClick={() => handleRequestPackage(selectedService, pkg.name)}
-                      className={`inline-flex rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
-                        isHighlighted
-                          ? "bg-brand-yellow text-neutral-900 hover:bg-[#e6a600]"
-                          : "bg-neutral-900 text-white hover:bg-neutral-700"
-                      }`}
-                    >
-                      Request this package
-                    </button>
-                  </div>
-                </motion.article>
-              );
-            })}
-          </div>
-          <motion.div
-            className="mt-6 rounded-3xl border border-neutral-200 bg-neutral-100 p-6 sm:p-8"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-              <div className="max-w-md">
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-neutral-500">
-                  Optional Add-ons
-                </p>
-                <p className={`mt-2 text-sm leading-6 text-neutral-600 ${lato.className}`}>
-                  Customise any package with extras to match your exact needs.
-                </p>
-              </div>
-              <ul className={`grid gap-x-10 gap-y-3 text-sm sm:grid-cols-2 ${lato.className}`}>
-                <li className="flex items-baseline justify-between gap-4">
-                  <span className="text-neutral-700">Extra photo</span>
-                  <span className="whitespace-nowrap font-semibold">£6 each</span>
-                </li>
-                <li className="flex items-baseline justify-between gap-4">
-                  <span className="text-neutral-700">Additional video length (30 sec)</span>
-                  <span className="whitespace-nowrap font-semibold">£20</span>
-                </li>
-                <li className="flex items-baseline justify-between gap-4">
-                  <span className="text-neutral-700">24-hour delivery</span>
-                  <span className="whitespace-nowrap font-semibold">£15</span>
-                </li>
-                <li className="flex items-baseline justify-between gap-4">
-                  <span className="text-neutral-700">Travel outside local area</span>
-                  <span className="whitespace-nowrap font-semibold">from £0.75/mile</span>
-                </li>
-              </ul>
-            </div>
-          </motion.div>
+          <QuoteGenerator preselectedService={quoteService} />
         </div>
       </section>
       <section
@@ -1082,43 +726,6 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
-      <section
-        id="contact-form"
-        className="relative min-h-0 overflow-hidden py-10 md:min-h-[50vh]"
-      >
-        <img
-          src="https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XEsmCtresMqY1F3gS2wk8vOtIjzUGKpVcmx0i"
-          alt="contact form background"
-          aria-hidden
-          className="absolute inset-0 hidden h-full w-full object-cover object-[50%_35%] lg:block"
-        />
-        <motion.div
-          className="relative z-10 mx-auto max-w-screen-2xl px-6 lg:px-8"
-          initial={{ opacity: 0, y: 36 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-            <motion.div
-              className="rounded-md bg-white px-6 py-4 lg:col-span-1"
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.45 }}
-              transition={{ duration: 0.55, ease: "easeOut", delay: 0.12 }}
-            >
-              <h2 className="mb-4 font-medium text-neutral-700">
-                Fill out this form to book a service
-              </h2>
-              <Contact
-                defaultService={selectedService}
-                defaultPackage={selectedPackage}
-                servicePricing={SERVICE_PRICING}
-              />
-            </motion.div>
-          </div>
-        </motion.div>
       </section>
       <section id="gallery" className="px-6 py-12 lg:px-8">
         <div className="mx-auto max-w-screen-2xl">

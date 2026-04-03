@@ -21,6 +21,8 @@ interface PricingPackage {
   idealFor: string;
   features: string[];
   highlighted?: boolean;
+  offerPrice?: string;
+  offerLabel?: string;
 }
 
 const WHAT_WE_DO_FEATURES: {
@@ -165,7 +167,7 @@ const SERVICE_PRICING: Record<ServiceSlug, { name: string; packages: PricingPack
       {
         id: 1,
         name: "Essentials",
-        fromPrice: "£299",
+        fromPrice: "£149",
         idealFor: "Single-property listings and quick marketing shoots.",
         features: [
           "Up to 60 minutes on site",
@@ -177,7 +179,9 @@ const SERVICE_PRICING: Record<ServiceSlug, { name: string; packages: PricingPack
       {
         id: 2,
         name: "Premium",
-        fromPrice: "£549",
+        fromPrice: "£349",
+        offerPrice: "£279",
+        offerLabel: "Launch price",
         idealFor: "Premium listings needing full interior and exterior coverage.",
         features: [
           "Up to 2.5 hours on site",
@@ -190,7 +194,7 @@ const SERVICE_PRICING: Record<ServiceSlug, { name: string; packages: PricingPack
       {
         id: 3,
         name: "Cinematic FPV",
-        fromPrice: "£949",
+        fromPrice: "£599",
         idealFor: "Show-stopping campaigns with immersive FPV walkthrough.",
         features: [
           "Half-day production window",
@@ -207,7 +211,9 @@ const SERVICE_PRICING: Record<ServiceSlug, { name: string; packages: PricingPack
       {
         id: 1,
         name: "Standard",
-        fromPrice: "£249",
+        fromPrice: "£129",
+        offerPrice: "£99",
+        offerLabel: "Limited time",
         idealFor: "Garden and small-site aerial stills for marketing.",
         features: [
           "Up to 45 minutes on site",
@@ -219,7 +225,7 @@ const SERVICE_PRICING: Record<ServiceSlug, { name: string; packages: PricingPack
       {
         id: 2,
         name: "Extended",
-        fromPrice: "£499",
+        fromPrice: "£299",
         idealFor: "Estates, parks, and developments needing full aerial coverage.",
         features: [
           "Up to 2 hours on site",
@@ -232,7 +238,7 @@ const SERVICE_PRICING: Record<ServiceSlug, { name: string; packages: PricingPack
       {
         id: 3,
         name: "Cinematic",
-        fromPrice: "£849",
+        fromPrice: "£549",
         idealFor: "Premium landscape film for brand and editorial use.",
         features: [
           "Half-day production window",
@@ -249,7 +255,7 @@ const SERVICE_PRICING: Record<ServiceSlug, { name: string; packages: PricingPack
       {
         id: 1,
         name: "Basic Survey",
-        fromPrice: "£199",
+        fromPrice: "£99",
         idealFor: "Single residential roof check for damage or wear.",
         features: [
           "Up to 30 minutes on site",
@@ -261,7 +267,9 @@ const SERVICE_PRICING: Record<ServiceSlug, { name: string; packages: PricingPack
       {
         id: 2,
         name: "Full Report",
-        fromPrice: "£399",
+        fromPrice: "£249",
+        offerPrice: "£199",
+        offerLabel: "20% off",
         idealFor: "Detailed inspection for insurance, surveys, or pre-sale.",
         features: [
           "Up to 60 minutes on site",
@@ -274,7 +282,7 @@ const SERVICE_PRICING: Record<ServiceSlug, { name: string; packages: PricingPack
       {
         id: 3,
         name: "Commercial",
-        fromPrice: "£699",
+        fromPrice: "£449",
         idealFor: "Large or multi-unit commercial roof assessments.",
         features: [
           "Up to half-day on site",
@@ -291,7 +299,7 @@ const SERVICE_PRICING: Record<ServiceSlug, { name: string; packages: PricingPack
       {
         id: 1,
         name: "Highlights",
-        fromPrice: "£349",
+        fromPrice: "£199",
         idealFor: "Short aerial coverage to capture the venue and key moments.",
         features: [
           "Up to 60 minutes of flight time",
@@ -303,7 +311,9 @@ const SERVICE_PRICING: Record<ServiceSlug, { name: string; packages: PricingPack
       {
         id: 2,
         name: "Full Day",
-        fromPrice: "£649",
+        fromPrice: "£399",
+        offerPrice: "£329",
+        offerLabel: "Launch price",
         idealFor: "Ceremony to reception aerial coverage for a complete story.",
         features: [
           "Up to 4 hours on site",
@@ -316,7 +326,7 @@ const SERVICE_PRICING: Record<ServiceSlug, { name: string; packages: PricingPack
       {
         id: 3,
         name: "Cinematic FPV",
-        fromPrice: "£1,049",
+        fromPrice: "£649",
         idealFor: "Dynamic FPV sequences for truly cinematic wedding films.",
         features: [
           "Full-day production",
@@ -923,10 +933,11 @@ export default function Home() {
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {activePricing.packages.map((pkg) => {
               const isHighlighted = pkg.highlighted === true;
+              const hasOffer = Boolean(pkg.offerPrice);
               return (
                 <motion.article
                   key={`${selectedService}-${pkg.id}`}
-                  className={`flex h-full flex-col rounded-3xl border p-6 shadow-sm ${
+                  className={`relative flex h-full flex-col rounded-3xl border p-6 shadow-sm ${
                     isHighlighted
                       ? "border-neutral-900 bg-neutral-900 text-white shadow-xl"
                       : "border-neutral-200 bg-neutral-100"
@@ -935,6 +946,11 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 0.4, ease: "easeOut" }}
                 >
+                  {hasOffer && pkg.offerLabel && (
+                    <span className="absolute -top-3 right-5 inline-flex items-center rounded-full bg-red-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-md">
+                      {pkg.offerLabel}
+                    </span>
+                  )}
                   <p
                     className={`text-sm font-semibold uppercase tracking-[0.18em] ${
                       isHighlighted ? "text-brand-yellow" : "text-neutral-500"
@@ -942,9 +958,20 @@ export default function Home() {
                   >
                     {pkg.name}
                   </p>
-                  <p className="mt-4 text-4xl font-semibold">
-                    From {pkg.fromPrice}
-                  </p>
+                  {hasOffer ? (
+                    <div className="mt-4 flex items-baseline gap-3">
+                      <p className="text-4xl font-semibold">
+                        From {pkg.offerPrice}
+                      </p>
+                      <p className={`text-lg line-through ${isHighlighted ? "text-neutral-400" : "text-neutral-400"}`}>
+                        {pkg.fromPrice}
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="mt-4 text-4xl font-semibold">
+                      From {pkg.fromPrice}
+                    </p>
+                  )}
                   <p
                     className={`mt-3 text-sm leading-6 ${
                       isHighlighted ? "text-neutral-200" : "text-neutral-600"

@@ -50,6 +50,8 @@ interface PricingPackage {
   idealFor: string;
   features: string[];
   highlighted?: boolean;
+  offerPrice?: string;
+  offerLabel?: string;
 }
 
 interface ContactProps {
@@ -346,7 +348,10 @@ export function Contact({
                   <SelectContent className="bg-neutral-200 border-neutral-300">
                     {packageOptions.map((pkg) => (
                       <SelectItem key={pkg.id} value={pkg.name}>
-                        {pkg.name} — from {pkg.fromPrice}
+                        {pkg.name} — from {pkg.offerPrice ?? pkg.fromPrice}
+                        {pkg.offerPrice && (
+                          <span className="ml-1 text-neutral-400 line-through">{pkg.fromPrice}</span>
+                        )}
                       </SelectItem>
                     ))}
                   </SelectContent>

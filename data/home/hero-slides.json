@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "serviceSlug": "real-estate",
+    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XEIYtQoCesMqY1F3gS2wk8vOtIjzUGKpVcmx0",
+    "imageAlt": "Aerial view of modern residential property at sunset for real estate marketing",
+    "headingLines": ["Fresh", "Perspectives", "From New", "Heights"],
+    "subheading": "Property Photography & Filming",
+    "cta": "Book now"
+  },
+  {
+    "id": 2,
+    "serviceSlug": "events",
+    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XyKbgkKh9NpmRfzCWSDBhxtOr57dgJI6nl9yX",
+    "imageAlt": "",
+    "headingLines": ["Fresh", "Perspectives", "From New", "Heights"],
+    "subheading": "Wedding Photography & Filming",
+    "cta": "Book now"
+  },
+  {
+    "id": 3,
+    "serviceSlug": "landscape",
+    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XGrykikv1SxC6n0KHvowldeBTOmaUR85jVW2y",
+    "imageAlt": "",
+    "headingLines": ["Fresh", "Perspectives", "From New", "Heights"],
+    "subheading": "Landscape Photography & Filming",
+    "cta": "Book now"
+  },
+  {
+    "id": 4,
+    "serviceSlug": "roof-inspection",
+    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xl1OlBMfzrONqv5RkFao1BIp7mts3HDyCgnLb",
+    "imageAlt": "",
+    "headingLines": ["Fresh", "Perspectives", "From New", "Heights"],
+    "subheading": "Roof Inspections",
+    "cta": "Book now"
+  },
+  {
+    "id": 5,
+    "serviceSlug": "landscape",
+    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X8QD3KCwH5o0cWAaK4qNsCvJ6bTRgV18Mwd2f",
+    "imageAlt": "",
+    "headingLines": ["Fresh", "Perspectives", "From New", "Heights"],
+    "subheading": "Agriculture Photography & Filming",
+    "cta": "Book now"
+  }
+]

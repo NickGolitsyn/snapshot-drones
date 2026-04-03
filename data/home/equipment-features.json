@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "DJI Mini 5 Pro Drone",
+    "blurb": "Our standard stabilized drone platform is built for smooth, high-resolution capture and dependable repeatable flight paths.",
+    "howWeUseIt": [
+      "Property and landscape overviews with smooth cinematic motion",
+      "Roof and structure inspections with controlled proximity shots",
+      "Progress documentation for construction and development sites"
+    ],
+    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xd6hg7ZlQJPk0LUwbcEsvTMurNaDolpZmGxI1",
+    "imageAlt": "Standard drone capturing smooth aerial footage"
+  },
+  {
+    "id": 2,
+    "name": "DJI Avata 2 FPV Drone",
+    "blurb": "Our FPV setup delivers immersive movement and dynamic one-take sequences that create a high-energy cinematic feel.",
+    "howWeUseIt": [
+      "Fast, flowing flythroughs for venues and architectural spaces",
+      "Action-focused event coverage with agile, low-level motion",
+      "Creative social-first videos with bold transitions and momentum"
+    ],
+    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XnEjbzfG4N5bRsD8ZV6BFXGYaKCweyt7fjoIL",
+    "imageAlt": "FPV-style dynamic drone shot over a venue"
+  }
+]

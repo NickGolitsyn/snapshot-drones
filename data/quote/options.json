@@ -1,0 +1,109 @@
+{
+  "stepTitles": [
+    "What service do you need?",
+    "How large is the area?",
+    "What deliverables do you need?",
+    "Which drone setup?",
+    "What level of editing?",
+    "How quickly do you need it?",
+    "Your estimated quote",
+    "Book this service"
+  ],
+  "serviceOptions": [
+    {
+      "value": "real-estate",
+      "label": "Real Estate",
+      "description": "Property photography & filming",
+      "icon": "home"
+    },
+    {
+      "value": "landscape",
+      "label": "Landscape",
+      "description": "Outdoor spaces & terrain",
+      "icon": "mountain"
+    },
+    {
+      "value": "roof-inspection",
+      "label": "Roof Inspection",
+      "description": "Surveys & damage reports",
+      "icon": "eye"
+    },
+    {
+      "value": "events",
+      "label": "Weddings & Events",
+      "description": "Ceremonies, venues & occasions",
+      "icon": "partyPopper"
+    }
+  ],
+  "sizeOptions": {
+    "real-estate": [
+      { "value": "small", "label": "Small", "description": "1-2 bedroom property" },
+      { "value": "medium", "label": "Medium", "description": "3-4 bedroom property" },
+      { "value": "large", "label": "Large", "description": "5+ bedroom property" },
+      { "value": "xlarge", "label": "Estate", "description": "Multi-unit or estate" }
+    ],
+    "landscape": [
+      { "value": "small", "label": "Small", "description": "Garden or small plot" },
+      { "value": "medium", "label": "Medium", "description": "Medium grounds" },
+      { "value": "large", "label": "Large", "description": "Large estate or park" },
+      { "value": "xlarge", "label": "Expansive", "description": "Multi-acre area" }
+    ],
+    "roof-inspection": [
+      { "value": "small", "label": "Single Roof", "description": "Single residential roof" },
+      { "value": "medium", "label": "Large Residential", "description": "Large or complex roof" },
+      { "value": "large", "label": "Small Commercial", "description": "Small commercial building" },
+      { "value": "xlarge", "label": "Large Commercial", "description": "Multi-unit or large commercial" }
+    ],
+    "events": [
+      { "value": "small", "label": "Intimate", "description": "Under 50 guests" },
+      { "value": "medium", "label": "Medium", "description": "50-150 guests" },
+      { "value": "large", "label": "Large", "description": "150-300 guests" },
+      { "value": "xlarge", "label": "Grand", "description": "300+ guests" }
+    ]
+  },
+  "videoLengthOptions": [
+    { "value": "30s", "label": "30s" },
+    { "value": "60s", "label": "60s" },
+    { "value": "90s", "label": "90s" },
+    { "value": "2-3min", "label": "2-3 min" }
+  ],
+  "droneOptions": [
+    {
+      "value": "standard",
+      "label": "Standard Drone",
+      "description": "Smooth, stabilised footage",
+      "icon": "plane"
+    },
+    {
+      "value": "fpv",
+      "label": "Include FPV",
+      "description": "Dynamic immersive sequences (+£150)",
+      "icon": "gauge"
+    }
+  ],
+  "editingOptions": [
+    { "value": "basic", "label": "Basic", "description": "Colour correction and crop" },
+    { "value": "professional", "label": "Professional", "description": "Full grading and transitions (+£50)" },
+    { "value": "cinematic", "label": "Cinematic", "description": "Full production edit (+£130)" }
+  ],
+  "turnaroundOptions": [
+    {
+      "value": "72hr",
+      "label": "Standard",
+      "description": "Within 72 hours",
+      "icon": "clock"
+    },
+    {
+      "value": "48hr",
+      "label": "Priority",
+      "description": "Within 48 hours (+£25)",
+      "icon": "timer"
+    },
+    {
+      "value": "24hr",
+      "label": "Rush",
+      "description": "Within 24 hours (+£60)",
+      "icon": "zap"
+    }
+  ]
+}

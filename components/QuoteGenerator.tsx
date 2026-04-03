@@ -1,6 +1,9 @@
 "use client";
 
 import { env } from "../env";
+import quoteOptions from "@/data/quote/options.json";
+import quotePricing from "@/data/quote/pricing.json";
+import type { ServiceSlug } from "@/lib/site-services";
 import { AnimatePresence, motion } from "framer-motion";
 import { Lato } from "next/font/google";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -30,45 +33,42 @@ const lato = Lato({
   weight: ["100", "300", "400", "700", "900"],
 });
 
-const SERVICE_SLUGS = ["real-estate", "landscape", "roof-inspection", "events"] as const;
-type ServiceSlug = (typeof SERVICE_SLUGS)[number];
+const QUOTE_ICONS = {
+  home: Home,
+  mountain: Mountain,
+  eye: Eye,
+  partyPopper: PartyPopper,
+  plane: Plane,
+  gauge: Gauge,
+  clock: Clock,
+  timer: Timer,
+  zap: Zap,
+} as const;
+
+type QuoteIconKey = keyof typeof QUOTE_ICONS;
 
 interface QuoteGeneratorProps {
   preselectedService?: ServiceSlug | null;
 }
 
-// ─── Pricing Constants ───
+type SizeKey = keyof typeof quotePricing.sizeMultiplier;
+type VideoLengthKey = keyof typeof quotePricing.videoPrice;
+type DroneKey = keyof typeof quotePricing.dronePrice;
+type EditingKey = keyof typeof quotePricing.editingPrice;
+type TurnaroundKey = keyof typeof quotePricing.turnaroundPrice;
 
-const BASE_PRICE: Record<ServiceSlug, number> = {
-  "real-estate": 90,
-  landscape: 75,
-  "roof-inspection": 65,
-  events: 120,
-};
-
-type SizeKey = "small" | "medium" | "large" | "xlarge";
-
-const SIZE_MULTIPLIER: Record<SizeKey, number> = {
-  small: 1.0,
-  medium: 1.5,
-  large: 2.2,
-  xlarge: 3.2,
-};
-
-type VideoLengthKey = "30s" | "60s" | "90s" | "2-3min";
-
-const VIDEO_PRICE: Record<VideoLengthKey, number> = {
-  "30s": 45,
-  "60s": 75,
-  "90s": 95,
-  "2-3min": 185,
-};
-
-const PHOTO_COUNTS = [5, 10, 15, 20, 25, 30, 40, 50] as const;
+const BASE_PRICE = quotePricing.basePrice as Record<ServiceSlug, number>;
+const SIZE_MULTIPLIER = quotePricing.sizeMultiplier;
+const VIDEO_PRICE = quotePricing.videoPrice;
+const DRONE_PRICE = quotePricing.dronePrice;
+const EDITING_PRICE = quotePricing.editingPrice;
+const TURNAROUND_PRICE = quotePricing.turnaroundPrice;
+const PHOTO_COUNTS = quotePricing.photoCounts as readonly number[];
 
 function calcPhotoCost(count: number): number {
-  if (count <= 15) return Math.round(count * 2.75);
-  return Math.round(15 * 2.75 + (count - 15) * 2.25);
+  const { tier1MaxCount, tier1PerPhoto, tier2PerPhoto } = quotePricing.photoPricing;
+  if (count <= tier1MaxCount) return Math.round(count * tier1PerPhoto);
+  return Math.round(tier1MaxCount * tier1PerPhoto + (count - tier1MaxCount) * tier2PerPhoto);
 }
 
 function calcDeliverablesCost(
@@ -77,117 +77,56 @@ function calcDeliverablesCost(
   wantVideo: boolean,
   videoLength: VideoLengthKey | null,
 ): number {
-  let photoCost = wantPhotos ? calcPhotoCost(photoCount) : 0;
-  let videoCost = wantVideo && videoLength ? VIDEO_PRICE[videoLength] : 0;
+  const photoCost = wantPhotos ? calcPhotoCost(photoCount) : 0;
+  const videoCost = wantVideo && videoLength ? VIDEO_PRICE[videoLength] : 0;
   const raw = photoCost + videoCost;
-  if (wantPhotos && wantVideo && videoLength) return Math.round(raw * 0.9);
+  if (wantPhotos && wantVideo && videoLength) {
+    return Math.round(raw * quotePricing.comboDiscountMultiplier);
+  }
   return raw;
 }
 
-type DroneKey = "standard" | "fpv";
-const DRONE_PRICE: Record<DroneKey, number> = { standard: 0, fpv: 150 };
+const SERVICE_OPTIONS = quoteOptions.serviceOptions.map((o) => ({
+  value: o.value as ServiceSlug,
+  label: o.label,
+  description: o.description,
+  icon: QUOTE_ICONS[o.icon as QuoteIconKey],
+}));
 
-type EditingKey = "basic" | "professional" | "cinematic";
-const EDITING_PRICE: Record<EditingKey, number> = { basic: 0, professional: 50, cinematic: 130 };
+const SIZE_OPTIONS = quoteOptions.sizeOptions as Record<
+  ServiceSlug,
+  { value: SizeKey; label: string; description: string }[]
+>;
 
-type TurnaroundKey = "72hr" | "48hr" | "24hr";
-const TURNAROUND_PRICE: Record<TurnaroundKey, number> = { "72hr": 0, "48hr": 25, "24hr": 60 };
+const VIDEO_LENGTH_OPTIONS = quoteOptions.videoLengthOptions.map((o) => ({
+  value: o.value as VideoLengthKey,
+  label: o.label,
+  price: VIDEO_PRICE[o.value as VideoLengthKey],
+}));
 
-// ─── Step Option Data ───
+const DRONE_OPTIONS = quoteOptions.droneOptions.map((o) => ({
+  value: o.value as DroneKey,
+  label: o.label,
+  description: o.description,
+  icon: QUOTE_ICONS[o.icon as QuoteIconKey],
+}));
 
-const SERVICE_OPTIONS: {
-  value: ServiceSlug;
-  label: string;
-  description: string;
-  icon: React.ElementType;
-}[] = [
-  { value: "real-estate", label: "Real Estate", description: "Property photography & filming", icon: Home },
-  { value: "landscape", label: "Landscape", description: "Outdoor spaces & terrain", icon: Mountain },
-  { value: "roof-inspection", label: "Roof Inspection", description: "Surveys & damage reports", icon: Eye },
-  { value: "events", label: "Weddings & Events", description: "Ceremonies, venues & occasions", icon: PartyPopper },
-];
+const EDITING_OPTIONS = quoteOptions.editingOptions.map((o) => ({
+  value: o.value as EditingKey,
+  label: o.label,
+  description: o.description,
+}));
 
-const SIZE_OPTIONS: Record<ServiceSlug, { value: SizeKey; label: string; description: string }[]> = {
-  "real-estate": [
-    { value: "small", label: "Small", description: "1-2 bedroom property" },
-    { value: "medium", label: "Medium", description: "3-4 bedroom property" },
-    { value: "large", label: "Large", description: "5+ bedroom property" },
-    { value: "xlarge", label: "Estate", description: "Multi-unit or estate" },
-  ],
-  landscape: [
-    { value: "small", label: "Small", description: "Garden or small plot" },
-    { value: "medium", label: "Medium", description: "Medium grounds" },
-    { value: "large", label: "Large", description: "Large estate or park" },
-    { value: "xlarge", label: "Expansive", description: "Multi-acre area" },
-  ],
-  "roof-inspection": [
-    { value: "small", label: "Single Roof", description: "Single residential roof" },
-    { value: "medium", label: "Large Residential", description: "Large or complex roof" },
-    { value: "large", label: "Small Commercial", description: "Small commercial building" },
-    { value: "xlarge", label: "Large Commercial", description: "Multi-unit or large commercial" },
-  ],
-  events: [
-    { value: "small", label: "Intimate", description: "Under 50 guests" },
-    { value: "medium", label: "Medium", description: "50-150 guests" },
-    { value: "large", label: "Large", description: "150-300 guests" },
-    { value: "xlarge", label: "Grand", description: "300+ guests" },
-  ],
-};
+const TURNAROUND_OPTIONS = quoteOptions.turnaroundOptions.map((o) => ({
+  value: o.value as TurnaroundKey,
+  label: o.label,
+  description: o.description,
+  icon: QUOTE_ICONS[o.icon as QuoteIconKey],
+}));
 
-const VIDEO_LENGTH_OPTIONS: {
-  value: VideoLengthKey;
-  label: string;
-  price: number;
-}[] = [
-  { value: "30s", label: "30s", price: 45 },
-  { value: "60s", label: "60s", price: 75 },
-  { value: "90s", label: "90s", price: 95 },
-  { value: "2-3min", label: "2-3 min", price: 185 },
-];
-
-const DRONE_OPTIONS: {
-  value: DroneKey;
-  label: string;
-  description: string;
-  icon: React.ElementType;
-}[] = [
-  { value: "standard", label: "Standard Drone", description: "Smooth, stabilised footage", icon: Plane },
-  { value: "fpv", label: "Include FPV", description: "Dynamic immersive sequences (+£150)", icon: Gauge },
-];
-
-const EDITING_OPTIONS: {
-  value: EditingKey;
-  label: string;
-  description: string;
-}[] = [
-  { value: "basic", label: "Basic", description: "Colour correction and crop" },
-  { value: "professional", label: "Professional", description: "Full grading and transitions (+£50)" },
-  { value: "cinematic", label: "Cinematic", description: "Full production edit (+£130)" },
-];
-
-const TURNAROUND_OPTIONS: {
-  value: TurnaroundKey;
-  label: string;
-  description: string;
-  icon: React.ElementType;
-}[] = [
-  { value: "72hr", label: "Standard", description: "Within 72 hours", icon: Clock },
-  { value: "48hr", label: "Priority", description: "Within 48 hours (+£25)", icon: Timer },
-  { value: "24hr", label: "Rush", description: "Within 24 hours (+£60)", icon: Zap },
-];
-
-const STEP_TITLES = [
-  "What service do you need?",
-  "How large is the area?",
-  "What deliverables do you need?",
-  "Which drone setup?",
-  "What level of editing?",
-  "How quickly do you need it?",
-  "Your estimated quote",
-  "Book this service",
-];
-
+const STEP_TITLES = quoteOptions.stepTitles;
 const TOTAL_STEPS = STEP_TITLES.length;
+const COMBO_DISCOUNT_PERCENT = Math.round((1 - quotePricing.comboDiscountMultiplier) * 100);
 
 // ─── Animated Price Counter ───
 
@@ -369,7 +308,8 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
     const sizeLabel = service ? SIZE_OPTIONS[service].find((o) => o.value === size)?.label ?? size : size;
     const photoPart = wantPhotos ? `${photoCount} photos` : "";
     const videoPart = wantVideo && videoLength ? `${VIDEO_LENGTH_OPTIONS.find((o) => o.value === videoLength)?.label ?? videoLength} video` : "";
-    const comboNote = wantPhotos && wantVideo && videoLength ? " (10% combo discount)" : "";
+    const comboNote =
+      wantPhotos && wantVideo && videoLength ? ` (${COMBO_DISCOUNT_PERCENT}% combo discount)` : "";
     const deliverableLabel = [photoPart, videoPart].filter(Boolean).join(" + ") + comboNote;
     const droneLabel = DRONE_OPTIONS.find((o) => o.value === drone)?.label ?? drone;
     const editingLabel = EDITING_OPTIONS.find((o) => o.value === editing)?.label ?? editing;
@@ -452,8 +392,9 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
     }
     if (wantPhotos && wantVideo && videoLength) {
       const rawDeliverables = calcPhotoCost(photoCount) + VIDEO_PRICE[videoLength];
-      const discount = rawDeliverables - Math.round(rawDeliverables * 0.9);
-      items.push({ label: "Combo discount (10%)", amount: -discount });
+      const discount =
+        rawDeliverables - Math.round(rawDeliverables * quotePricing.comboDiscountMultiplier);
+      items.push({ label: `Combo discount (${COMBO_DISCOUNT_PERCENT}%)`, amount: -discount });
     }
 
     items.push(
@@ -504,7 +445,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
           </div>
         );
       case 2: {
-        const photoIdx = PHOTO_COUNTS.indexOf(photoCount as (typeof PHOTO_COUNTS)[number]);
+        const photoIdx = PHOTO_COUNTS.indexOf(photoCount);
         const canDecrement = photoIdx > 0;
         const canIncrement = photoIdx < PHOTO_COUNTS.length - 1;
         const isCombo = wantPhotos && wantVideo && videoLength;
@@ -650,7 +591,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
             {(wantPhotos || wantVideo) && (
               <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 sm:px-5">
                 <span className={`text-sm text-neutral-400 ${lato.className}`}>
-                  Deliverables subtotal{isCombo ? " (incl. 10% combo discount)" : ""}
+                  Deliverables subtotal{isCombo ? ` (incl. ${COMBO_DISCOUNT_PERCENT}% combo discount)` : ""}
                 </span>
                 <span className="text-sm font-bold text-brand-yellow">£{deliverablesCost}</span>
               </div>

@@ -1,0 +1,31 @@
+[
+  {
+    "id": 1,
+    "label": "Years of experience",
+    "value": 3,
+    "suffix": "+",
+    "description": "Honing our craft across residential, commercial, and creative projects."
+  },
+  {
+    "id": 2,
+    "label": "Flight hours logged",
+    "value": 9,
+    "suffix": "+",
+    "description": "Experienced pilots with structured planning and safety-first operations."
+  },
+  {
+    "id": 3,
+    "label": "Average delivery time",
+    "value": 48,
+    "suffix": "hrs",
+    "description": "Fast turnaround from shoot day to polished, client-ready deliverables."
+  },
+  {
+    "id": 4,
+    "label": "Insurance coverage",
+    "value": 3,
+    "prefix": "£",
+    "suffix": "M",
+    "description": "Fully insured for up to £3 million in damage, giving you complete peace of mind."
+  }
+]

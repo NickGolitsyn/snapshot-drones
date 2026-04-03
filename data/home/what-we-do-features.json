@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "slug": "real-estate",
+    "eyebrow": "Real Estate",
+    "title": "Property Photography & Filming",
+    "description": "Showcase your property at its best with professional stills and video. We capture interiors and exteriors in sharp detail with natural and staged lighting, wide angles, and smooth footage so listings stand out and viewings feel like a real visit.",
+    "highlights": [
+      "Aerial and ground-level coverage",
+      "Listing-ready photo and video packages",
+      "Natural and staged lighting workflows"
+    ],
+    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XHbQ8KN6g9AVM0K5zYTHhZdaIcSiPoBfnDrGs",
+    "imageAlt": "Drone view of a modern property at golden hour"
+  },
+  {
+    "id": 2,
+    "slug": "landscape",
+    "eyebrow": "Outdoor Spaces",
+    "title": "Landscape Photography & Filming",
+    "description": "From gardens and parks to estates and rural views, we deliver striking landscape photography and film. Ideal for developers, agents, and private owners who want to highlight location, greenery, and outdoor space.",
+    "highlights": [
+      "Wide establishing aerial sequences",
+      "Natural terrain and feature emphasis",
+      "Edited content for marketing channels"
+    ],
+    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XwqiGgayYDld3xm4B7MXbjtN05vWV69KRQaog",
+    "imageAlt": "Aerial landscape showcasing rural terrain and greenery"
+  },
+  {
+    "id": 3,
+    "slug": "roof-inspection",
+    "eyebrow": "Inspection",
+    "title": "Roof Inspection",
+    "description": "High-resolution drone and ground-level roof surveys to spot damage, wear, and maintenance issues. Perfect for surveys, insurance, and pre-sale checks—we deliver clear imagery and reports you can rely on.",
+    "highlights": [
+      "Close-up evidence of defects and wear",
+      "Safer than ladder-based inspection",
+      "Clear visual reports for decision making"
+    ],
+    "image": "/roof.png",
+    "imageAlt": "Drone inspection view of rooftop details"
+  },
+  {
+    "id": 4,
+    "slug": "events",
+    "eyebrow": "Events",
+    "title": "Weddings & Events",
+    "description": "Capture stunning aerial footage of weddings, events, and special occasions. Our skilled drone operators deliver professional, cinematic shots that capture the essence of your day—from ceremony to reception.",
+    "highlights": [
+      "Cinematic flythrough moments",
+      "Safe flight planning around guests",
+      "Highlights edits ready for sharing"
+    ],
+    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xdh44eoElQJPk0LUwbcEsvTMurNaDolpZmGxI",
+    "imageAlt": "Aerial footage of a wedding and guests outdoors"
+  }
+]

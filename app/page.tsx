@@ -4,17 +4,24 @@ import { Fjalla_One, Lato } from "next/font/google";
 import { QuoteGenerator } from "@/components/QuoteGenerator";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import equipmentFeatures from "@/data/home/equipment-features.json";
+import galleryImageUrls from "@/data/home/gallery.json";
+import heroSlides from "@/data/home/hero-slides.json";
+import keyStats from "@/data/home/key-stats.json";
+import whatWeDoFeatures from "@/data/home/what-we-do-features.json";
+import type { ServiceSlug } from "@/lib/site-services";
 
-const lato = Lato({
-  subsets: ["latin"],
-  weight: ["100", "300", "400", "700", "900"],
-});
-const fjalla = Fjalla_One({ subsets: ["latin"], weight: "400" });
+type HeroSlide = {
+  id: number;
+  serviceSlug: ServiceSlug;
+  image: string;
+  imageAlt: string;
+  headingLines: string[];
+  subheading: string;
+  cta: string;
+};
 
-const SERVICE_SLUGS = ["real-estate", "landscape", "roof-inspection", "events"] as const;
-type ServiceSlug = (typeof SERVICE_SLUGS)[number];
-
-const WHAT_WE_DO_FEATURES: {
+type WhatWeDoFeature = {
   id: number;
   slug: ServiceSlug;
   eyebrow: string;
@@ -23,226 +30,16 @@ const WHAT_WE_DO_FEATURES: {
   highlights: string[];
   image: string;
   imageAlt: string;
-}[] = [
-  {
-    id: 1,
-    slug: "real-estate",
-    eyebrow: "Real Estate",
-    title: "Property Photography & Filming",
-    description:
-      "Showcase your property at its best with professional stills and video. We capture interiors and exteriors in sharp detail with natural and staged lighting, wide angles, and smooth footage so listings stand out and viewings feel like a real visit.",
-    highlights: [
-      "Aerial and ground-level coverage",
-      "Listing-ready photo and video packages",
-      "Natural and staged lighting workflows",
-    ],
-    image: "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XHbQ8KN6g9AVM0K5zYTHhZdaIcSiPoBfnDrGs",
-    imageAlt: "Drone view of a modern property at golden hour",
-  },
-  {
-    id: 2,
-    slug: "landscape",
-    eyebrow: "Outdoor Spaces",
-    title: "Landscape Photography & Filming",
-    description:
-      "From gardens and parks to estates and rural views, we deliver striking landscape photography and film. Ideal for developers, agents, and private owners who want to highlight location, greenery, and outdoor space.",
-    highlights: [
-      "Wide establishing aerial sequences",
-      "Natural terrain and feature emphasis",
-      "Edited content for marketing channels",
-    ],
-    image: "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XwqiGgayYDld3xm4B7MXbjtN05vWV69KRQaog",
-    imageAlt: "Aerial landscape showcasing rural terrain and greenery",
-  },
-  {
-    id: 3,
-    slug: "roof-inspection",
-    eyebrow: "Inspection",
-    title: "Roof Inspection",
-    description:
-      "High-resolution drone and ground-level roof surveys to spot damage, wear, and maintenance issues. Perfect for surveys, insurance, and pre-sale checks—we deliver clear imagery and reports you can rely on.",
-    highlights: [
-      "Close-up evidence of defects and wear",
-      "Safer than ladder-based inspection",
-      "Clear visual reports for decision making",
-    ],
-    image: "/roof.png",
-    imageAlt: "Drone inspection view of rooftop details",
-  },
-  {
-    id: 4,
-    slug: "events",
-    eyebrow: "Events",
-    title: "Weddings & Events",
-    description:
-      "Capture stunning aerial footage of weddings, events, and special occasions. Our skilled drone operators deliver professional, cinematic shots that capture the essence of your day—from ceremony to reception.",
-    highlights: [
-      "Cinematic flythrough moments",
-      "Safe flight planning around guests",
-      "Highlights edits ready for sharing",
-    ],
-    image: "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xdh44eoElQJPk0LUwbcEsvTMurNaDolpZmGxI",
-    imageAlt: "Aerial footage of a wedding and guests outdoors",
-  },
-];
+};
 
-const EQUIPMENT_FEATURES = [
-  {
-    id: 1,
-    name: "DJI Mini 5 Pro Drone",
-    blurb:
-      "Our standard stabilized drone platform is built for smooth, high-resolution capture and dependable repeatable flight paths.",
-    howWeUseIt: [
-      "Property and landscape overviews with smooth cinematic motion",
-      "Roof and structure inspections with controlled proximity shots",
-      "Progress documentation for construction and development sites",
-    ],
-    image:
-      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xd6hg7ZlQJPk0LUwbcEsvTMurNaDolpZmGxI1",
-    imageAlt: "Standard drone capturing smooth aerial footage",
-  },
-  {
-    id: 2,
-    name: "DJI Avata 2 FPV Drone",
-    blurb:
-      "Our FPV setup delivers immersive movement and dynamic one-take sequences that create a high-energy cinematic feel.",
-    howWeUseIt: [
-      "Fast, flowing flythroughs for venues and architectural spaces",
-      "Action-focused event coverage with agile, low-level motion",
-      "Creative social-first videos with bold transitions and momentum",
-    ],
-    image:
-      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XnEjbzfG4N5bRsD8ZV6BFXGYaKCweyt7fjoIL",
-    imageAlt: "FPV-style dynamic drone shot over a venue",
-  },
-];
+const heroSlidesTyped = heroSlides as HeroSlide[];
+const whatWeDoFeaturesTyped = whatWeDoFeatures as WhatWeDoFeature[];
 
-const KEY_STATS = [
-  {
-    id: 1,
-    label: "Years of experience",
-    value: 3,
-    suffix: "+",
-    description: "Honing our craft across residential, commercial, and creative projects.",
-  },
-  {
-    id: 2,
-    label: "Flight hours logged",
-    value: 9,
-    suffix: "+",
-    description: "Experienced pilots with structured planning and safety-first operations.",
-  },
-  {
-    id: 3,
-    label: "Average delivery time",
-    value: 48,
-    suffix: "hrs",
-    description: "Fast turnaround from shoot day to polished, client-ready deliverables.",
-  },
-  {
-    id: 4,
-    label: "Insurance coverage",
-    value: 3,
-    prefix: "£",
-    suffix: "M",
-    description: "Fully insured for up to £3 million in damage, giving you complete peace of mind.",
-  },
-];
-
-
-const HERO_SLIDES: {
-  id: number;
-  serviceSlug: ServiceSlug;
-  image: string;
-  imageAlt: string;
-  headingLines: string[];
-  subheading: string;
-  cta: string;
-}[] = [
-  {
-    id: 1,
-    serviceSlug: "real-estate",
-    image:
-      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XEIYtQoCesMqY1F3gS2wk8vOtIjzUGKpVcmx0",
-    imageAlt:
-      "Aerial view of modern residential property at sunset for real estate marketing",
-    headingLines: ["Fresh", "Perspectives", "From New", "Heights"],
-    subheading: "Property Photography & Filming",
-    cta: "Book now",
-  },
-  {
-    id: 2,
-    serviceSlug: "events",
-    image:
-      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XyKbgkKh9NpmRfzCWSDBhxtOr57dgJI6nl9yX",
-    imageAlt: "",
-    headingLines: ["Fresh", "Perspectives", "From New", "Heights"],
-    subheading: "Wedding Photography & Filming",
-    cta: "Book now",
-  },
-  {
-    id: 3,
-    serviceSlug: "landscape",
-    image:
-      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XGrykikv1SxC6n0KHvowldeBTOmaUR85jVW2y",
-    imageAlt: "",
-    headingLines: ["Fresh", "Perspectives", "From New", "Heights"],
-    subheading: "Landscape Photography & Filming",
-    cta: "Book now",
-  },
-  {
-    id: 4,
-    serviceSlug: "roof-inspection",
-    image:
-      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xl1OlBMfzrONqv5RkFao1BIp7mts3HDyCgnLb",
-    imageAlt: "",
-    headingLines: ["Fresh", "Perspectives", "From New", "Heights"],
-    subheading: "Roof Inspections",
-    cta: "Book now",
-  },
-  {
-    id: 5,
-    serviceSlug: "landscape",
-    image:
-      "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X8QD3KCwH5o0cWAaK4qNsCvJ6bTRgV18Mwd2f",
-    imageAlt: "",
-    headingLines: ["Fresh", "Perspectives", "From New", "Heights"],
-    subheading: "Agriculture Photography & Filming",
-    cta: "Book now",
-  },
-];
-
-const GALLERY_IMAGE_URLS = [
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XDuyutf0HaCpFwyg9ebP5fHZNtnjAS07u1EXq",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X6LnPU7uOQZG35mdcsol2LbWMvXF9Ywxg7TiD",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X7cwqY8d45TYoXeDJwaZhACMubWFjlH7QSIP6",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XCSI73KFsHR264FDxeGurvbUt8mAYQ59jST73",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XvVXSF0cUYMkPDVK62ILo3JSz5Niw48qZpHlm",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XBOzQYwKEzfr4YmDgokcHqXTlhSi3vs79OWPj",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XKCofdb2YVS1GTrFB4X5yOufNUL9idteCMI3D",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X8V0oXZwH5o0cWAaK4qNsCvJ6bTRgV18Mwd2f",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XlUnyR0fzrONqv5RkFao1BIp7mts3HDyCgnLb",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X92fQXLMBrEyw1kIDXq6FphWnPM4cadzeuH5Y",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xfc47qNheSwOhGQuz14I7bPLY3MBvXkjDTids",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XsCBR9neufW5q7rn8dZkb0pUYvIzLGi16DBE2",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XgdqpN2Tf7BinYkxHlKMZ1I92EhtRpcwXv0bF",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X0xchemq82w5PQrUxR63dKNv1Z4YTXpOkMWVG",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XE8ALz1esMqY1F3gS2wk8vOtIjzUGKpVcmx0i",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XpRSAqJLc8x5rWHMPok4bLYTsQ0hnXu9AgKNz",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X2sjbhd79TNOdqrWegw8zcByA6QuItb3LmDnJ",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XTZtDZyNhyQZwNPn7orS5FsXIWKAgaUkmjzqG",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X9b59XxBrEyw1kIDXq6FphWnPM4cadzeuH5Y8",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xqx4c2CDSs6GOkgwn3Y9ecIBtRpPFjfCUHAZh",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XB7gen2KEzfr4YmDgokcHqXTlhSi3vs79OWPj",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XfH7tFdheSwOhGQuz14I7bPLY3MBvXkjDTids",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XGpKP4qv1SxC6n0KHvowldeBTOmaUR85jVW2y",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XKkM6Tq2YVS1GTrFB4X5yOufNUL9idteCMI3D",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X2t54Br79TNOdqrWegw8zcByA6QuItb3LmDnJ",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X6kxPVWuOQZG35mdcsol2LbWMvXF9Ywxg7TiD",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XO1uE542J7On0HRbwlFNUyrueXYhCfAd8L3m5",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XY6eEaRABJwWk3mjzDGfhyiZVbKl8FrApa7Me",
-  "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XhsxTokavI1dUBF9tNxZRg8Dl7A6K3zarbuiP",
-];
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "700", "900"],
+});
+const fjalla = Fjalla_One({ subsets: ["latin"], weight: "400" });
 
 interface ServiceFeatureProps {
   serviceSlug: ServiceSlug;
@@ -527,14 +324,14 @@ export default function Home() {
       >
         <div className="h-full overflow-hidden" ref={heroEmblaRef}>
           <div className="flex h-full">
-            {HERO_SLIDES.map((slide, index) => {
+            {heroSlidesTyped.map((slide, index) => {
               const HeadingTag = index === 0 ? "h1" : "h2";
               return (
               <article
                 key={slide.id}
                 className="relative h-full min-w-0 flex-[0_0_100%] overflow-hidden"
                 aria-roledescription="slide"
-                aria-label={`${slide.id} of ${HERO_SLIDES.length}`}
+                aria-label={`${slide.id} of ${heroSlidesTyped.length}`}
               >
                 <motion.img
                   className="absolute inset-0 h-[114%] w-full object-cover"
@@ -597,7 +394,7 @@ export default function Home() {
         <div className="absolute inset-x-0 bottom-4 z-10 sm:bottom-6">
           <div className="mx-auto flex w-full max-w-screen-2xl justify-end px-6 lg:px-8">
             <div className="flex items-center gap-2">
-              {HERO_SLIDES.map((slide, index) => (
+              {heroSlidesTyped.map((slide, index) => (
                 <button
                   key={slide.id}
                   type="button"
@@ -626,7 +423,7 @@ export default function Home() {
             </h2>
           </div>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {KEY_STATS.map((stat) => (
+            {keyStats.map((stat) => (
               <article
                 key={stat.id}
                 className="rounded-2xl border border-white/10 bg-white/[0.05] p-5"
@@ -660,7 +457,7 @@ export default function Home() {
         </div>
         <div className="mx-auto mt-10 max-w-screen-2xl">
           <div className="space-y-6 lg:space-y-8">
-            {WHAT_WE_DO_FEATURES.map((feature, index) => (
+            {whatWeDoFeaturesTyped.map((feature, index) => (
               <ServiceFeature
                 key={feature.id}
                 serviceSlug={feature.slug}
@@ -712,7 +509,7 @@ export default function Home() {
         </div>
         <div className="mx-auto max-w-screen-2xl">
           <div className="space-y-4">
-            {EQUIPMENT_FEATURES.map((equipment, index) => (
+            {equipmentFeatures.map((equipment, index) => (
               <EquipmentFeature
                 key={equipment.id}
                 index={index + 1}
@@ -733,7 +530,7 @@ export default function Home() {
             Gallery
           </h2>
           <div className="columns-2 gap-4 sm:gap-6 md:columns-3 lg:columns-4">
-            {GALLERY_IMAGE_URLS.map((imageUrl) => (
+            {galleryImageUrls.map((imageUrl) => (
               <div
                 key={imageUrl}
                 className="mb-4 break-inside-avoid sm:mb-6"

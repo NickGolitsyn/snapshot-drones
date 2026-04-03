@@ -43,7 +43,24 @@ import {
   Sun,
 } from "lucide-react";
 
+interface PricingPackage {
+  id: number;
+  name: string;
+  fromPrice: string;
+  idealFor: string;
+  features: string[];
+  highlighted?: boolean;
+}
+
+interface ContactProps {
+  defaultService?: string;
+  defaultPackage?: string;
+  servicePricing?: Record<string, { name: string; packages: PricingPackage[] }>;
+}
+
 const formSchema = z.object({
+  service: z.string().min(1, { message: "Please select a service." }),
+  package: z.string().optional(),
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
@@ -64,7 +81,11 @@ const formSchema = z.object({
   message: z.string().optional(),
 });
 
-export function Contact() {
+export function Contact({
+  defaultService = "",
+  defaultPackage = "",
+  servicePricing = {},
+}: ContactProps) {
   const [date, setDate] = React.useState<Date>(new Date());
   const [isDatePopoverOpen, setIsDatePopoverOpen] = React.useState(false);
   const [weatherByDay, setWeatherByDay] = React.useState<Record<string, number>>(
@@ -74,6 +95,8 @@ export function Contact() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      service: defaultService,
+      package: defaultPackage,
       name: "",
       email: "",
       phone: "",
@@ -82,6 +105,21 @@ export function Contact() {
       message: "",
     },
   });
+
+  const watchedService = form.watch("service");
+  const packageOptions = watchedService
+    ? servicePricing[watchedService]?.packages ?? []
+    : [];
+
+  React.useEffect(() => {
+    if (defaultService) {
+      form.setValue("service", defaultService);
+    }
+  }, [defaultService, form]);
+
+  React.useEffect(() => {
+    form.setValue("package", defaultPackage);
+  }, [defaultPackage, form]);
 
   async function handleSubmit(formData: z.infer<typeof formSchema>) {
     const response = await fetch("https://api.web3forms.com/submit", {
@@ -114,6 +152,8 @@ export function Contact() {
       await handleSubmit(data);
       toast.success("Form submitted successfully.");
       form.reset({
+        service: "",
+        package: "",
         name: "",
         email: "",
         phone: "",
@@ -258,6 +298,64 @@ export function Contact() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="service"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Service <span className="text-red-500">*</span>
+              </FormLabel>
+              <Select
+                value={field.value}
+                onValueChange={(value) => {
+                  field.onChange(value);
+                  form.setValue("package", "");
+                }}
+              >
+                <FormControl>
+                  <SelectTrigger className="bg-neutral-200 border-neutral-300">
+                    <SelectValue placeholder="Select a service" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent className="bg-neutral-200 border-neutral-300">
+                  {Object.entries(servicePricing).map(([slug, { name }]) => (
+                    <SelectItem key={slug} value={slug}>
+                      {name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {packageOptions.length > 0 && (
+          <FormField
+            control={form.control}
+            name="package"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Package</FormLabel>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger className="bg-neutral-200 border-neutral-300">
+                      <SelectValue placeholder="Select a package (optional)" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="bg-neutral-200 border-neutral-300">
+                    {packageOptions.map((pkg) => (
+                      <SelectItem key={pkg.id} value={pkg.name}>
+                        {pkg.name} — from {pkg.fromPrice}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <FormField
           control={form.control}
           name="name"

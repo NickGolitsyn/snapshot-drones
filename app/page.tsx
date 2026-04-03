@@ -11,9 +11,31 @@ const lato = Lato({
 });
 const fjalla = Fjalla_One({ subsets: ["latin"], weight: "400" });
 
-const WHAT_WE_DO_FEATURES = [
+const SERVICE_SLUGS = ["real-estate", "landscape", "roof-inspection", "events"] as const;
+type ServiceSlug = (typeof SERVICE_SLUGS)[number];
+
+interface PricingPackage {
+  id: number;
+  name: string;
+  fromPrice: string;
+  idealFor: string;
+  features: string[];
+  highlighted?: boolean;
+}
+
+const WHAT_WE_DO_FEATURES: {
+  id: number;
+  slug: ServiceSlug;
+  eyebrow: string;
+  title: string;
+  description: string;
+  highlights: string[];
+  image: string;
+  imageAlt: string;
+}[] = [
   {
     id: 1,
+    slug: "real-estate",
     eyebrow: "Real Estate",
     title: "Property Photography & Filming",
     description:
@@ -23,11 +45,12 @@ const WHAT_WE_DO_FEATURES = [
       "Listing-ready photo and video packages",
       "Natural and staged lighting workflows",
     ],
-    image: "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XBlIpHsKEzfr4YmDgokcHqXTlhSi3vs79OWPj",
+    image: "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XHbQ8KN6g9AVM0K5zYTHhZdaIcSiPoBfnDrGs",
     imageAlt: "Drone view of a modern property at golden hour",
   },
   {
     id: 2,
+    slug: "landscape",
     eyebrow: "Outdoor Spaces",
     title: "Landscape Photography & Filming",
     description:
@@ -42,6 +65,7 @@ const WHAT_WE_DO_FEATURES = [
   },
   {
     id: 3,
+    slug: "roof-inspection",
     eyebrow: "Inspection",
     title: "Roof Inspection",
     description:
@@ -56,6 +80,7 @@ const WHAT_WE_DO_FEATURES = [
   },
   {
     id: 4,
+    slug: "events",
     eyebrow: "Events",
     title: "Weddings & Events",
     description:
@@ -133,48 +158,189 @@ const KEY_STATS = [
   },
 ];
 
-const PRICING_PACKAGES = [
-  {
-    id: 1,
-    name: "Starter",
-    fromPrice: "£2.99",
-    idealFor: "Single-property listings and quick marketing shoots.",
-    features: [
-      "Up to 60 minutes on site",
-      "15 edited aerial photos",
-      "30-second social-ready highlight clip",
-      "Delivery within 72 hours",
+const SERVICE_PRICING: Record<ServiceSlug, { name: string; packages: PricingPackage[] }> = {
+  "real-estate": {
+    name: "Real Estate",
+    packages: [
+      {
+        id: 1,
+        name: "Essentials",
+        fromPrice: "£299",
+        idealFor: "Single-property listings and quick marketing shoots.",
+        features: [
+          "Up to 60 minutes on site",
+          "15 edited aerial photos",
+          "30-second social-ready highlight clip",
+          "Delivery within 72 hours",
+        ],
+      },
+      {
+        id: 2,
+        name: "Premium",
+        fromPrice: "£549",
+        idealFor: "Premium listings needing full interior and exterior coverage.",
+        features: [
+          "Up to 2.5 hours on site",
+          "35 edited photos + 90-second cinematic edit",
+          "Ground + aerial capture mix",
+          "Priority delivery within 48 hours",
+        ],
+        highlighted: true,
+      },
+      {
+        id: 3,
+        name: "Cinematic FPV",
+        fromPrice: "£949",
+        idealFor: "Show-stopping campaigns with immersive FPV walkthrough.",
+        features: [
+          "Half-day production window",
+          "FPV flythrough sequences + standard drone coverage",
+          "Up to 2 final edits for web and social",
+          "Creative planning call + shot list",
+        ],
+      },
     ],
   },
-  {
-    id: 2,
-    name: "Growth",
-    fromPrice: "£5.99",
-    idealFor: "Premium listings, venues, and brand storytelling.",
-    features: [
-      "Up to 2.5 hours on site",
-      "35 edited photos + 90-second cinematic edit",
-      "Ground + aerial capture mix",
-      "Priority delivery within 48 hours",
+  landscape: {
+    name: "Landscape",
+    packages: [
+      {
+        id: 1,
+        name: "Standard",
+        fromPrice: "£249",
+        idealFor: "Garden and small-site aerial stills for marketing.",
+        features: [
+          "Up to 45 minutes on site",
+          "10 edited aerial photos",
+          "Basic colour grading",
+          "Delivery within 72 hours",
+        ],
+      },
+      {
+        id: 2,
+        name: "Extended",
+        fromPrice: "£499",
+        idealFor: "Estates, parks, and developments needing full aerial coverage.",
+        features: [
+          "Up to 2 hours on site",
+          "25 edited photos + 60-second video",
+          "Wide establishing sequences",
+          "Priority delivery within 48 hours",
+        ],
+        highlighted: true,
+      },
+      {
+        id: 3,
+        name: "Cinematic",
+        fromPrice: "£849",
+        idealFor: "Premium landscape film for brand and editorial use.",
+        features: [
+          "Half-day production window",
+          "Full cinematic edit up to 3 minutes",
+          "Colour-graded master files",
+          "Creative planning call + shot list",
+        ],
+      },
     ],
   },
-  {
-    id: 3,
-    name: "Signature FPV",
-    fromPrice: "£9.49",
-    idealFor: "High-impact campaigns needing dynamic FPV sequences.",
-    features: [
-      "Half-day production window",
-      "FPV flythrough sequences + standard drone coverage",
-      "Up to 2 final edits for web and social",
-      "Creative planning call + shot list",
+  "roof-inspection": {
+    name: "Roof Inspection",
+    packages: [
+      {
+        id: 1,
+        name: "Basic Survey",
+        fromPrice: "£199",
+        idealFor: "Single residential roof check for damage or wear.",
+        features: [
+          "Up to 30 minutes on site",
+          "High-resolution overhead imagery",
+          "Written summary of findings",
+          "Delivery within 48 hours",
+        ],
+      },
+      {
+        id: 2,
+        name: "Full Report",
+        fromPrice: "£399",
+        idealFor: "Detailed inspection for insurance, surveys, or pre-sale.",
+        features: [
+          "Up to 60 minutes on site",
+          "Close-up + overview shots of all elevations",
+          "Annotated photo report with findings",
+          "Priority delivery within 24 hours",
+        ],
+        highlighted: true,
+      },
+      {
+        id: 3,
+        name: "Commercial",
+        fromPrice: "£699",
+        idealFor: "Large or multi-unit commercial roof assessments.",
+        features: [
+          "Up to half-day on site",
+          "Thermal imaging available",
+          "Comprehensive PDF report with annotations",
+          "Consultation call with findings walkthrough",
+        ],
+      },
     ],
   },
-];
+  events: {
+    name: "Weddings & Events",
+    packages: [
+      {
+        id: 1,
+        name: "Highlights",
+        fromPrice: "£349",
+        idealFor: "Short aerial coverage to capture the venue and key moments.",
+        features: [
+          "Up to 60 minutes of flight time",
+          "15 edited aerial stills",
+          "30-second highlight reel",
+          "Delivery within 72 hours",
+        ],
+      },
+      {
+        id: 2,
+        name: "Full Day",
+        fromPrice: "£649",
+        idealFor: "Ceremony to reception aerial coverage for a complete story.",
+        features: [
+          "Up to 4 hours on site",
+          "30 edited photos + 2-minute cinematic film",
+          "Ground + aerial mix",
+          "Priority delivery within 48 hours",
+        ],
+        highlighted: true,
+      },
+      {
+        id: 3,
+        name: "Cinematic FPV",
+        fromPrice: "£1,049",
+        idealFor: "Dynamic FPV sequences for truly cinematic wedding films.",
+        features: [
+          "Full-day production",
+          "FPV flythrough of venue + standard drone coverage",
+          "Up to 3 final edits for web, social, and keepsake",
+          "Pre-event creative planning call",
+        ],
+      },
+    ],
+  },
+};
 
-const HERO_SLIDES = [
+const HERO_SLIDES: {
+  id: number;
+  serviceSlug: ServiceSlug;
+  image: string;
+  imageAlt: string;
+  headingLines: string[];
+  subheading: string;
+  cta: string;
+}[] = [
   {
     id: 1,
+    serviceSlug: "real-estate",
     image:
       "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XEIYtQoCesMqY1F3gS2wk8vOtIjzUGKpVcmx0",
     imageAlt:
@@ -185,40 +351,40 @@ const HERO_SLIDES = [
   },
   {
     id: 2,
+    serviceSlug: "events",
     image:
       "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XyKbgkKh9NpmRfzCWSDBhxtOr57dgJI6nl9yX",
-    imageAlt:
-      "",
+    imageAlt: "",
     headingLines: ["Fresh", "Perspectives", "From New", "Heights"],
     subheading: "Wedding Photography & Filming",
     cta: "Book now",
   },
   {
     id: 3,
+    serviceSlug: "landscape",
     image:
       "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XGrykikv1SxC6n0KHvowldeBTOmaUR85jVW2y",
-    imageAlt:
-      "",
+    imageAlt: "",
     headingLines: ["Fresh", "Perspectives", "From New", "Heights"],
     subheading: "Landscape Photography & Filming",
     cta: "Book now",
   },
   {
     id: 4,
+    serviceSlug: "roof-inspection",
     image:
       "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xl1OlBMfzrONqv5RkFao1BIp7mts3HDyCgnLb",
-    imageAlt:
-      "",
+    imageAlt: "",
     headingLines: ["Fresh", "Perspectives", "From New", "Heights"],
     subheading: "Roof Inspections",
     cta: "Book now",
   },
   {
     id: 5,
+    serviceSlug: "landscape",
     image:
       "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X8QD3KCwH5o0cWAaK4qNsCvJ6bTRgV18Mwd2f",
-    imageAlt:
-      "",
+    imageAlt: "",
     headingLines: ["Fresh", "Perspectives", "From New", "Heights"],
     subheading: "Agriculture Photography & Filming",
     cta: "Book now",
@@ -258,6 +424,7 @@ const GALLERY_IMAGE_URLS = [
 ];
 
 interface ServiceFeatureProps {
+  serviceSlug: ServiceSlug;
   eyebrow: string;
   title: string;
   description: string;
@@ -265,9 +432,12 @@ interface ServiceFeatureProps {
   image: string;
   imageAlt: string;
   reversed?: boolean;
+  onBookService: (slug: ServiceSlug) => void;
+  onViewPackage: (slug: ServiceSlug) => void;
 }
 
 function ServiceFeature({
+  serviceSlug,
   eyebrow,
   title,
   description,
@@ -275,14 +445,16 @@ function ServiceFeature({
   image,
   imageAlt,
   reversed = false,
+  onBookService,
+  onViewPackage,
 }: ServiceFeatureProps) {
   const imageInitialX = reversed ? "22vw" : "-22vw";
   const contentInitialX = reversed ? "-22vw" : "22vw";
 
   return (
-    <article className="grid items-center lg:grid-cols-2">
+    <article className="grid items-center lg:grid-cols-2 px-6 lg:px-8 gap-6 lg:gap-8">
       <motion.div
-        className={`min-w-0 p-5 sm:p-8 lg:p-10 ${reversed ? "lg:order-2" : ""}`}
+        className={`min-w-0 ${reversed ? "lg:order-2" : ""}`}
         initial={{ opacity: 0, x: imageInitialX }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, amount: 0.35 }}
@@ -303,7 +475,7 @@ function ServiceFeature({
         </div>
       </motion.div>
       <motion.div
-        className={`min-w-0 flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-14 lg:py-16 ${reversed ? "lg:order-1" : ""}`}
+        className={`min-w-0 flex flex-col justify-center ${reversed ? "lg:order-1" : ""}`}
         initial={{ opacity: 0, x: contentInitialX }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, amount: 0.35 }}
@@ -324,12 +496,22 @@ function ServiceFeature({
             </li>
           ))}
         </ul>
-        <a
-          href="#contact-form"
-          className="mt-8 inline-flex w-fit items-center rounded-full bg-neutral-900 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-neutral-700"
-        >
-          Book this service
-        </a>
+        <div className="flex gap-4">
+          <button
+            type="button"
+            onClick={() => onBookService(serviceSlug)}
+            className="mt-8 inline-flex w-fit items-center rounded-full bg-neutral-900 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-neutral-700"
+          >
+            Book this service
+          </button>
+          <button
+            type="button"
+            onClick={() => onViewPackage(serviceSlug)}
+            className="mt-8 inline-flex w-fit items-center rounded-full bg-neutral-200 px-6 py-2.5 text-sm font-semibold text-neutral-900 transition-colors hover:bg-neutral-300"
+          >
+            View packages
+          </button>
+        </div>
       </motion.div>
     </article>
   );
@@ -358,33 +540,30 @@ function EquipmentFeature({
   const contentInitialX = reversed ? "-22vw" : "22vw";
 
   return (
-    <article className="grid items-center lg:grid-cols-2">
+    <article className="grid items-center lg:grid-cols-2 px-6 lg:px-8 gap-6 lg:gap-8">
       <motion.div
-        className={`min-w-0 p-5 sm:p-8 lg:p-10 ${reversed ? "lg:order-2" : ""}`}
+        className={`min-w-0 ${reversed ? "lg:order-2" : ""}`}
         initial={{ opacity: 0, x: imageInitialX }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, amount: 0.35 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <div
-          className={`relative aspect-[4/3] overflow-hidden shadow-2xl ${
+          className={`relative aspect-[4/3] overflow-hidden shadow-xl transition-transform duration-500 hover:scale-[1.04] ${
             reversed
-              ? "rounded-3xl rounded-bl-[4.5rem] rounded-tr-[4.5rem]"
-              : "rounded-3xl rounded-br-[4.5rem] rounded-tl-[4.5rem]"
+              ? "rounded-3xl rounded-tr-[4.5rem] rounded-bl-[4.5rem]"
+              : "rounded-3xl rounded-tl-[4.5rem] rounded-br-[4.5rem]"
           }`}
         >
           <img
             src={image}
             alt={imageAlt}
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-[1.04]"
+            className="absolute inset-0 h-full w-full object-cover"
           />
-          {/* <p className="absolute left-5 top-5 text-sm font-semibold uppercase tracking-[0.2em] text-brand-yellow drop-shadow-lg">
-            0{index}
-          </p> */}
         </div>
       </motion.div>
       <motion.div
-        className={`min-w-0 flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-14 lg:py-16 ${reversed ? "lg:order-1" : ""}`}
+        className={`min-w-0 flex flex-col justify-center py-10 lg:py-16 ${reversed ? "lg:order-1" : ""}`}
         initial={{ opacity: 0, x: contentInitialX }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, amount: 0.35 }}
@@ -455,6 +634,8 @@ export default function Home() {
 
   const [selectedHeroIndex, setSelectedHeroIndex] = useState(0);
   const [headerHeight, setHeaderHeight] = useState(96);
+  const [selectedService, setSelectedService] = useState<ServiceSlug>("real-estate");
+  const [selectedPackage, setSelectedPackage] = useState("");
   const { scrollYProgress: heroScrollProgress } = useScroll({
     target: heroSectionRef,
     offset: ["start start", "end start"],
@@ -515,8 +696,40 @@ export default function Home() {
     };
   }, []);
 
+  const scrollToSection = useCallback((id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
+  const handleBookService = useCallback(
+    (slug: ServiceSlug) => {
+      setSelectedService(slug);
+      setSelectedPackage("");
+      scrollToSection("contact-form");
+    },
+    [scrollToSection],
+  );
+
+  const handleViewPackage = useCallback(
+    (slug: ServiceSlug) => {
+      setSelectedService(slug);
+      scrollToSection("pricing");
+    },
+    [scrollToSection],
+  );
+
+  const handleRequestPackage = useCallback(
+    (slug: ServiceSlug, packageName: string) => {
+      setSelectedService(slug);
+      setSelectedPackage(packageName);
+      scrollToSection("contact-form");
+    },
+    [scrollToSection],
+  );
+
+  const activePricing = SERVICE_PRICING[selectedService];
+
   return (
-    <main className="space-y-10 overflow-x-hidden">
+    <main className="overflow-x-hidden">
       <section
         ref={heroSectionRef}
         className="relative h-[calc(70dvh-var(--header-height))] min-h-[360px] overflow-hidden sm:h-[calc(78dvh-var(--header-height))] md:min-h-[420px] lg:h-[calc(100dvh-var(--header-height))] lg:min-h-0"
@@ -578,12 +791,13 @@ export default function Home() {
                         {slide.subheading}
                       </motion.p>
                     </div>
-                    <a
-                      href="#contact-form"
-                      className="absolute bottom-4 left-6 rounded-full bg-brand-yellow px-5 py-3 text-base font-semibold text-neutral-900 shadow-lg transition-all hover:bg-[#e6a600] hover:shadow-xl sm:bottom-6 sm:left-1/2 sm:-translate-x-1/2 sm:px-10 sm:py-4 sm:text-xl"
+                    <button
+                      type="button"
+                      onClick={() => handleBookService(slide.serviceSlug)}
+                      className="absolute bottom-4 left-6 rounded-full bg-brand-yellow px-5 py-3 text-base text-neutral-900 shadow-lg transition-all hover:bg-[#e6a600] hover:shadow-xl sm:bottom-6 sm:left-1/2 sm:-translate-x-1/2 sm:px-10 sm:py-4 sm:text-xl"
                     >
                       {slide.cta}
-                    </a>
+                    </button>
                   </div>
                 </div>
               </article>
@@ -612,7 +826,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="px-6 pt-6 lg:px-8">
+      <section className="px-6 py-8 lg:py-16 lg:px-8">
         <div className="mx-auto max-w-screen-2xl rounded-3xl bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 px-6 py-10 text-white sm:px-10 sm:py-12">
           <div className="max-w-2xl">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-yellow">
@@ -640,7 +854,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section id="services" className="pt-10">
+      <section id="services" className="py-8 lg:py-16">
         <div className="mx-auto max-w-screen-2xl px-6 lg:px-8">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
@@ -656,10 +870,11 @@ export default function Home() {
           </div>
         </div>
         <div className="mx-auto mt-10 max-w-screen-2xl">
-          <div className="space-y-4">
+          <div className="space-y-6 lg:space-y-8">
             {WHAT_WE_DO_FEATURES.map((feature, index) => (
               <ServiceFeature
                 key={feature.id}
+                serviceSlug={feature.slug}
                 eyebrow={feature.eyebrow}
                 title={feature.title}
                 description={feature.description}
@@ -667,95 +882,152 @@ export default function Home() {
                 image={feature.image}
                 imageAlt={feature.imageAlt}
                 reversed={index % 2 === 1}
+                onBookService={handleBookService}
+                onViewPackage={handleViewPackage}
               />
             ))}
           </div>
         </div>
       </section>
-      <section id="pricing" className="px-6 py-8 lg:px-8">
+      <section id="pricing" className="px-6 py-8 lg:py-16 lg:px-8">
         <div className="mx-auto max-w-screen-2xl">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
               Pricing
             </p>
             <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
-              Packages from £299
+              Packages tailored to your project
             </h2>
             <p className={`mx-auto mt-4 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}>
               Every package can be tailored to your location, shot list, and
-              delivery timeline. Choose a starting point and we will shape the
-              final scope with you.
+              delivery timeline. Choose a service to see pricing, then request
+              the package that fits.
             </p>
           </div>
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {PRICING_PACKAGES.map((pkg, index) => (
-              <motion.article
-                key={pkg.id}
-                className={`flex h-full flex-col rounded-3xl border p-6 shadow-sm ${
-                  index === 1
-                    ? "border-neutral-900 bg-neutral-900 text-white shadow-xl"
-                    : "border-neutral-200 bg-neutral-100"
+          <div className="mx-auto mt-8 flex flex-wrap justify-center gap-2">
+            {SERVICE_SLUGS.map((slug) => (
+              <button
+                key={slug}
+                type="button"
+                onClick={() => setSelectedService(slug)}
+                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
+                  selectedService === slug
+                    ? "bg-neutral-900 text-white shadow-md"
+                    : "bg-neutral-200 text-neutral-700 hover:bg-neutral-300"
                 }`}
-                initial={{ opacity: 0, y: 36, scale: 0.97 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, amount: 0.35 }}
-                transition={{ duration: 0.55, ease: "easeOut", delay: index * 0.08 }}
               >
-                <p
-                  className={`text-sm font-semibold uppercase tracking-[0.18em] ${
-                    index === 1 ? "text-brand-yellow" : "text-neutral-500"
-                  }`}
-                >
-                  {pkg.name}
-                </p>
-                <p className="mt-4 text-4xl font-semibold">
-                  From {pkg.fromPrice}
-                </p>
-                <p
-                  className={`mt-3 text-sm leading-6 ${
-                    index === 1 ? "text-neutral-200" : "text-neutral-600"
-                  } ${lato.className}`}
-                >
-                  {pkg.idealFor}
-                </p>
-                <ul
-                  className={`mt-5 space-y-2 text-sm ${
-                    index === 1 ? "text-neutral-100" : "text-neutral-700"
-                  } ${lato.className}`}
-                >
-                  {pkg.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-3">
-                      <span
-                        className={`mt-1.5 h-1.5 w-1.5 rounded-full ${
-                          index === 1 ? "bg-brand-yellow" : "bg-neutral-900"
-                        }`}
-                      />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-auto pt-7">
-                  <a
-                    href="#contact-form"
-                    className={`inline-flex rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
-                      index === 1
-                        ? "bg-brand-yellow text-neutral-900 hover:bg-[#e6a600]"
-                        : "bg-neutral-900 text-white hover:bg-neutral-700"
-                    }`}
-                  >
-                    Request this package
-                  </a>
-                </div>
-              </motion.article>
+                {SERVICE_PRICING[slug].name}
+              </button>
             ))}
           </div>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {activePricing.packages.map((pkg) => {
+              const isHighlighted = pkg.highlighted === true;
+              return (
+                <motion.article
+                  key={`${selectedService}-${pkg.id}`}
+                  className={`flex h-full flex-col rounded-3xl border p-6 shadow-sm ${
+                    isHighlighted
+                      ? "border-neutral-900 bg-neutral-900 text-white shadow-xl"
+                      : "border-neutral-200 bg-neutral-100"
+                  }`}
+                  initial={{ opacity: 0, y: 36, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                >
+                  <p
+                    className={`text-sm font-semibold uppercase tracking-[0.18em] ${
+                      isHighlighted ? "text-brand-yellow" : "text-neutral-500"
+                    }`}
+                  >
+                    {pkg.name}
+                  </p>
+                  <p className="mt-4 text-4xl font-semibold">
+                    From {pkg.fromPrice}
+                  </p>
+                  <p
+                    className={`mt-3 text-sm leading-6 ${
+                      isHighlighted ? "text-neutral-200" : "text-neutral-600"
+                    } ${lato.className}`}
+                  >
+                    {pkg.idealFor}
+                  </p>
+                  <ul
+                    className={`mt-5 space-y-2 text-sm ${
+                      isHighlighted ? "text-neutral-100" : "text-neutral-700"
+                    } ${lato.className}`}
+                  >
+                    {pkg.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-3">
+                        <span
+                          className={`mt-1.5 h-1.5 w-1.5 rounded-full ${
+                            isHighlighted ? "bg-brand-yellow" : "bg-neutral-900"
+                          }`}
+                        />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-auto pt-7">
+                    <button
+                      type="button"
+                      onClick={() => handleRequestPackage(selectedService, pkg.name)}
+                      className={`inline-flex rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
+                        isHighlighted
+                          ? "bg-brand-yellow text-neutral-900 hover:bg-[#e6a600]"
+                          : "bg-neutral-900 text-white hover:bg-neutral-700"
+                      }`}
+                    >
+                      Request this package
+                    </button>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </div>
+          <motion.div
+            className="mt-6 rounded-3xl border border-neutral-200 bg-neutral-100 p-6 sm:p-8"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+              <div className="max-w-md">
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-neutral-500">
+                  Optional Add-ons
+                </p>
+                <p className={`mt-2 text-sm leading-6 text-neutral-600 ${lato.className}`}>
+                  Customise any package with extras to match your exact needs.
+                </p>
+              </div>
+              <ul className={`grid gap-x-10 gap-y-3 text-sm sm:grid-cols-2 ${lato.className}`}>
+                <li className="flex items-baseline justify-between gap-4">
+                  <span className="text-neutral-700">Extra photo</span>
+                  <span className="whitespace-nowrap font-semibold">£6 each</span>
+                </li>
+                <li className="flex items-baseline justify-between gap-4">
+                  <span className="text-neutral-700">Additional video length (30 sec)</span>
+                  <span className="whitespace-nowrap font-semibold">£20</span>
+                </li>
+                <li className="flex items-baseline justify-between gap-4">
+                  <span className="text-neutral-700">24-hour delivery</span>
+                  <span className="whitespace-nowrap font-semibold">£15</span>
+                </li>
+                <li className="flex items-baseline justify-between gap-4">
+                  <span className="text-neutral-700">Travel outside local area</span>
+                  <span className="whitespace-nowrap font-semibold">from £0.75/mile</span>
+                </li>
+              </ul>
+            </div>
+          </motion.div>
         </div>
       </section>
       <section
         id="equipment"
-        className="pt-8 text-white bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900"
+        className="py-8 lg:py-16 px-6 lg:px-8 text-white bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900"
       >
-        <div className="mx-auto text-center max-w-screen-2xl px-6 pb-10 lg:px-8">
+        <div className="mx-auto text-center max-w-screen-2xl pb-10 ">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-yellow">
               Equipment
             </p>
@@ -810,9 +1082,13 @@ export default function Home() {
               transition={{ duration: 0.55, ease: "easeOut", delay: 0.12 }}
             >
               <h2 className="mb-4 font-medium text-neutral-700">
-                Fill out this form to select a service
+                Fill out this form to book a service
               </h2>
-              <Contact />
+              <Contact
+                defaultService={selectedService}
+                defaultPackage={selectedPackage}
+                servicePricing={SERVICE_PRICING}
+              />
             </motion.div>
           </div>
         </motion.div>

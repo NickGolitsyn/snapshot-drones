@@ -25,7 +25,7 @@ type WhatWeDoFeature = {
 
 const whatWeDoFeaturesTyped = whatWeDoFeatures as WhatWeDoFeature[];
 // const HERO_VIDEO_SRC = "/hero-video.mp4";
-const HERO_VIDEO_SRC = "/hero-video.mov";
+const HERO_VIDEO_SRC = "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XMnnXiFG30ps6QvySjcKGdexLHiZt7ognm9OC";
 
 const lato = Lato({
   subsets: ["latin"],

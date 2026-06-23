@@ -1,27 +1,16 @@
 "use client";
-import { animate, motion, useInView, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
+import { animate, motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Fjalla_One, Lato } from "next/font/google";
 import { QuoteGenerator } from "@/components/QuoteGenerator";
-import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import equipmentFeatures from "@/data/home/equipment-features.json";
 import galleryImageUrls from "@/data/home/gallery.json";
-import heroSlides from "@/data/home/hero-slides.json";
 import keyStats from "@/data/home/key-stats.json";
 import whatWeDoFeatures from "@/data/home/what-we-do-features.json";
 import siteContact from "@/data/site-contact.json";
 import type { ServiceSlug } from "@/lib/site-services";
-import { Mail, MessageSquare, Phone } from "lucide-react";
-
-type HeroSlide = {
-  id: number;
-  serviceSlug: ServiceSlug;
-  image: string;
-  imageAlt: string;
-  headingLines: string[];
-  subheading: string;
-  cta: string;
-};
+import { Mail, Phone } from "lucide-react";
+import type { CSSProperties } from "react";
 
 type WhatWeDoFeature = {
   id: number;
@@ -34,8 +23,9 @@ type WhatWeDoFeature = {
   imageAlt: string;
 };
 
-const heroSlidesTyped = heroSlides as HeroSlide[];
 const whatWeDoFeaturesTyped = whatWeDoFeatures as WhatWeDoFeature[];
+// const HERO_VIDEO_SRC = "/hero-video.mp4";
+const HERO_VIDEO_SRC = "/hero-video.mov";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -183,7 +173,7 @@ function EquipmentFeature({
           {blurb}
         </p>
         <p className="mt-7 text-xs font-semibold uppercase tracking-[0.2em] text-brand-yellow">
-          How we use it
+          How I use it
         </p>
         <ul className={`mt-3 space-y-2.5 text-sm text-neutral-200 ${lato.className}`}>
           {howWeUseIt.map((usage) => (
@@ -235,55 +225,10 @@ function AnimatedStatNumber({ value, suffix = "", prefix = "" }: AnimatedStatNum
 }
 
 export default function Home() {
-  const [heroEmblaRef, heroEmblaApi] = useEmblaCarousel({
-    align: "start",
-    loop: true,
-  });
   const heroSectionRef = useRef<HTMLElement | null>(null);
 
-  const [selectedHeroIndex, setSelectedHeroIndex] = useState(0);
   const [headerHeight, setHeaderHeight] = useState(96);
   const [quoteService, setQuoteService] = useState<ServiceSlug | null>(null);
-  const { scrollYProgress: heroScrollProgress } = useScroll({
-    target: heroSectionRef,
-    offset: ["start start", "end start"],
-  });
-  const heroImageY = useTransform(heroScrollProgress, [0, 1], ["0%", "14%"]);
-
-  const heroScrollTo = useCallback(
-    (index: number) => heroEmblaApi?.scrollTo(index),
-    [heroEmblaApi],
-  );
-
-  const updateHeroState = useCallback(() => {
-    if (!heroEmblaApi) return;
-    setSelectedHeroIndex(heroEmblaApi.selectedScrollSnap());
-  }, [heroEmblaApi]);
-
-  useEffect(() => {
-    if (!heroEmblaApi) return;
-    updateHeroState();
-    heroEmblaApi.on("select", updateHeroState);
-    heroEmblaApi.on("reInit", updateHeroState);
-
-    return () => {
-      heroEmblaApi.off("select", updateHeroState);
-      heroEmblaApi.off("reInit", updateHeroState);
-    };
-  }, [heroEmblaApi, updateHeroState]);
-
-  useEffect(() => {
-    if (!heroEmblaApi) return;
-
-    const AUTOPLAY_DELAY_MS = 5000;
-    const intervalId = window.setInterval(() => {
-      heroEmblaApi.scrollNext();
-    }, AUTOPLAY_DELAY_MS);
-
-    return () => {
-      window.clearInterval(intervalId);
-    };
-  }, [heroEmblaApi]);
 
   useEffect(() => {
     const header = document.getElementById("site-header");
@@ -321,107 +266,80 @@ export default function Home() {
       <section
         ref={heroSectionRef}
         className="relative h-[calc(70dvh-var(--header-height))] min-h-[360px] overflow-hidden sm:h-[calc(78dvh-var(--header-height))] md:min-h-[420px] lg:h-[calc(100dvh-var(--header-height))] lg:min-h-0"
-        aria-label="Featured services slider"
-        style={{ "--header-height": `${headerHeight}px` } as React.CSSProperties}
+        aria-label="Snapshot drone photography and filming"
+        style={{ "--header-height": `${headerHeight}px` } as CSSProperties}
       >
-        <div className="h-full overflow-hidden" ref={heroEmblaRef}>
-          <div className="flex h-full">
-            {heroSlidesTyped.map((slide, index) => {
-              const HeadingTag = index === 0 ? "h1" : "h2";
-              return (
-              <article
-                key={slide.id}
-                className="relative h-full min-w-0 flex-[0_0_100%] overflow-hidden"
-                aria-roledescription="slide"
-                aria-label={`${slide.id} of ${heroSlidesTyped.length}`}
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          src={HERO_VIDEO_SRC}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-black/10" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/35 to-transparent" />
+        <div className="relative z-10 mx-auto flex h-full w-full max-w-screen-2xl items-center px-6 lg:px-8">
+          <div className="max-w-2xl text-white">
+            <motion.p
+              className={`text-sm font-semibold uppercase tracking-[0.22em] text-brand-yellow ${lato.className}`}
+              initial={{ x: -40, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.35, delay: 0.1 }}
+            >
+              Drone photography & filming
+            </motion.p>
+            <motion.h1
+              className={`mt-4 text-4xl uppercase leading-none sm:text-6xl lg:text-7xl ${fjalla.className}`}
+              initial={{ x: -52, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.45, delay: 0.2 }}
+            >
+              Fresh perspectives from new heights
+            </motion.h1>
+            <motion.p
+              className={`mt-5 max-w-xl text-base leading-7 text-white/85 sm:text-lg ${lato.className}`}
+              initial={{ x: -44, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.35 }}
+            >
+              Aerial visuals for property, events, landscapes, inspections, and
+              custom commercial projects across Norfolk and East Anglia.
+            </motion.p>
+            <motion.div
+              className="mt-8 flex flex-wrap items-center gap-3"
+              initial={{ y: 18, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.35, delay: 0.55 }}
+            >
+              <button
+                type="button"
+                onClick={() => handleGetQuote("real-estate")}
+                className="rounded-full bg-brand-yellow px-6 py-3 text-base font-semibold text-neutral-900 shadow-lg transition-all hover:bg-[#e6a600] hover:shadow-xl sm:px-8"
               >
-                <motion.img
-                  className="absolute inset-0 h-[114%] w-full object-cover"
-                  src={slide.image}
-                  alt={slide.imageAlt}
-                  loading={slide.id === 1 ? "eager" : "lazy"}
-                  style={{ y: heroImageY }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-black/0" />
-                <div className="absolute inset-0 flex items-center">
-                  <div className="relative h-full w-full max-w-screen-2xl px-6 lg:px-8 mx-auto">
-                    <div
-                      className={`absolute left-6 top-1/2 -translate-y-1/2 uppercase text-white lg:left-8 ${fjalla.className}`}
-                    >
-                      <motion.div
-                        className="text-2xl font-bold md:text-5xl"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.45 }}
-                      >
-                        {slide.headingLines.map((line, lineIndex) => (
-                          <motion.span
-                            key={line}
-                            initial={{ x: -60, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            transition={{ duration: 0.35, delay: 0.2 + lineIndex * 0.15 }}
-                            className="block"
-                          >
-                            {line}
-                          </motion.span>
-                        ))}
-                      </motion.div>
-                      <HeadingTag className="sr-only">
-                        {slide.headingLines.join(" ")}
-                      </HeadingTag>
-
-                      <motion.p
-                        className="mt-2 hidden sm:block md:text-xl"
-                        initial={{ x: -60, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ duration: 0.35, delay: 0.9 }}
-                      >
-                        {slide.subheading}
-                      </motion.p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleGetQuote(slide.serviceSlug)}
-                      className="absolute bottom-4 left-6 rounded-full bg-brand-yellow px-5 py-3 text-base text-neutral-900 shadow-lg transition-all hover:bg-[#e6a600] hover:shadow-xl sm:bottom-6 sm:left-1/2 sm:-translate-x-1/2 sm:px-10 sm:py-4 sm:text-xl"
-                    >
-                      {slide.cta}
-                    </button>
-                  </div>
-                </div>
-              </article>
-              );
-            })}
-          </div>
-        </div>
-        <div className="absolute inset-x-0 bottom-4 z-10 sm:bottom-6">
-          <div className="mx-auto flex w-full max-w-screen-2xl justify-end px-6 lg:px-8">
-            <div className="flex items-center gap-2">
-              {heroSlidesTyped.map((slide, index) => (
-                <button
-                  key={slide.id}
-                  type="button"
-                  onClick={() => heroScrollTo(index)}
-                  className={`h-2.5 rounded-full transition-all ${
-                    selectedHeroIndex === index
-                      ? "w-8 bg-brand-yellow"
-                      : "w-2.5 bg-white/80 hover:bg-white"
-                  }`}
-                  aria-label={`Go to hero slide ${index + 1}`}
-                  aria-current={selectedHeroIndex === index}
-                />
-              ))}
-            </div>
+                Book now
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection("services")}
+                className="rounded-full border border-white/45 bg-white/10 px-6 py-3 text-base font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 sm:px-8"
+              >
+                View services
+              </button>
+            </motion.div>
           </div>
         </div>
       </section>
       <section className="px-6 py-8 lg:py-16 lg:px-8">
         <div className="mx-auto max-w-screen-2xl rounded-3xl bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 px-6 py-10 text-white sm:px-10 sm:py-12">
           <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-yellow">
+            {/* <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-yellow">
               Key stats
-            </p>
+            </p> */}
             <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
-              Numbers that show how we deliver
+              Key stats
             </h2>
           </div>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -449,7 +367,7 @@ export default function Home() {
               Services
             </p>
             <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
-              What we do
+              What I do
             </h2>
             <p className={`mx-auto mt-4 max-w-2xl text-neutral-600 ${lato.className}`}>
               End-to-end aerial production designed to help your brand, listing,
@@ -486,7 +404,7 @@ export default function Home() {
               Get an instant quote
             </h2>
             <p className={`mx-auto mt-4 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}>
-              Answer a few quick questions about your project and we&apos;ll give you
+              Answer a few quick questions about your project and I&apos;ll give you
               a tailored estimate in seconds.
             </p>
           </div>
@@ -523,9 +441,20 @@ export default function Home() {
               specific shots—I can create a custom package to suit your needs.
             </p>
             <p
+              className={`mx-auto mt-4 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}
+            >
+              I primarily operate across Norfolk and East Anglia.
+            </p>
+            <p
               className={`mx-auto mt-3 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}
             >
-              Get in touch by phone, text, WhatsApp, or email and we&apos;ll
+              For high-value and large-scale production projects, I&apos;m
+              available to travel nationwide or internationally by arrangement.
+            </p>
+            <p
+              className={`mx-auto mt-3 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}
+            >
+              Get in touch by phone, text, WhatsApp, or email and I&apos;ll
               work out the details together.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -574,7 +503,7 @@ export default function Home() {
               The gear behind each shot
             </h2>
             <p className={`mt-4 mx-auto max-w-2xl text-sm leading-7 text-neutral-300 ${lato.className}`}>
-              We pair the right aircraft with the right objective—each platform
+              I pair the right aircraft with the right objective—each platform
               performs differently in real shooting scenarios.
             </p>
         </div>

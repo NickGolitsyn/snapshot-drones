@@ -1,41 +1,41 @@
 {
   "basePrice": {
-    "real-estate": 90,
-    "landscape": 75,
-    "roof-inspection": 65,
-    "events": 120
+    "real-estate": 45,
+    "landscape": 35,
+    "roof-inspection": 30,
+    "events": 55
   },
   "sizeMultiplier": {
     "small": 1.0,
-    "medium": 1.5,
-    "large": 2.2,
-    "xlarge": 3.2
+    "medium": 1.4,
+    "large": 1.9,
+    "xlarge": 2.6
   },
   "videoPrice": {
-    "30s": 45,
-    "60s": 75,
-    "90s": 95,
-    "2-3min": 185
+    "30s": 20,
+    "60s": 35,
+    "90s": 45,
+    "2-3min": 80
   },
   "dronePrice": {
     "standard": 0,
-    "fpv": 150
+    "fpv": 60
   },
   "editingPrice": {
     "basic": 0,
-    "professional": 50,
-    "cinematic": 130
+    "professional": 20,
+    "cinematic": 45
   },
   "turnaroundPrice": {
     "72hr": 0,
-    "48hr": 25,
-    "24hr": 60
+    "48hr": 10,
+    "24hr": 25
   },
   "photoCounts": [5, 10, 15, 20, 25, 30, 40, 50],
   "photoPricing": {
     "tier1MaxCount": 15,
-    "tier1PerPhoto": 2.75,
-    "tier2PerPhoto": 2.25
+    "tier1PerPhoto": 1.25,
+    "tier2PerPhoto": 1.0
   },
   "comboDiscountMultiplier": 0.9
 }

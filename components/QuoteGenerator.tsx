@@ -341,7 +341,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
       const result = await response.json();
       if (!result.success) throw new Error(result.message ?? "Something went wrong.");
 
-      toast.success("Quote request sent! We'll be in touch shortly.");
+      toast.success("Quote request sent! I'll be in touch shortly.");
       setSubmitted(true);
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unable to submit. Please try again.";
@@ -722,7 +722,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
               </div>
               <h3 className="mt-5 text-2xl font-semibold text-white">Request sent</h3>
               <p className={`mt-2 max-w-sm text-sm text-neutral-400 ${lato.className}`}>
-                Thank you! We&apos;ll review your quote and get back to you within 24 hours.
+                Thank you! I&apos;ll review your quote and get back to you within 24 hours.
               </p>
               <button
                 type="button"

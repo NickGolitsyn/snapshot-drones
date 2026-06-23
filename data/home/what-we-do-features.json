@@ -4,13 +4,13 @@
     "slug": "real-estate",
     "eyebrow": "Real Estate",
     "title": "Property Photography & Filming",
-    "description": "Showcase your property at its best with professional stills and video. We capture interiors and exteriors in sharp detail with natural and staged lighting, wide angles, and smooth footage so listings stand out and viewings feel like a real visit.",
+    "description": "Showcase your property at its best with professional stills and video. I capture interiors and exteriors in sharp detail with natural and staged lighting, wide angles, and smooth footage so listings stand out and viewings feel like a real visit.",
     "highlights": [
       "Aerial and ground-level coverage",
       "Listing-ready photo and video packages",
       "Natural and staged lighting workflows"
     ],
-    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XHbQ8KN6g9AVM0K5zYTHhZdaIcSiPoBfnDrGs",
+    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XEIYtQoCesMqY1F3gS2wk8vOtIjzUGKpVcmx0",
     "imageAlt": "Drone view of a modern property at golden hour"
   },
   {
@@ -18,13 +18,13 @@
     "slug": "landscape",
     "eyebrow": "Outdoor Spaces",
     "title": "Landscape Photography & Filming",
-    "description": "From gardens and parks to estates and rural views, we deliver striking landscape photography and film. Ideal for developers, agents, and private owners who want to highlight location, greenery, and outdoor space.",
+    "description": "From gardens and parks to estates and rural views, I deliver striking landscape photography and film. Ideal for developers, agents, and private owners who want to highlight location, greenery, and outdoor space.",
     "highlights": [
       "Wide establishing aerial sequences",
       "Natural terrain and feature emphasis",
       "Edited content for marketing channels"
     ],
-    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XwqiGgayYDld3xm4B7MXbjtN05vWV69KRQaog",
+    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XGrykikv1SxC6n0KHvowldeBTOmaUR85jVW2y",
     "imageAlt": "Aerial landscape showcasing rural terrain and greenery"
   },
   {
@@ -38,7 +38,7 @@
       "Safer than ladder-based inspection",
       "Clear visual reports for decision making"
     ],
-    "image": "/roof.png",
+    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xl1OlBMfzrONqv5RkFao1BIp7mts3HDyCgnLb",
     "imageAlt": "Drone inspection view of rooftop details"
   },
   {
@@ -46,13 +46,27 @@
     "slug": "events",
     "eyebrow": "Events",
     "title": "Weddings & Events",
-    "description": "Capture stunning aerial footage of weddings, events, and special occasions. Our skilled drone operators deliver professional, cinematic shots that capture the essence of your day—from ceremony to reception.",
+    "description": "Capture stunning aerial footage of weddings, events, and special occasions.",
     "highlights": [
       "Cinematic flythrough moments",
       "Safe flight planning around guests",
       "Highlights edits ready for sharing"
     ],
-    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xdh44eoElQJPk0LUwbcEsvTMurNaDolpZmGxI",
+    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XyKbgkKh9NpmRfzCWSDBhxtOr57dgJI6nl9yX",
     "imageAlt": "Aerial footage of a wedding and guests outdoors"
+  },
+  {
+    "id": 5,
+    "slug": "agriculture",
+    "eyebrow": "Agriculture",
+    "title": "Agriculture Photography & Filming",
+    "description": "Capture stunning aerial footage of agriculture, crops, and farming operations.",
+    "highlights": [
+      "Cinematic flythrough moments",
+      "Safe flight planning around crops",
+      "Highlights edits ready for sharing"
+    ],
+    "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X8QD3KCwH5o0cWAaK4qNsCvJ6bTRgV18Mwd2f",
+    "imageAlt": "Aerial footage of a crop field"
   }
 ]

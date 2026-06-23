@@ -265,7 +265,7 @@ export default function Home() {
     <main className="overflow-x-hidden">
       <section
         ref={heroSectionRef}
-        className="relative h-[calc(70dvh-var(--header-height))] min-h-[360px] overflow-hidden sm:h-[calc(78dvh-var(--header-height))] md:min-h-[420px] lg:h-[calc(100dvh-var(--header-height))] lg:min-h-0"
+        className="relative h-[calc(62dvh-var(--header-height))] min-h-[300px] overflow-hidden sm:h-[calc(72dvh-var(--header-height))] sm:min-h-[360px] md:min-h-[420px] lg:h-[calc(100dvh-var(--header-height))] lg:min-h-0"
         aria-label="Snapshot drone photography and filming"
         style={{ "--header-height": `${headerHeight}px` } as CSSProperties}
       >
@@ -281,35 +281,36 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-black/10" />
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/35 to-transparent" />
-        <div className="relative z-10 mx-auto flex h-full w-full max-w-screen-2xl items-center px-6 lg:px-8">
+        <div className="relative z-10 mx-auto flex h-full w-full max-w-screen-2xl items-end pb-5 sm:items-center sm:pb-0 px-6 lg:px-8">
           <div className="max-w-2xl text-white">
             <motion.p
-              className={`text-sm font-semibold uppercase tracking-[0.22em] text-brand-yellow ${lato.className}`}
+              className={`text-xs font-semibold uppercase tracking-[0.18em] text-brand-yellow sm:text-sm sm:tracking-[0.22em] ${lato.className}`}
               initial={{ x: -40, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.35, delay: 0.1 }}
             >
-              Drone photography & filming
+              Student drone pilot · Norfolk
             </motion.p>
             <motion.h1
-              className={`mt-4 text-4xl uppercase leading-none sm:text-6xl lg:text-7xl ${fjalla.className}`}
+              className={`mt-1.5 text-[1.75rem] uppercase leading-[1.08] sm:mt-4 sm:text-6xl sm:leading-none lg:text-7xl ${fjalla.className}`}
               initial={{ x: -52, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.45, delay: 0.2 }}
             >
-              Fresh perspectives from new heights
+              Drone shots without the agency price tag
             </motion.h1>
             <motion.p
-              className={`mt-5 max-w-xl text-base leading-7 text-white/85 sm:text-lg ${lato.className}`}
+              className={`mt-2 max-w-xl text-sm leading-snug text-white/85 sm:mt-5 sm:text-lg sm:leading-7 ${lato.className}`}
               initial={{ x: -44, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.35 }}
             >
-              Aerial visuals for property, events, landscapes, inspections, and
-              custom commercial projects across Norfolk and East Anglia.
+              I&apos;m a student getting Snapshot off the ground. I shoot houses,
+              gardens, events, roof checks, and other bits around Norfolk and
+              East Anglia—happy to figure out what you need.
             </motion.p>
             <motion.div
-              className="mt-8 flex flex-wrap items-center gap-3"
+              className="mt-3 flex flex-wrap items-center gap-2 sm:mt-8 sm:gap-3"
               initial={{ y: 18, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.35, delay: 0.55 }}
@@ -317,14 +318,14 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => handleGetQuote("real-estate")}
-                className="rounded-full bg-brand-yellow px-6 py-3 text-base font-semibold text-neutral-900 shadow-lg transition-all hover:bg-[#e6a600] hover:shadow-xl sm:px-8"
+                className="rounded-full bg-brand-yellow px-5 py-2 text-sm font-semibold text-neutral-900 shadow-lg transition-all hover:bg-[#e6a600] hover:shadow-xl sm:px-8 sm:py-3 sm:text-base"
               >
                 Book now
               </button>
               <button
                 type="button"
                 onClick={() => scrollToSection("services")}
-                className="rounded-full border border-white/45 bg-white/10 px-6 py-3 text-base font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 sm:px-8"
+                className="rounded-full border border-white/45 bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 sm:px-8 sm:py-3 sm:text-base"
               >
                 View services
               </button>
@@ -339,7 +340,7 @@ export default function Home() {
               Key stats
             </p> */}
             <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
-              Key stats
+              A bit about me
             </h2>
           </div>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -370,8 +371,8 @@ export default function Home() {
               What I do
             </h2>
             <p className={`mx-auto mt-4 max-w-2xl text-neutral-600 ${lato.className}`}>
-              End-to-end aerial production designed to help your brand, listing,
-              or event stand out with clear visual storytelling.
+              A few things I can help with. I&apos;m still building my portfolio,
+              so prices stay fair and I&apos;m keen to take on new projects.
             </p>
           </div>
         </div>
@@ -401,11 +402,11 @@ export default function Home() {
               Pricing
             </p>
             <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
-              Get an instant quote
+              Get a rough price
             </h2>
             <p className={`mx-auto mt-4 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}>
-              Answer a few quick questions about your project and I&apos;ll give you
-              a tailored estimate in seconds.
+              Answer a few quick questions and you&apos;ll get a rough price
+              straight away. It&apos;s a starting point—we can always tweak it.
             </p>
           </div>
           <QuoteGenerator preselectedService={quoteService} />
@@ -431,31 +432,25 @@ export default function Home() {
               id="custom-quote-heading"
               className="mt-2 text-3xl font-semibold sm:text-4xl"
             >
-              Need something more custom?
+              Need something a bit different?
             </h2>
             <p
               className={`mx-auto mt-4 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}
             >
-              Every project is different. If you&apos;re looking for something
-              tailored—whether it&apos;s a larger property, land, events, or
-              specific shots—I can create a custom package to suit your needs.
+              Not sure what you need, or it doesn&apos;t quite fit the options
+              above? Drop me a message. Bigger house, bit of land, a wedding,
+              specific angles—happy to work something out.
             </p>
             <p
               className={`mx-auto mt-4 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}
             >
-              I primarily operate across Norfolk and East Anglia.
+              I&apos;m mostly around Norfolk and East Anglia. Further afield
+              might be possible if travel works out—just ask.
             </p>
             <p
               className={`mx-auto mt-3 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}
             >
-              For high-value and large-scale production projects, I&apos;m
-              available to travel nationwide or internationally by arrangement.
-            </p>
-            <p
-              className={`mx-auto mt-3 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}
-            >
-              Get in touch by phone, text, WhatsApp, or email and I&apos;ll
-              work out the details together.
+              Call, text, WhatsApp, or email and we&apos;ll sort the details.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <a
@@ -480,7 +475,7 @@ export default function Home() {
               </a>
               {siteContact.email.trim() !== "" ? (
                 <a
-                  href={`mailto:${siteContact.email.trim()}?subject=${encodeURIComponent("Custom drone package enquiry")}`}
+                  href={`mailto:${siteContact.email.trim()}?subject=${encodeURIComponent("Snapshot enquiry")}`}
                   className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-5 py-2.5 text-sm font-semibold text-neutral-900 shadow-sm transition-colors hover:border-neutral-300 hover:bg-neutral-50"
                 >
                   <Mail className="h-4 w-4 shrink-0 text-neutral-600" aria-hidden />
@@ -500,11 +495,11 @@ export default function Home() {
               Equipment
             </p>
             <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
-              The gear behind each shot
+              What I fly
             </h2>
             <p className={`mt-4 mx-auto max-w-2xl text-sm leading-7 text-neutral-300 ${lato.className}`}>
-              I pair the right aircraft with the right objective—each platform
-              performs differently in real shooting scenarios.
+              Two drones for different jobs—one for smooth, steady shots and one
+              for faster, more dramatic fly-throughs.
             </p>
         </div>
         <div className="mx-auto max-w-screen-2xl">
@@ -527,7 +522,7 @@ export default function Home() {
       <section id="gallery" className="px-6 py-12 lg:px-8">
         <div className="mx-auto max-w-screen-2xl">
           <h2 className="mb-8 text-center text-2xl font-semibold sm:text-3xl">
-            Gallery
+            Stuff I&apos;ve shot
           </h2>
           <div className="columns-2 gap-4 sm:gap-6 md:columns-3 lg:columns-4">
             {galleryImageUrls.map((imageUrl) => (

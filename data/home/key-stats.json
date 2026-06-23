@@ -1,24 +1,24 @@
 [
   {
     "id": 1,
-    "label": "Years of experience",
-    "value": 3,
+    "label": "Years flying",
+    "value": 1,
     "suffix": "+",
-    "description": "Honing my craft across residential, commercial, and creative projects."
+    "description": "Still fairly new to this, but I've been practising properly for over a year."
   },
   {
     "id": 2,
     "label": "Flight hours logged",
-    "value": 9,
+    "value": 65,
     "suffix": "+",
-    "description": "Experienced pilots with structured planning and safety-first operations."
+    "description": "Lots of time in parks, fields, and back gardens around Norfolk."
   },
   {
     "id": 3,
-    "label": "Average delivery time",
+    "label": "Usual turnaround",
     "value": 48,
     "suffix": "hrs",
-    "description": "Fast turnaround from shoot day to polished, client-ready deliverables."
+    "description": "I'll usually get your photos and clips back within a couple of days."
   },
   {
     "id": 4,
@@ -26,6 +26,6 @@
     "value": 3,
     "prefix": "£",
     "suffix": "M",
-    "description": "Fully insured for up to £3 million in damage, giving you complete peace of mind."
+    "description": "Fully insured up to £3M, so you're covered if anything goes wrong."
   }
 ]

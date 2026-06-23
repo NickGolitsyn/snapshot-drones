@@ -91,7 +91,7 @@ export default function Navbar() {
     { id: 1, name: "Services", href: "/#services" },
     { id: 2, name: "Equipment", href: "/#equipment" },
     { id: 3, name: "Get a Quote", href: "/#quote" },
-    { id: 5, name: "Portfolio", href: "/#gallery" },
+    { id: 5, name: "My work", href: "/#gallery" },
   ];
   return (
     <header

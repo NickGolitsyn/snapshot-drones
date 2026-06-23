@@ -226,9 +226,43 @@ function AnimatedStatNumber({ value, suffix = "", prefix = "" }: AnimatedStatNum
 
 export default function Home() {
   const heroSectionRef = useRef<HTMLElement | null>(null);
+  const heroVideoRef = useRef<HTMLVideoElement | null>(null);
 
   const [headerHeight, setHeaderHeight] = useState(96);
   const [quoteService, setQuoteService] = useState<ServiceSlug | null>(null);
+
+  useEffect(() => {
+    const video = heroVideoRef.current;
+    if (!video) return;
+
+    const tryPlay = () => {
+      video.muted = true;
+      void video.play().catch(() => {
+        // Safari may reject autoplay until media is ready or the page is visible.
+      });
+    };
+
+    tryPlay();
+    video.addEventListener("loadeddata", tryPlay);
+    video.addEventListener("canplay", tryPlay);
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "visible") tryPlay();
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) tryPlay();
+    };
+    window.addEventListener("pageshow", onPageShow);
+
+    return () => {
+      video.removeEventListener("loadeddata", tryPlay);
+      video.removeEventListener("canplay", tryPlay);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      window.removeEventListener("pageshow", onPageShow);
+    };
+  }, []);
 
   useEffect(() => {
     const header = document.getElementById("site-header");
@@ -270,13 +304,18 @@ export default function Home() {
         style={{ "--header-height": `${headerHeight}px` } as CSSProperties}
       >
         <video
-          className="absolute inset-0 h-full w-full object-cover"
+          ref={heroVideoRef}
+          className="hero-video pointer-events-none absolute inset-0 h-full w-full object-cover"
           src={HERO_VIDEO_SRC}
           autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
+          controls={false}
+          disablePictureInPicture
+          disableRemotePlayback
+          controlsList="nodownload nofullscreen noremoteplayback"
           aria-hidden="true"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-black/10" />

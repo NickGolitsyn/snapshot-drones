@@ -15,8 +15,7 @@ const fjalla = Fjalla_One({ subsets: ["latin"], weight: ["400"] });
 
 export const metadata: Metadata = {
   title: "Snapshot Drone Services",
-  description:
-    "Affordable drone photos and video in Norfolk. Student pilot, building my portfolio.",
+  description: "Snapshot Drone Services",
 };
 
 export default function RootLayout({

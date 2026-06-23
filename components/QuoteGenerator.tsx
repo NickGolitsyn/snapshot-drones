@@ -666,7 +666,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
               <AnimatedPrice value={totalPrice} />
             </p>
             <p className={`mt-2 text-sm text-neutral-400 ${lato.className}`}>
-              Final price might shift a bit depending on travel and what you actually need.
+              Final price may vary based on location and specific requirements
             </p>
             <div className="mt-8 w-full max-w-md space-y-2">
               {lineItems.map((item, i) => (
@@ -722,7 +722,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
               </div>
               <h3 className="mt-5 text-2xl font-semibold text-white">Request sent</h3>
               <p className={`mt-2 max-w-sm text-sm text-neutral-400 ${lato.className}`}>
-                Cheers! I&apos;ll have a look at your quote and get back to you within a day or so.
+                Thank you! I&apos;ll review your quote and get back to you within 24 hours.
               </p>
               <button
                 type="button"

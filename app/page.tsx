@@ -289,7 +289,7 @@ export default function Home() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.35, delay: 0.1 }}
             >
-              Student drone pilot · Norfolk
+              Drone photography & filming
             </motion.p>
             <motion.h1
               className={`mt-1.5 text-[1.75rem] uppercase leading-[1.08] sm:mt-4 sm:text-6xl sm:leading-none lg:text-7xl ${fjalla.className}`}
@@ -297,7 +297,7 @@ export default function Home() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.45, delay: 0.2 }}
             >
-              Drone shots without the agency price tag
+              Fresh perspectives from new heights
             </motion.h1>
             <motion.p
               className={`mt-2 max-w-xl text-sm leading-snug text-white/85 sm:mt-5 sm:text-lg sm:leading-7 ${lato.className}`}
@@ -305,9 +305,8 @@ export default function Home() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.35 }}
             >
-              I&apos;m a student getting Snapshot off the ground. I shoot houses,
-              gardens, events, roof checks, and other bits around Norfolk and
-              East Anglia—happy to figure out what you need.
+              Aerial visuals for property, events, landscapes, inspections, and
+              custom commercial projects across Norfolk and East Anglia.
             </motion.p>
             <motion.div
               className="mt-3 flex flex-wrap items-center gap-2 sm:mt-8 sm:gap-3"
@@ -340,7 +339,7 @@ export default function Home() {
               Key stats
             </p> */}
             <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
-              A bit about me
+              Key stats
             </h2>
           </div>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -371,8 +370,8 @@ export default function Home() {
               What I do
             </h2>
             <p className={`mx-auto mt-4 max-w-2xl text-neutral-600 ${lato.className}`}>
-              A few things I can help with. I&apos;m still building my portfolio,
-              so prices stay fair and I&apos;m keen to take on new projects.
+              End-to-end aerial production designed to help your brand, listing,
+              or event stand out with clear visual storytelling.
             </p>
           </div>
         </div>
@@ -402,11 +401,11 @@ export default function Home() {
               Pricing
             </p>
             <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
-              Get a rough price
+              Get an instant quote
             </h2>
             <p className={`mx-auto mt-4 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}>
-              Answer a few quick questions and you&apos;ll get a rough price
-              straight away. It&apos;s a starting point—we can always tweak it.
+              Answer a few quick questions about your project and I&apos;ll give you
+              a tailored estimate in seconds.
             </p>
           </div>
           <QuoteGenerator preselectedService={quoteService} />
@@ -432,25 +431,31 @@ export default function Home() {
               id="custom-quote-heading"
               className="mt-2 text-3xl font-semibold sm:text-4xl"
             >
-              Need something a bit different?
+              Need something more custom?
             </h2>
             <p
               className={`mx-auto mt-4 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}
             >
-              Not sure what you need, or it doesn&apos;t quite fit the options
-              above? Drop me a message. Bigger house, bit of land, a wedding,
-              specific angles—happy to work something out.
+              Every project is different. If you&apos;re looking for something
+              tailored—whether it&apos;s a larger property, land, events, or
+              specific shots—I can create a custom package to suit your needs.
             </p>
             <p
               className={`mx-auto mt-4 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}
             >
-              I&apos;m mostly around Norfolk and East Anglia. Further afield
-              might be possible if travel works out—just ask.
+              I primarily operate across Norfolk and East Anglia.
             </p>
             <p
               className={`mx-auto mt-3 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}
             >
-              Call, text, WhatsApp, or email and we&apos;ll sort the details.
+              For high-value and large-scale production projects, I&apos;m
+              available to travel nationwide or internationally by arrangement.
+            </p>
+            <p
+              className={`mx-auto mt-3 max-w-2xl text-sm leading-7 text-neutral-600 ${lato.className}`}
+            >
+              Get in touch by phone, text, WhatsApp, or email and I&apos;ll
+              work out the details together.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <a
@@ -475,7 +480,7 @@ export default function Home() {
               </a>
               {siteContact.email.trim() !== "" ? (
                 <a
-                  href={`mailto:${siteContact.email.trim()}?subject=${encodeURIComponent("Snapshot enquiry")}`}
+                  href={`mailto:${siteContact.email.trim()}?subject=${encodeURIComponent("Custom drone package enquiry")}`}
                   className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-5 py-2.5 text-sm font-semibold text-neutral-900 shadow-sm transition-colors hover:border-neutral-300 hover:bg-neutral-50"
                 >
                   <Mail className="h-4 w-4 shrink-0 text-neutral-600" aria-hidden />
@@ -495,11 +500,11 @@ export default function Home() {
               Equipment
             </p>
             <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
-              What I fly
+              The gear behind each shot
             </h2>
             <p className={`mt-4 mx-auto max-w-2xl text-sm leading-7 text-neutral-300 ${lato.className}`}>
-              Two drones for different jobs—one for smooth, steady shots and one
-              for faster, more dramatic fly-throughs.
+              I pair the right aircraft with the right objective—each platform
+              performs differently in real shooting scenarios.
             </p>
         </div>
         <div className="mx-auto max-w-screen-2xl">
@@ -522,7 +527,7 @@ export default function Home() {
       <section id="gallery" className="px-6 py-12 lg:px-8">
         <div className="mx-auto max-w-screen-2xl">
           <h2 className="mb-8 text-center text-2xl font-semibold sm:text-3xl">
-            Stuff I&apos;ve shot
+            Gallery
           </h2>
           <div className="columns-2 gap-4 sm:gap-6 md:columns-3 lg:columns-4">
             {galleryImageUrls.map((imageUrl) => (

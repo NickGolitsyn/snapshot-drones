@@ -3,12 +3,11 @@
     "id": 1,
     "slug": "real-estate",
     "eyebrow": "Real Estate",
-    "title": "Property photos & video",
-    "description": "Selling or renting? I can grab aerial shots and smooth video of the outside (and inside if you want) so the listing looks a bit more interesting than the usual phone snaps.",
+    "title": "Property Photography & Filming",
+    "description": "Showcase your property at its best with quality stills and video. I capture interiors and exteriors in sharp detail with natural and staged lighting, wide angles, and smooth footage so listings stand out and viewings feel like a real visit.",
     "highlights": [
-      "Aerial and ground-level shots",
-      "Photos and short video clips",
-      "Good for Rightmove, social, or estate agent listings"
+      "Aerial and ground-level coverage",
+      "Listing-ready photo and video packages"
     ],
     "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XEIYtQoCesMqY1F3gS2wk8vOtIjzUGKpVcmx0",
     "imageAlt": "Drone view of a modern property at golden hour"
@@ -17,12 +16,12 @@
     "id": 2,
     "slug": "landscape",
     "eyebrow": "Outdoor Spaces",
-    "title": "Gardens, land & scenery",
-    "description": "Gardens, parks, big back yards, countryside views—anything where you want to show off the space from above. Handy if you're selling land or just want something nice for Instagram.",
+    "title": "Landscape Photography & Filming",
+    "description": "From gardens and parks to estates and rural views, I deliver striking landscape photography and film. Ideal for developers, agents, and private owners who want to highlight location, greenery, and outdoor space.",
     "highlights": [
-      "Wide shots that show the whole area",
-      "Good light and simple edits included",
-      "Photos or short video"
+      "Wide establishing aerial sequences",
+      "Natural terrain and feature emphasis",
+      "Edited content for marketing channels"
     ],
     "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XGrykikv1SxC6n0KHvowldeBTOmaUR85jVW2y",
     "imageAlt": "Aerial landscape showcasing rural terrain and greenery"
@@ -31,12 +30,12 @@
     "id": 3,
     "slug": "roof-inspection",
     "eyebrow": "Inspection",
-    "title": "Roof checks",
-    "description": "I can fly close and get clear photos of your roof—useful if you want to spot obvious damage or missing tiles without climbing a ladder. I'm not a surveyor, but the pictures can help you decide what to do next.",
+    "title": "Roof Inspection",
+    "description": "High-resolution drone roof footage to help identify damage, wear, and maintenance concerns. Useful for surveys, insurance, and pre-sale checks—we deliver clear imagery for you or your inspector to review.",
     "highlights": [
-      "Close-up shots of tiles, gutters, and chimneys",
-      "Safer than getting up on the roof yourself",
-      "Photos you can send to a roofer or insurer"
+      "Close-up footage of defects and wear",
+      "Safer alternative to ladder access",
+      "Clear visuals for your own review or surveyor"
     ],
     "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38Xl1OlBMfzrONqv5RkFao1BIp7mts3HDyCgnLb",
     "imageAlt": "Drone inspection view of rooftop details"
@@ -45,12 +44,12 @@
     "id": 4,
     "slug": "events",
     "eyebrow": "Events",
-    "title": "Weddings & parties",
-    "description": "Birthdays, weddings, village fêtes—I'll stay out of the way and grab some aerial footage of the venue and guests. Nice for a highlights reel or just something to look back on.",
+    "title": "Weddings & Events",
+    "description": "Capture stunning aerial footage of weddings, events, and special occasions.",
     "highlights": [
-      "Flyovers of the venue and crowd",
-      "I'll plan around guests and keep it safe",
-      "Edited clips ready to share"
+      "Cinematic flythrough moments",
+      "Safe flight planning around guests",
+      "Highlights edits ready for sharing"
     ],
     "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38XyKbgkKh9NpmRfzCWSDBhxtOr57dgJI6nl9yX",
     "imageAlt": "Aerial footage of a wedding and guests outdoors"
@@ -59,14 +58,14 @@
     "id": 5,
     "slug": "agriculture",
     "eyebrow": "Agriculture",
-    "title": "Fields & farms",
-    "description": "Crop fields, farmyards, paddocks—drone shots can show the scale of the place better than standing on the ground. Good for social media or just keeping a record of the season.",
+    "title": "Farm & Agriculture Photography",
+    "description": "From crop fields and pasture to farmyards and rural holdings, I capture aerial photos and video that show your land at scale. Ideal for farm businesses, landowners, and agritourism—useful for marketing, websites, social media, and seasonal records of how your land looks through the year.",
     "highlights": [
-      "Wide shots across fields and farm buildings",
-      "Useful for social posts or farm records",
-      "Photos or short video"
+      "Wide aerial views of fields, boundaries, and farmyards",
+      "Seasonal coverage of crops, pasture, and working land",
+      "Edited photo and video ready for web and social"
     ],
     "image": "https://0ge3dw2wm7.ufs.sh/f/mPbrJhIiM38X8QD3KCwH5o0cWAaK4qNsCvJ6bTRgV18Mwd2f",
-    "imageAlt": "Aerial footage of a crop field"
+    "imageAlt": "Aerial view of crop fields across rolling farmland"
   }
 ]

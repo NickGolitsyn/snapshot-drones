@@ -71,20 +71,20 @@
     {
       "value": "standard",
       "label": "Standard Drone",
-      "description": "Steady, smooth footage",
+      "description": "Smooth, stabilised footage",
       "icon": "plane"
     },
     {
       "value": "fpv",
       "label": "Include FPV",
-      "description": "Faster, swoopier shots (+£150)",
+      "description": "Dynamic immersive sequences (+£150)",
       "icon": "gauge"
     }
   ],
   "editingOptions": [
-    { "value": "basic", "label": "Basic", "description": "Light touch-up and crop" },
-    { "value": "professional", "label": "Polished", "description": "Colour tweaks and simple transitions (+£50)" },
-    { "value": "cinematic", "label": "Extra fancy", "description": "More editing time for a finished feel (+£130)" }
+    { "value": "basic", "label": "Basic", "description": "Colour correction and crop" },
+    { "value": "professional", "label": "Professional", "description": "Full grading and transitions (+£50)" },
+    { "value": "cinematic", "label": "Cinematic", "description": "Full production edit (+£130)" }
   ],
   "turnaroundOptions": [
     {

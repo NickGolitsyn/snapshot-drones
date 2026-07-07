@@ -15,10 +15,10 @@
   },
   {
     "id": 3,
-    "label": "Average delivery time",
-    "value": 48,
-    "suffix": "hrs",
-    "description": "Fast turnaround from shoot day to polished, client-ready deliverables."
+    "label": "CAA approved",
+    "value": 100,
+    "suffix": "%",
+    "description": "Fully certified and operating in line with UK Civil Aviation Authority regulations."
   },
   {
     "id": 4,

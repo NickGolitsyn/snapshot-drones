@@ -6,10 +6,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import equipmentFeatures from "@/data/home/equipment-features.json";
 import galleryImageUrls from "@/data/home/gallery.json";
 import keyStats from "@/data/home/key-stats.json";
+import pilotCertification from "@/data/home/pilot-certification.json";
 import whatWeDoFeatures from "@/data/home/what-we-do-features.json";
 import siteContact from "@/data/site-contact.json";
 import type { ServiceSlug } from "@/lib/site-services";
-import { Mail, Phone } from "lucide-react";
+import { ExternalLink, Mail, Phone, ShieldCheck } from "lucide-react";
 import type { CSSProperties } from "react";
 
 type WhatWeDoFeature = {
@@ -396,6 +397,88 @@ export default function Home() {
                 </p>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+      <section id="certification" className="px-6 py-8 lg:py-16 lg:px-8">
+        <div className="mx-auto max-w-screen-2xl">
+          <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+            <motion.div
+              initial={{ opacity: 0, x: "-22vw" }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.35 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <div className="relative overflow-hidden rounded-3xl rounded-tl-[4.5rem] rounded-br-[4.5rem] shadow-xl ring-1 ring-neutral-200">
+                <img
+                  src={pilotCertification.image}
+                  alt={pilotCertification.imageAlt}
+                  className="block w-full"
+                />
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: "22vw" }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.35 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.08 }}
+            >
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
+                Certification
+              </p>
+              <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
+                Certified to fly
+              </h2>
+              <p className={`mt-5 text-sm leading-7 text-neutral-600 ${lato.className}`}>
+                Snapshot is run by {pilotCertification.pilotName}, a registered
+                drone pilot with the {pilotCertification.issuer}. You&apos;re in
+                safe hands—every flight is carried out by someone who has
+                completed official CAA training and holds a valid Flyer ID.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {pilotCertification.categories.map((category) => (
+                  <span
+                    key={category}
+                    className="inline-flex items-center rounded-lg bg-red-600 px-3 py-1.5 text-sm font-bold text-white"
+                  >
+                    {category}
+                  </span>
+                ))}
+                <span className="inline-flex items-center rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-neutral-600">
+                  {pilotCertification.categoryLabel}
+                </span>
+              </div>
+              <dl className={`mt-6 space-y-3 text-sm ${lato.className}`}>
+                <div className="flex flex-wrap gap-x-2">
+                  <dt className="font-semibold text-neutral-900">Flyer ID</dt>
+                  <dd className="text-neutral-600">{pilotCertification.flyerId}</dd>
+                </div>
+                <div className="flex flex-wrap gap-x-2">
+                  <dt className="font-semibold text-neutral-900">Valid until</dt>
+                  <dd className="text-neutral-600">{pilotCertification.expiryDate}</dd>
+                </div>
+              </dl>
+              <ul className={`mt-6 space-y-2.5 text-sm text-neutral-700 ${lato.className}`}>
+                {pilotCertification.highlights.map((highlight) => (
+                  <li key={highlight} className="flex items-start gap-3">
+                    <ShieldCheck
+                      className="mt-0.5 h-4 w-4 shrink-0 text-brand-yellow"
+                      aria-hidden
+                    />
+                    <span>{highlight}</span>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={pilotCertification.verifyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-neutral-900 underline-offset-4 transition-colors hover:text-neutral-600 hover:underline"
+              >
+                Verify on register-drones.caa.co.uk
+                <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
+              </a>
+            </motion.div>
           </div>
         </div>
       </section>

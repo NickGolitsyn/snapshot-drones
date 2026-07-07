@@ -40,12 +40,19 @@ function BrandLockup({
   const SubtitleTag = variant === "header" ? "p" : "span";
 
   return (
-    <a className={cn("flex items-center gap-2 sm:gap-3", className)} href="/">
+    <a
+      className={cn(
+        "flex items-center",
+        isScrolled ? "gap-2 sm:gap-3" : "gap-1.5 sm:gap-2",
+        className,
+      )}
+      href="/"
+    >
       <Image
         src={logo}
         className={cn(
           "shrink-0 origin-center object-contain transition-all duration-500",
-          isScrolled ? "h-12 w-12 translate-x-0 rotate-90" : "h-16 w-16 -translate-x-2 sm:-translate-x-1 rotate-0",
+          isScrolled ? "h-12 w-12 rotate-90" : "h-16 w-3 rotate-0",
         )}
         alt="Snapshot Drone Services logo"
       />

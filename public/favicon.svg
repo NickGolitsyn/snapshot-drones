@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><metadata><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"><rdf:Description><dc:creator>RealFaviconGenerator</dc:creator><dc:source>https://realfavicongenerator.net</dc:source></rdf:Description></rdf:RDF></metadata><style>
+    #light-icon {
+      display: inline;
+    }
+    #dark-icon {
+      display: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #light-icon {
+        display: none;
+      }
+      #dark-icon {
+        display: inline;
+      }
+    }
+  </style><g id="light-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g><g transform="matrix(1.1574074074074074,0,0,1.1574074074074074,0,0)"><svg xmlns="http://www.w3.org/2000/svg" width="864" height="864" viewBox="0 0 864 864" fill="none"><mask id="mask0_4067_8" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="864" height="864">
+<circle cx="432" cy="432" r="432" fill="#D9D9D9"></circle>
+</mask><g mask="url(#mask0_4067_8)">
+<path d="M864 432C864 670.587 670.587 864 432 864C193.413 864 0 670.587 0 432C0 193.413 193.413 0 432 0C670.587 0 864 193.413 864 432ZM105.84 432C105.84 612.133 251.867 758.16 432 758.16C612.133 758.16 758.16 612.133 758.16 432C758.16 251.867 612.133 105.84 432 105.84C251.867 105.84 105.84 251.867 105.84 432Z" fill="#FAB72D"></path>
+<path d="M-379.164 599.619L-1775.3 436.957C-1792.74 434.925 -1793.17 409.745 -1775.8 407.122L-147.108 161.133C-143.186 160.541 -139.189 161.52 -135.985 163.859L391.832 549.165C403.407 557.615 397.743 575.929 383.419 576.369L-376.96 599.713C-377.696 599.736 -378.433 599.704 -379.164 599.619Z" fill="black" stroke="black" stroke-width="127.948" stroke-linejoin="round"></path>
+<path d="M1237.43 263.77L2633.56 426.432C2651.01 428.464 2651.44 453.644 2634.07 456.267L1005.37 702.256C1001.45 702.848 997.454 701.869 994.25 699.53L466.434 314.224C454.859 305.774 460.523 287.46 474.847 287.02L1235.23 263.676C1235.96 263.653 1236.7 263.685 1237.43 263.77Z" fill="black" stroke="black" stroke-width="127.948" stroke-linejoin="round"></path>
+</g></svg></g></g></svg></g><g id="dark-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g clip-path="url(#SvgjsClipPath1041)"><rect width="1000" height="1000" fill="#ffffff"></rect><g transform="matrix(0.8101851851851852,0,0,0.8101851851851852,150,150)"><svg xmlns="http://www.w3.org/2000/svg" width="864" height="864" viewBox="0 0 864 864" fill="none"><mask id="mask0_4067_8" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="864" height="864">
+<circle cx="432" cy="432" r="432" fill="#D9D9D9"></circle>
+</mask><g mask="url(#mask0_4067_8)">
+<path d="M864 432C864 670.587 670.587 864 432 864C193.413 864 0 670.587 0 432C0 193.413 193.413 0 432 0C670.587 0 864 193.413 864 432ZM105.84 432C105.84 612.133 251.867 758.16 432 758.16C612.133 758.16 758.16 612.133 758.16 432C758.16 251.867 612.133 105.84 432 105.84C251.867 105.84 105.84 251.867 105.84 432Z" fill="#FAB72D"></path>
+<path d="M-379.164 599.619L-1775.3 436.957C-1792.74 434.925 -1793.17 409.745 -1775.8 407.122L-147.108 161.133C-143.186 160.541 -139.189 161.52 -135.985 163.859L391.832 549.165C403.407 557.615 397.743 575.929 383.419 576.369L-376.96 599.713C-377.696 599.736 -378.433 599.704 -379.164 599.619Z" fill="black" stroke="black" stroke-width="127.948" stroke-linejoin="round"></path>
+<path d="M1237.43 263.77L2633.56 426.432C2651.01 428.464 2651.44 453.644 2634.07 456.267L1005.37 702.256C1001.45 702.848 997.454 701.869 994.25 699.53L466.434 314.224C454.859 305.774 460.523 287.46 474.847 287.02L1235.23 263.676C1235.96 263.653 1236.7 263.685 1237.43 263.77Z" fill="black" stroke="black" stroke-width="127.948" stroke-linejoin="round"></path>
+</g></svg></g></g><defs><clipPath id="SvgjsClipPath1041"><rect width="1000" height="1000" x="0" y="0" rx="500" ry="500"></rect></clipPath></defs></svg></g></svg>

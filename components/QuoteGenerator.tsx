@@ -1,6 +1,5 @@
 "use client";
 
-import { env } from "../env";
 import quoteOptions from "@/data/quote/options.json";
 import quotePricing from "@/data/quote/pricing.json";
 import type { ServiceSlug } from "@/lib/site-services";
@@ -316,11 +315,11 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
     const turnaroundLabel = TURNAROUND_OPTIONS.find((o) => o.value === turnaround)?.label ?? turnaround;
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const response = await fetch("/api/submit-form", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          access_key: env.WEB3FORMS_API_KEY,
+          type: "quote",
           subject: `Quote Request — ${serviceName} — £${totalPrice}`,
           name: contactName,
           email: contactEmail,

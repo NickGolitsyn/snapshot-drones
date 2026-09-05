@@ -1,5 +1,4 @@
 "use client";
-import { env } from "../env";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { addDays, format } from "date-fns";
@@ -124,14 +123,14 @@ export function Contact({
   }, [defaultPackage, form]);
 
   async function handleSubmit(formData: z.infer<typeof formSchema>) {
-    const response = await fetch("https://api.web3forms.com/submit", {
+    const response = await fetch("/api/submit-form", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
       body: JSON.stringify({
-        access_key: env.WEB3FORMS_API_KEY,
+        type: "contact",
         ...formData,
       }),
     });

@@ -135,7 +135,7 @@ export async function POST(request: Request) {
   const to = process.env.CONTACT_EMAIL ?? siteContact.email;
   const from =
     process.env.RESEND_FROM_EMAIL ??
-    "Snapshot Website <noreply@dronevideoservices.co.uk>";
+    "Snapshot Website <noreply@snapshotdrones.co.uk>";
 
   const resend = new Resend(apiKey);
 

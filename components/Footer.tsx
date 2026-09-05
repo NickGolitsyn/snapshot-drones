@@ -55,7 +55,7 @@ export default function Footer() {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full p-3 text-neutral-600 transition-colors hover:bg-neutral-200 hover:text-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2"
+              className="rounded-full p-3 text-neutral-600 transition-colors hover:bg-neutral-200 hover:text-neutral-900 focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2"
               aria-label={link.name}
             >
               {link.icon}

@@ -175,7 +175,7 @@ function OptionCard({
     <button
       type="button"
       onClick={onClick}
-      className={`group relative flex w-full items-center gap-4 rounded-2xl border-2 p-4 text-left transition-all sm:p-5 ${
+      className={`group relative flex w-full items-center gap-4 rounded-2xl border-2 p-4 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 sm:p-5 ${
         selected
           ? "border-brand-yellow bg-brand-yellow/10 shadow-lg shadow-brand-yellow/10"
           : "border-white/10 bg-white/[0.04] hover:border-white/25 hover:bg-white/[0.07]"
@@ -456,7 +456,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
               <button
                 type="button"
                 onClick={() => setWantPhotos((p) => !p)}
-                className={`group relative flex w-full items-center gap-4 rounded-2xl border-2 p-4 text-left transition-all sm:p-5 ${
+                className={`group relative flex w-full items-center gap-4 rounded-2xl border-2 p-4 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 sm:p-5 ${
                   wantPhotos
                     ? "border-brand-yellow bg-brand-yellow/10 shadow-lg shadow-brand-yellow/10"
                     : "border-white/10 bg-white/[0.04] hover:border-white/25 hover:bg-white/[0.07]"
@@ -490,7 +490,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
               <button
                 type="button"
                 onClick={() => setWantVideo((v) => !v)}
-                className={`group relative flex w-full items-center gap-4 rounded-2xl border-2 p-4 text-left transition-all sm:p-5 ${
+                className={`group relative flex w-full items-center gap-4 rounded-2xl border-2 p-4 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 sm:p-5 ${
                   wantVideo
                     ? "border-brand-yellow bg-brand-yellow/10 shadow-lg shadow-brand-yellow/10"
                     : "border-white/10 bg-white/[0.04] hover:border-white/25 hover:bg-white/[0.07]"
@@ -535,7 +535,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
                       type="button"
                       disabled={!canDecrement}
                       onClick={() => canDecrement && setPhotoCount(PHOTO_COUNTS[photoIdx - 1])}
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:border-white/30 disabled:opacity-30 disabled:hover:border-white/15"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:border-white/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 disabled:opacity-30 disabled:hover:border-white/15"
                     >
                       <Minus className="h-4 w-4" />
                     </button>
@@ -546,7 +546,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
                       type="button"
                       disabled={!canIncrement}
                       onClick={() => canIncrement && setPhotoCount(PHOTO_COUNTS[photoIdx + 1])}
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:border-white/30 disabled:opacity-30 disabled:hover:border-white/15"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:border-white/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 disabled:opacity-30 disabled:hover:border-white/15"
                     >
                       <Plus className="h-4 w-4" />
                     </button>
@@ -568,7 +568,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
                       key={opt.value}
                       type="button"
                       onClick={() => setVideoLength(opt.value)}
-                      className={`rounded-xl border-2 px-3 py-3 text-center transition-all ${
+                      className={`rounded-xl border-2 px-3 py-3 text-center transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 ${
                         videoLength === opt.value
                           ? "border-brand-yellow bg-brand-yellow/10"
                           : "border-white/10 bg-white/[0.03] hover:border-white/25"
@@ -602,7 +602,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
                 type="button"
                 onClick={goForward}
                 disabled={!canAdvance}
-                className="inline-flex items-center gap-2 rounded-full bg-brand-yellow px-8 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:bg-[#e6a600] disabled:opacity-40"
+                className="inline-flex items-center gap-2 rounded-full bg-brand-yellow px-8 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:bg-[#e6a600] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 disabled:opacity-40"
               >
                 Next
                 <ChevronRight className="h-4 w-4" />
@@ -696,7 +696,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
               <button
                 type="button"
                 onClick={goForward}
-                className="inline-flex items-center gap-2 rounded-full bg-brand-yellow px-8 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:bg-[#e6a600]"
+                className="inline-flex items-center gap-2 rounded-full bg-brand-yellow px-8 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:bg-[#e6a600] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900"
               >
                 Book this service
                 <ChevronRight className="h-4 w-4" />
@@ -704,7 +704,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
               <button
                 type="button"
                 onClick={handleRestart}
-                className="inline-flex items-center gap-2 rounded-full border border-white/15 px-6 py-3 text-sm font-medium text-neutral-300 transition-colors hover:border-white/30 hover:text-white"
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 px-6 py-3 text-sm font-medium text-neutral-300 transition-colors hover:border-white/30 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900"
               >
                 <RotateCcw className="h-4 w-4" />
                 Start over
@@ -726,7 +726,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
               <button
                 type="button"
                 onClick={handleRestart}
-                className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/15 px-6 py-2.5 text-sm font-medium text-neutral-300 transition-colors hover:border-white/30 hover:text-white"
+                className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/15 px-6 py-2.5 text-sm font-medium text-neutral-300 transition-colors hover:border-white/30 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900"
               >
                 <RotateCcw className="h-4 w-4" />
                 Start a new quote
@@ -796,7 +796,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
               type="button"
               onClick={handleSubmit}
               disabled={isSubmitting || !canAdvance}
-              className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-yellow px-8 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:bg-[#e6a600] disabled:opacity-50"
+              className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-yellow px-8 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:bg-[#e6a600] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 disabled:opacity-50"
             >
               {isSubmitting ? "Sending..." : "Send quote request"}
               <Send className="h-4 w-4" />
@@ -831,7 +831,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
       </h3>
 
       {/* Animated step content */}
-      <div className="relative mx-auto min-h-[280px] max-w-2xl overflow-hidden">
+      <div className="relative mx-auto min-h-[280px] max-w-2xl overflow-hidden p-2 sm:p-3">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={step}
@@ -854,7 +854,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
             <button
               type="button"
               onClick={goBack}
-              className="inline-flex items-center gap-1 rounded-full border border-white/15 px-5 py-2 text-sm font-medium text-neutral-300 transition-colors hover:border-white/30 hover:text-white"
+              className="inline-flex items-center gap-1 rounded-full border border-white/15 px-5 py-2 text-sm font-medium text-neutral-300 transition-colors hover:border-white/30 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900"
             >
               <ChevronLeft className="h-4 w-4" />
               Back
@@ -867,7 +867,7 @@ export function QuoteGenerator({ preselectedService }: QuoteGeneratorProps) {
           <button
             type="button"
             onClick={goBack}
-            className="inline-flex items-center gap-1 text-sm text-neutral-400 transition-colors hover:text-white"
+            className="inline-flex items-center gap-1 text-sm text-neutral-400 transition-colors hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 rounded-full"
           >
             <ChevronLeft className="h-4 w-4" />
             Back to quote

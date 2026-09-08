@@ -1,4 +1,5 @@
 import siteContact from "@/data/site-contact.json";
+import { renderEmailHtml, type EmailRow } from "@/lib/email-template";
 import { Resend } from "resend";
 import { z } from "zod";
 
@@ -51,7 +52,17 @@ function formatDate(value: string | Date): string {
 }
 
 function buildContactEmail(data: z.infer<typeof contactSchema>) {
-  const lines = [
+  const rows: EmailRow[] = [
+    { label: "Service", value: data.service },
+    ...(data.package ? [{ label: "Package", value: data.package }] : []),
+    { label: "Name", value: data.name },
+    { label: "Email", value: data.email, href: `mailto:${data.email}` },
+    { label: "Phone", value: data.phone, href: `tel:${data.phone}` },
+    { label: "Postcode", value: data.postcode },
+    { label: "Preferred date", value: formatDate(data.date) },
+  ];
+
+  const textLines = [
     `Service: ${data.service}`,
     data.package ? `Package: ${data.package}` : null,
     `Name: ${data.name}`,
@@ -64,14 +75,32 @@ function buildContactEmail(data: z.infer<typeof contactSchema>) {
 
   return {
     subject: `New enquiry — ${data.service} — ${data.name}`,
-    text: lines.join("\n"),
-    html: lines.map((line) => `<p>${line?.replace(/\n/g, "<br>")}</p>`).join(""),
+    text: textLines.join("\n"),
+    html: renderEmailHtml({
+      title: "New enquiry",
+      rows,
+      message: data.message,
+    }),
     replyTo: data.email,
   };
 }
 
 function buildQuoteEmail(data: z.infer<typeof quoteSchema>) {
-  const lines = [
+  const rows: EmailRow[] = [
+    { label: "Service", value: data.quote_service },
+    { label: "Property size", value: data.quote_size },
+    { label: "Deliverables", value: data.quote_deliverables },
+    { label: "Drone", value: data.quote_drone },
+    { label: "Editing", value: data.quote_editing },
+    { label: "Turnaround", value: data.quote_turnaround },
+    { label: "Estimated total", value: data.quote_estimated_total },
+    { label: "Name", value: data.name },
+    { label: "Email", value: data.email, href: `mailto:${data.email}` },
+    { label: "Phone", value: data.phone, href: `tel:${data.phone}` },
+    { label: "Postcode", value: data.postcode },
+  ];
+
+  const textLines = [
     `Service: ${data.quote_service}`,
     `Property size: ${data.quote_size}`,
     `Deliverables: ${data.quote_deliverables}`,
@@ -89,8 +118,12 @@ function buildQuoteEmail(data: z.infer<typeof quoteSchema>) {
 
   return {
     subject: data.subject,
-    text: lines.join("\n"),
-    html: lines.map((line) => `<p>${line?.replace(/\n/g, "<br>")}</p>`).join(""),
+    text: textLines.join("\n"),
+    html: renderEmailHtml({
+      title: "Quote request",
+      rows,
+      message: data.message,
+    }),
     replyTo: data.email,
   };
 }
